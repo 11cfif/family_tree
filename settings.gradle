@@ -1,0 +1,3 @@
+rootProject.name = 'family_tree'
+include 'family_tree_view'
+
