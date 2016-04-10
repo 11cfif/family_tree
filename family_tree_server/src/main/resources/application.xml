@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="http-server-config.xml"/>
+	<import resource="server-config.xml"/>
 	<import resource="cxf-config.xml"/>
 	<import resource="services-config.xml"/>
 
