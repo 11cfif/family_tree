@@ -18,12 +18,8 @@
 	<bean id="jettyHandler" class="org.eclipse.jetty.server.handler.HandlerList">
 		<property name="handlers">
 			<list>
-				<!--bean class="org.eclipse.jetty.servlet.ServletContextHandler">
-
-				</bean-->
-
 				<bean class="org.eclipse.jetty.servlet.ServletContextHandler">
-					<property name="contextPath" value="E:\repos\CS\practice\family_tree\"/>
+					<property name="contextPath" value="/"/>
 					<property name="servletHandler">
 						<bean class="org.eclipse.jetty.servlet.ServletHandler">
 							<property name="servlets">
@@ -46,7 +42,7 @@
 										<property name="initParameters">
 											<map>
 												<entry key="resourceBase"
-												       value="E:\repos\CS\practice\family_tree\family_tree_server\src\main\resources\static\"/>
+												       value=".\family_tree_server\src\main\resources\"/>
 												<entry key="dirAllowed"
 												       value="true"/>
 											</map>
@@ -68,7 +64,7 @@
 										<property name="servletName" value="staticResource"/>
 										<property name="pathSpecs">
 											<list>
-												<value>/family_tree_server/src/main/resources/static/*</value>
+												<value>/static/*</value>
 											</list>
 										</property>
 									</bean>

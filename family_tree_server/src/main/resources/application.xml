@@ -5,6 +5,7 @@
 
 	<import resource="server-config.xml"/>
 	<import resource="cxf-config.xml"/>
+	<import resource="db-config.xml"/>
 	<import resource="services-config.xml"/>
 
 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">

@@ -13,5 +13,6 @@
 	</bean>
 
 	<bean id="personController" class="ru.cfif.cs.familytree.controllers.PersonControllerImpl">
+		<property name="personManager" ref="personManager"/>
 	</bean>
 </beans>
