@@ -15,7 +15,8 @@ public class InternalPersonManager implements PersonManager {
 
 	@Override
 	public Optional<Person> load(long id) {
-		return Optional.of(map.get(id));
+		return Optional.of(new Person("Alex", "Utkin"));
+//		return Optional.of(map.get(id));
 	}
 
 	@Override

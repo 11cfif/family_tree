@@ -32,6 +32,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-websocket')
+	compile("org.springframework.boot:spring-boot-devtools")
 	compile('org.eclipse.jetty.aggregate:jetty-all:9.3.8.v20160314')
 	compile('org.apache.cxf.osgi.itests:org.apache.cxf.osgi.itests:3.1.6')
 	compile('com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.7.3')

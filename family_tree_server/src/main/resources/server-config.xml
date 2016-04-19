@@ -42,7 +42,7 @@
 										<property name="initParameters">
 											<map>
 												<entry key="resourceBase"
-												       value=".\family_tree_server\src\main\resources\"/>
+												       value=".\family_tree_view\src\main\resources\"/>
 												<entry key="dirAllowed"
 												       value="true"/>
 											</map>
