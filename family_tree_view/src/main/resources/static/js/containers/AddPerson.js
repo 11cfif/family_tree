@@ -7,20 +7,14 @@ let AddPerson = ({dispatch}) => {
 	let name;
 	let surname;
 	let birthday;
-	// 	= {
-	// 	surname:'',
-	// 	name:'',
-	// 	birthday:''
-	// };
 
 	return (
 		<div>
 			<form onSubmit = {e => {
 				e.preventDefault();
-				// if (!person.surname.trim() || !person.name.trim() || !person.birthday.trim()) {
-				// 	return
-				// }
-				console.log('s===== ' + surname.value + ' =====')
+				if (!surname.value.trim() || !name.value.trim() || !birthday.value.trim()) {
+					return
+				}
 				dispatch(addPerson({id:++nextId, name:name.value, surname: surname.value, birthday: birthday.value}))
 			}}>
 				<input className="personData" placeholder='введите Имя'
@@ -30,7 +24,7 @@ let AddPerson = ({dispatch}) => {
 				<input className="personData" placeholder='введите год рождения в формате дд/мм/гггг'
 				       ref = {node3 => {birthday = node3}}/>
 				<button type="submit"> Добавить человека. </button>
-			</form>>
+			</form>
 		</div>
 	)
 };

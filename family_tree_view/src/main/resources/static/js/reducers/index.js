@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux'
-import adding from './addPerson'
+import addPerson from './addPerson'
 
 const FamilyTreeApp =  combineReducers({
-	adding
+	persons: addPerson
 })
 
 export default FamilyTreeApp

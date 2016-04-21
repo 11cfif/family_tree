@@ -6,7 +6,6 @@ const getVisibleFamily = (persons) => {
 }
 
 const mapStateToProps = (state) => {
-	console.log('VisibleFamily map' +  JSON.stringify(state))
 	let o = {
 		familyName: 'Tests',
 		persons: getVisibleFamily(state.persons)

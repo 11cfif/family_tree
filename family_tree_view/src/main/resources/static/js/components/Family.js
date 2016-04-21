@@ -2,12 +2,10 @@ import React, {PropTypes} from 'react'
 import Person from './Person'
 
 const Family  = ({familyName, persons}) => {
-
-console.log('Family = ' + JSON.stringify(persons))
 	// var {temp} = persons.length > 0 ? persons.map(pers => <Person {...pers}/>) : <p>К сожалению никого пока нет</p>;
 	return(<div>
 		<h1> Семья {familyName}:</h1>
-		{persons.map(pers => <Person {...pers}/>)}
+		{persons.map(per => <Person {...per}/>)}
 	</div>
 	)
 }
