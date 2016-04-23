@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addPerson } from '../actions/AddPersonActions'
+import { fetchPerson } from '../actions/AddPersonActions'
 
-let nextId = 0
 let AddPerson = ({dispatch}) => {
 	let name;
 	let surname;
@@ -15,7 +14,7 @@ let AddPerson = ({dispatch}) => {
 				if (!surname.value.trim() || !name.value.trim() || !birthday.value.trim()) {
 					return
 				}
-				dispatch(addPerson({id:++nextId, name:name.value, surname: surname.value, birthday: birthday.value}))
+				dispatch(fetchPerson({id:-1, name:name.value, surname: surname.value, birthday: birthday.value}))
 			}}>
 				<input className="personData" placeholder='введите Имя'
 				       ref = {node1 => {name = node1}}/>

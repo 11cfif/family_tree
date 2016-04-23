@@ -1,1 +1,3 @@
-export const ADD_PERSON = 'ADD_PERSON'
+export const POST_PERSON = 'POST_PERSON';
+export const RESPONSE_PERSON = 'RESPONSE_PERSON';
+export const INVALID_PERSON = 'INVALID_PERSON';

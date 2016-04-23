@@ -35,12 +35,12 @@ public class PersonControllerImpl implements PersonController {
 
 	@Override
 	public PersonDTO save(PersonDTO person) {
-		return new PersonDTO(personManager.create(new Person(person.getName(), person.getSurname())));
+		return new PersonDTO(personManager.create(new Person(person.getName(), person.getSurname(), person.getBirthday())));
 	}
 
 	@Override
 	public PersonDTO update(PersonDTO person) {
-		return new PersonDTO(personManager.update(new Person(person.getId(), person.getName(), person.getSurname())));
+		return new PersonDTO(personManager.update(new Person(person.getId(), person.getName(), person.getSurname(), person.getBirthday())));
 	}
 
 	@Override

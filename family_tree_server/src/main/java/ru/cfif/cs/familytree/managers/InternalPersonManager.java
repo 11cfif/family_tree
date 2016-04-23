@@ -15,7 +15,7 @@ public class InternalPersonManager implements PersonManager {
 
 	@Override
 	public Optional<Person> load(long id) {
-		return Optional.of(new Person("Alex", "Utkin"));
+		return Optional.of(new Person("Alex", "Utkin", "11/12/13"));
 //		return Optional.of(map.get(id));
 	}
 
@@ -29,6 +29,7 @@ public class InternalPersonManager implements PersonManager {
 
 	@Override
 	public Person create(Person person) {
+		System.out.println("CREATE!!!! " + person);
 		map.put(person.getId(), person);
 		return person;
 	}

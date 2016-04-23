@@ -3,15 +3,15 @@ import Family from '../components/Family'
 
 const getVisibleFamily = (persons) => {
 	return persons
-}
+};
 
 const mapStateToProps = (state) => {
-	let o = {
+	console.log('visible = ' + state)
+	return {
 		familyName: 'Tests',
 		persons: getVisibleFamily(state.persons)
 	}
-	return o
-}
+};
 
 const VisibleFamily = connect(mapStateToProps)(Family)
 
