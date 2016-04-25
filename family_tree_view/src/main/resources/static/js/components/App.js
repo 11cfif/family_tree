@@ -1,10 +1,10 @@
 import React from 'react'
-import AddPerson from '../containers/AddPerson'
+import LeftMenu from '../containers/LeftMenu'
 import VisibleFamily from '../containers/VisibleFamily'
 
 const App = () => (
 	<div>
-		<AddPerson />
+		<LeftMenu />
 		<VisibleFamily />
 	</div>
 )

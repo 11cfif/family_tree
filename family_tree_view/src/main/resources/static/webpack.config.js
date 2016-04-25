@@ -32,7 +32,6 @@ module.exports = {
     loaders: [
       {
         loaders: ['react-hot', 'babel-loader', 'babel'],
-        exclude: /node_modules/,
         include: [
           path.resolve(__dirname, "js"),
         ],

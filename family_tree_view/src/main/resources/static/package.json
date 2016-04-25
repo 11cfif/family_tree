@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Family Tree",
   "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "author": "Galkin Aleksandr",
   "license": "MIT",
   "devDependencies": {
