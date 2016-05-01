@@ -6,10 +6,15 @@ const getVisibleFamily = (persons) => {
 };
 
 const mapStateToProps = (state) => {
-	console.log('visible = ' + state)
+	console.log('visible = ' + JSON.stringify(state));
+
+	console.log('visible = ' + JSON.stringify(state.family))
 	return {
-		familyName: 'Tests',
-		persons: getVisibleFamily(state.persons)
+		isEmpty: state.family.isEmpty,
+		familyName: state.family.familyName,
+		description: state.family.description,
+		persons: getVisibleFamily(state.family.persons),
+		isFetching: state.family.isFetching
 	}
 };
 

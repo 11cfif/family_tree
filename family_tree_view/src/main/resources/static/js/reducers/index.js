@@ -1,8 +1,11 @@
 import {combineReducers} from 'redux'
-import addPerson from './addPerson'
+import family from './family'
+import updateModal from './modal'
 
-const FamilyTreeApp =  combineReducers({
-	persons: addPerson
-})
+
+const FamilyTreeApp = combineReducers({
+	family: family,
+	modal: updateModal
+});
 
 export default FamilyTreeApp
