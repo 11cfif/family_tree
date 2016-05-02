@@ -5,13 +5,14 @@ const Person = ({id, name, surname, birthday}) => (
 		<p>{name}, {surname}</p>
 		<p>{birthday}</p>
 	</div>
-)
+);
 
 Person.propTypes = {
 	id: PropTypes.number.isRequired,
 	name: PropTypes.string.isRequired,
 	surname: PropTypes.string.isRequired,
-	birthday: PropTypes.string.isRequired
+	birthday: PropTypes.string.isRequired,
+	deathday: PropTypes.string.isRequired
 };
 
 export default Person

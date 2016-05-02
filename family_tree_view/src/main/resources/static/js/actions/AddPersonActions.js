@@ -5,7 +5,7 @@ import {
 	URL
 } from '../constants/App'
 
-const PERSON_URL = 'person/'
+const PERSON_URL = 'person/';
 
 let personRequest = {
 	method: 'post',
@@ -31,7 +31,7 @@ export function invalidatePerson(error) {
 	}
 }
 
-function receivePerson(person, json) {
+function receivePerson(json) {
 	console.log('receive = ' + JSON.stringify(json));
 	return {
 		type: RESPONSE_PERSON,

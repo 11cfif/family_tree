@@ -1,12 +1,12 @@
 import React from 'react'
 import LeftMenu from '../containers/LeftMenu'
-import VisibleFamily from '../containers/VisibleFamily'
+import Family from '../containers/Family'
 
 const App = () => (
 	<div>
 		<LeftMenu />
-		<VisibleFamily />
+		<Family />
 	</div>
-)
+);
 
 export default App

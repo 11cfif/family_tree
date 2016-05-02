@@ -2,44 +2,52 @@
 // 	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON
 // } from '../constants/Adding'
 import {
-	CREATE_FAMILY, CREATE_PERSON
+	CREATE_FAMILY, CREATE_PERSON, CREATE_PERSON_MODAL, CLOSE_PERSON_MODAL
 } from '../constants/Modal'
 
 let initialState = {
-	isEmpty: true,
+	isCreated: false,
 	familyName: '',
 	description: '',
 	persons: [],
-	isFetching: false
+	isFetching: false,
+	modalIsOpen: false
+};
+
+const person = (state = [], action) => {
+	switch (action.type) {
+	case CREATE_PERSON:
+		return [... state, action.person];
+	default:
+		return state;
+	}
 };
 
 const family = (state = initialState, action) => {
 	console.log('family = ' + JSON.stringify(state));
 	console.log('family = ' + JSON.stringify(action));
 	switch(action.type) {
+	case CREATE_PERSON_MODAL:
+		return  Object.assign({}, state, {
+			modalIsOpen: true
+		});
+	case CLOSE_PERSON_MODAL:
+		return  Object.assign({}, state, {
+			modalIsOpen: false
+		});
 	case CREATE_FAMILY:
 		return Object.assign({}, state, {
-			isEmpty: false,
+			isCreated: true,
 			familyName: action.familyName,
 			description: action.description
 		});
 	case CREATE_PERSON:
+		return Object.assign({}, state, {
+			persons: person(state.person, action)
+		});
 	default:
 		return state;
 	}
 };
-
-// const addPerson = (state = initialState, action) => {
-// 	console.log('reducer = ' + JSON.stringify(state));
-// 	switch (action.type) {
-// 	case POST_PERSON:
-// 		return Object.assign({}, state, {isFetching: true});
-// 	case RESPONSE_PERSON:
-// 		return Object.assign({}, state, {persons: [...state.persons, action.person]})
-// 	case INVALID_PERSON:
-// 	default:
-// 		return state;
-// 	}
-// };
 
 export default family;

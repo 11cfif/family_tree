@@ -2,17 +2,15 @@ import {
 	CREATE_FAMILY_MODAL, CREATE_PERSON_MODAL, CLOSE_FAMILY_MODAL, CLOSE_PERSON_MODAL, CREATE_FAMILY, CREATE_PERSON
 } from '../constants/Modal'
 
-export function createFamilyModal(modal) {
+export function createFamilyModal() {
 	return {
-		type: CREATE_FAMILY_MODAL,
-		modal
+		type: CREATE_FAMILY_MODAL
 	}
 }
 
-export function createPersonModal(modal) {
+export function createPersonModal() {
 	return {
-		type: CREATE_PERSON_MODAL,
-		modal
+		type: CREATE_PERSON_MODAL
 	}
 }
 
@@ -29,7 +27,6 @@ export function closePersonModal() {
 }
 
 export function createFamily(familyName, description) {
-	console.log('!!!!!!!!!!! ' + familyName + ' ' + description)
 	return {
 		type: CREATE_FAMILY,
 		familyName,
@@ -37,9 +34,17 @@ export function createFamily(familyName, description) {
 	}
 }
 
-export function closePersonModal() {
+let idCount = 0;
+export function createPerson(name, surname, birthday, deathday) {
 	return {
-		type: CREATE_PERSON
+		type: CREATE_PERSON,
+		person: {
+			id: ++idCount,
+			name,
+			surname,
+			birthday,
+			deathday
+		}
 	}
 }
 

@@ -10,7 +10,6 @@ let Modal = ({dispatch}) => {
 		<div>
 			<form onSubmit={e => {
 	e.preventDefault();
-	console.log('1111111 ' + name + ' ' + name.value);
 	dispatch(this.prop.okClick(name.value, description.value))
 	}}>
 				<ul>

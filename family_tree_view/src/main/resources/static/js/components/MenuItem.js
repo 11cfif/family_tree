@@ -6,6 +6,7 @@ const MenuItem = ({text, onClick}) => (
 	</li>
 );
 
+//noinspection JSUnresolvedVariable
 MenuItem.propTypes = {
 	text: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired
