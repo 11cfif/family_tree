@@ -2,15 +2,18 @@ import {
 	CREATE_FAMILY_MODAL, CREATE_PERSON_MODAL, CLOSE_FAMILY_MODAL, CLOSE_PERSON_MODAL, CREATE_FAMILY, CREATE_PERSON
 } from '../constants/Modal'
 
+import Person from '../objects/Person'
+
 export function createFamilyModal() {
 	return {
 		type: CREATE_FAMILY_MODAL
 	}
 }
 
-export function createPersonModal() {
+export function createPersonModal(nodeId) {
 	return {
-		type: CREATE_PERSON_MODAL
+		type: CREATE_PERSON_MODAL,
+		nodeId
 	}
 }
 
@@ -34,17 +37,12 @@ export function createFamily(familyName, description) {
 	}
 }
 
-let idCount = 0;
-export function createPerson(name, surname, birthday, deathday) {
+let idCount = 7;
+export function createPerson(name, surname, birthday, deathday, relationType) {
 	return {
 		type: CREATE_PERSON,
-		person: {
-			id: ++idCount,
-			name,
-			surname,
-			birthday,
-			deathday
-		}
+		person: new Person(++idCount, name, surname, birthday, deathday),
+		relationType
 	}
 }
 

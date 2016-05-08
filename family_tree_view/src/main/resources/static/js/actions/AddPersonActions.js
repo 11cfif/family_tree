@@ -24,7 +24,6 @@ function postPerson(person) {
 }
 
 export function invalidatePerson(error) {
-	console.log('error' + error);
 	return {
 		type: INVALID_PERSON,
 		person: error
@@ -32,7 +31,6 @@ export function invalidatePerson(error) {
 }
 
 function receivePerson(json) {
-	console.log('receive = ' + JSON.stringify(json));
 	return {
 		type: RESPONSE_PERSON,
 		person: json

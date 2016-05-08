@@ -1,13 +1,17 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-modal';
-import Person from '../components/Person'
+import FamilyTree from '../components/FamilyTree'
 import {createPersonModal, closePersonModal, createPerson} from '../actions/Modal'
+import {
+	MARRIGE_RELATION, CHILD_RELATION
+} from '../constants/Tree'
 
 let name;
 let surname;
 let birthday;
 let deathday;
+let type;
 
 const customStyles = {
 	content : {
@@ -20,9 +24,9 @@ const customStyles = {
 	}
 };
 
-export function createModal() {
+export function createModal(nodeId) {
 	return (dispatch) => {
-		dispatch(createPersonModal())
+		dispatch(createPersonModal(nodeId))
 	}
 }
 
@@ -32,17 +36,17 @@ export function closeModal() {
 	}
 }
 
-export function createPer(name, surname, birthday, deathday) {
+export function createPer(name, surname, birthday, deathday, type) {
 	return (dispatch) => {
-		dispatch(createPerson(name, surname, birthday, deathday))
+		dispatch(createPerson(name, surname, birthday, deathday, type))
 	}
 }
 
 class Family extends Component {
 	render() {
-		const {modalIsOpen, isCreated, familyName, persons,
+		const {modalIsOpen, isCreated, familyName, tree,
 			createModal, closeModal, createPer} = this.props;
-		const isEmpty = persons.length === 0;
+		const isEmpty = tree.isEmpty;
 		return (
 			<div>
 				{!isCreated ?
@@ -54,7 +58,13 @@ class Family extends Component {
 							<button onClick={() => createModal()}>Создать первого члена семьи</button>
 							:
 							<div>
-								{persons.map(per => <Person key={per.id} {...per}/>)}
+								<FamilyTree
+									isEmpty = {tree.isEmpty}
+									nodes = {tree.nodes}
+									edges = {tree.edges}
+									activeNodeId = {tree.activeNodeId}
+								    nodeClick = {createModal}
+								/>
 							</div>
 						}
 					</ div>
@@ -70,7 +80,8 @@ class Family extends Component {
 
 					<form onSubmit={e => {
 						e.preventDefault();
-						createPer(name.value, surname.value, birthday.value, deathday.value);
+						createPer(name.value, surname.value, birthday.value, deathday.value, 
+								type.value);
 						closeModal()
 					}}>
 						<ul>
@@ -82,6 +93,13 @@ class Family extends Component {
 							           ref={node => {birthday = node}}/></li>
 							<li><input placeholder='Введите дату смерти'
 							           ref={node => {deathday = node}}/></li>
+							Выберете тип отношений:
+							<li>
+								<select ref = {node => {type = node}}>
+									<option>{CHILD_RELATION}</option>
+									<option>{MARRIGE_RELATION}</option>
+								</select>
+							</li>
 							<button type='submit'>Создать</button>
 						</ul>
 					</form>
@@ -96,12 +114,7 @@ Family.propTypes = {
 	isCreated: PropTypes.bool.isRequired,
 	familyName: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
-	persons: PropTypes.arrayOf(PropTypes.shape({
-		id: PropTypes.number.isRequired,
-		name: PropTypes.string.isRequired,
-		surname: PropTypes.string.isRequired,
-		birthday: PropTypes.string.isRequired
-	}).isRequired).isRequired,
+	tree: PropTypes.object.isRequired,
 	isFetching: PropTypes.bool.isRequired,
 	modalIsOpen: PropTypes.bool.isRequired,
 	createModal: PropTypes.func.isRequired,
@@ -114,7 +127,7 @@ const mapStateToProps = (state) => {
 		isCreated: state.family.isCreated,
 		familyName: state.family.familyName,
 		description: state.family.description,
-		persons: state.family.persons,
+		tree: state.family.tree,
 		isFetching: state.family.isFetching,
 		modalIsOpen: state.family.modalIsOpen
 	}

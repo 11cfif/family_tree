@@ -56,7 +56,7 @@ class LeftMenu extends Component {
 				</nav>
 				<Modal
 					isOpen={modalIsOpen}
-					 onAfterOpen={afterOpenModal}
+					onAfterOpen={afterOpenModal}
 					onRequestClose={close}
 					style={customStyles}
 				>

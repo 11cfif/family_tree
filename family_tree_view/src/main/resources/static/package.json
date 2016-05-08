@@ -37,15 +37,16 @@
     "webpack-hot-middleware": "^2.6.4"
   },
   "dependencies": {
-    "babel-polyfill": "^6.3.14",
+    "babel-polyfill": "6.8.0",
     "babel-runtime": "^6.3.19",
+    "isomorphic-fetch": "^2.1.1",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-redux": "^4.0.6",
     "react-modal": "^1.2.1",
-    "redux": "^3.3.1",
+    "redux": "3.5.2",
     "redux-logger": "2.5.2",
     "redux-thunk": "1.0.3",
-    "isomorphic-fetch": "^2.1.1"
+    "vis": "^4.16.1"
   }
 }

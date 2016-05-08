@@ -16,3 +16,9 @@
 .LMenu .LBut:last-child {
   border-bottom: none;
 }
+
+.tree {
+  width: 600px;
+  height: 600px;
+  border: 1px solid lightgray;
+}

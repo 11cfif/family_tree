@@ -3,8 +3,6 @@ import {
 } from '../constants/Modal'
 
 const updateModal = (state = false, action) => {
-	console.log('updateModel = ' + JSON.stringify(state));
-	console.log('updateModel = ' + JSON.stringify(action));
 	switch (action.type) {
 	case CREATE_FAMILY_MODAL:
 		return true;
