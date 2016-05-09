@@ -1,9 +1,13 @@
+var count = -1;
+
 class Edge {
-	constructor(id, from, to, arrows) {
-		this.id = id;
+	constructor(from, to, parentId) {
+		this.id = ++count;
 		this.from = from;
 		this.to = to;
-		this.arrows = arrows;
+		this.arrows = 'to';
+		this.parentId = parentId;
+		this.dashes = false;
 	}
 }
 

@@ -1,10 +1,35 @@
+var count = -1;
+
 class Node {
-	constructor(id, main, secondary) {
-		this.id = id;
+	constructor(main, secondary, edgeIds) {
+		this.id = ++count;
 		this.main = main;
 		this.secondary = secondary;
-		this.label = createLabel(main, secondary);
 		this.shape = 'box';
+		this.secondaryId = secondary.length == 0 ? -1 : 0;
+		this.edgeIds = edgeIds;
+		this.label = createLabel(this.main, this.secondary[this.secondaryId]);
+	}
+	
+	addSecondaryPerson(person) {
+		this.secondary.push(person);
+		if (this.secondary.length == 1) {
+			this.secondaryId = 0;
+			this.label = createLabel(this.main, this.secondary[this.secondaryId])
+		}
+	}
+	
+	addEdge(edgeId, edge) {
+		this.edgeIds.push(edgeId);
+		edge.dashes = edge.parentId != this.secondaryId;
+	}
+	
+	setSecondaryId(id, edges) {
+		this.secondaryId = id;
+		for (let i = 0; i < this.edgeIds.length; i++) {
+			edges[this.edgeIds[i]].dashes = edges[i].parentId != id;
+		}
+		this.label = createLabel(this.main, this.secondary[id])
 	}
 }
 

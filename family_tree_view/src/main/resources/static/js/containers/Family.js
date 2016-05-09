@@ -2,7 +2,9 @@ import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-modal';
 import FamilyTree from '../components/FamilyTree'
-import {createPersonModal, closePersonModal, createPerson} from '../actions/Modal'
+import PersonComp from '../components/Person'
+
+import {createPersonCreatorModal, createPersonSelectorModal, closePersonModal, createPerson, selectPerson} from '../actions/Modal'
 import {
 	MARRIGE_RELATION, CHILD_RELATION
 } from '../constants/Tree'
@@ -24,9 +26,16 @@ const customStyles = {
 	}
 };
 
-export function createModal(nodeId) {
+export function createSelectorModal(nodeId) {
 	return (dispatch) => {
-		dispatch(createPersonModal(nodeId))
+		dispatch(createPersonSelectorModal(nodeId))
+	}
+}
+
+export function createCreatorModal() {
+	console.log('!!!!!!!!!!!!!!!!!!!!!!')
+	return (dispatch) => {
+		dispatch(createPersonCreatorModal())
 	}
 }
 
@@ -42,11 +51,18 @@ export function createPer(name, surname, birthday, deathday, type) {
 	}
 }
 
+export function selectPer(id) {
+	return (dispatch) => {
+		dispatch(selectPerson(id))
+	}
+}
+
 class Family extends Component {
 	render() {
-		const {modalIsOpen, isCreated, familyName, tree,
-			createModal, closeModal, createPer} = this.props;
+		const {personSelectorIsOpen, personCreatorIsOpen, isCreated, familyName, tree,
+			createSelectorModal, createCreatorModal, closeModal, createPer, selectPer} = this.props;
 		const isEmpty = tree.isEmpty;
+		const active = tree.activeNodeId >= 0;
 		return (
 			<div>
 				{!isCreated ?
@@ -55,7 +71,7 @@ class Family extends Component {
 					<div>
 						<h1> Семья {familyName}:</h1>
 						{ isEmpty ?
-							<button onClick={() => createModal()}>Создать первого члена семьи</button>
+							<button onClick={createCreatorModal}>Создать первого члена семьи</button>
 							:
 							<div>
 								<FamilyTree
@@ -63,14 +79,35 @@ class Family extends Component {
 									nodes = {tree.nodes}
 									edges = {tree.edges}
 									activeNodeId = {tree.activeNodeId}
-								    nodeClick = {createModal}
+								    nodeClick = {createSelectorModal}
 								/>
 							</div>
 						}
 					</ div>
 				}
 				<Modal
-					isOpen={modalIsOpen}
+					isOpen={personSelectorIsOpen}
+					onRequestClose={close}
+					style={customStyles}
+				>
+					<h2 ref='subtitle'>Hello</h2>
+					<button onClick={closeModal}>close</button>
+					<div>I am a modal</div>
+					{!active ?
+						<div> Oops</div>
+						:
+						tree.nodes[tree.activeNodeId].secondary.map((per, i) =>
+							<PersonComp
+								key={i}
+								person={per}
+								personClick={() => selectPer(i)}
+							/>
+						)
+					}
+					<button onClick={createCreatorModal}>Создать нового члена семьи</button>
+				</Modal>
+				<Modal
+					isOpen={personCreatorIsOpen}
 					onRequestClose={close}
 					style={customStyles}
 				>
@@ -86,13 +123,13 @@ class Family extends Component {
 					}}>
 						<ul>
 							<li><input placeholder='Введите имя'
-							           ref={node => {name = node}}/></li>
+									   ref={node => {name = node}}/></li>
 							<li><input placeholder='Введите фамилию'
-							           ref={node => {surname = node}}/></li>
+									   ref={node => {surname = node}}/></li>
 							<li><input placeholder='Введите дату рождения'
-							           ref={node => {birthday = node}}/></li>
+									   ref={node => {birthday = node}}/></li>
 							<li><input placeholder='Введите дату смерти'
-							           ref={node => {deathday = node}}/></li>
+									   ref={node => {deathday = node}}/></li>
 							Выберете тип отношений:
 							<li>
 								<select ref = {node => {type = node}}>
@@ -116,9 +153,12 @@ Family.propTypes = {
 	description: PropTypes.string.isRequired,
 	tree: PropTypes.object.isRequired,
 	isFetching: PropTypes.bool.isRequired,
-	modalIsOpen: PropTypes.bool.isRequired,
-	createModal: PropTypes.func.isRequired,
+	personSelectorIsOpen: PropTypes.bool.isRequired,
+	personCreatorIsOpen: PropTypes.bool.isRequired,
+	createSelectorModal: PropTypes.func.isRequired,
+	createCreatorModal: PropTypes.func.isRequired,
 	closeModal: PropTypes.func.isRequired,
+	selectPer: PropTypes.func.isRequired,
 	createPer: PropTypes.func.isRequired
 };
 
@@ -129,12 +169,13 @@ const mapStateToProps = (state) => {
 		description: state.family.description,
 		tree: state.family.tree,
 		isFetching: state.family.isFetching,
-		modalIsOpen: state.family.modalIsOpen
+		personCreatorIsOpen: state.family.personCreatorIsOpen,
+		personSelectorIsOpen: state.family.personSelectorIsOpen
 	}
 };
 Family = connect(
 	mapStateToProps,
-	{createModal, closeModal, createPer}
+	{createSelectorModal, createCreatorModal, closeModal, selectPer, createPer}
 )(Family);
 
 export default Family
