@@ -27,7 +27,7 @@ class Node {
 	setSecondaryId(id, edges) {
 		this.secondaryId = id;
 		for (let i = 0; i < this.edgeIds.length; i++) {
-			edges[this.edgeIds[i]].dashes = edges[i].parentId != id;
+			edges[this.edgeIds[i]].dashes = edges[this.edgeIds[i]].parentId != id;
 		}
 		this.label = createLabel(this.main, this.secondary[id])
 	}

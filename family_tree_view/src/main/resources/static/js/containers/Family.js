@@ -33,7 +33,6 @@ export function createSelectorModal(nodeId) {
 }
 
 export function createCreatorModal() {
-	console.log('!!!!!!!!!!!!!!!!!!!!!!')
 	return (dispatch) => {
 		dispatch(createPersonCreatorModal())
 	}

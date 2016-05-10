@@ -43,9 +43,9 @@ let initialTree = {
 		)
 	],
 	edges: [
-		new Edge(0, 1, 2),
-		new Edge(0, 3, 2),
-		new Edge(1, 2, 3)
+		new Edge(0, 1, 0),
+		new Edge(0, 3, 0),
+		new Edge(1, 2, 0)
 	]
 };
 let initialState = {
@@ -76,9 +76,10 @@ const treeF = (state, action) => {
 		switch (action.relationType) {
 		case MARRIGE_RELATION:
 			curNode = nodes[state.activeNodeId];
-			console.log('1 cur= ' + JSON.stringify(curNode, null, 4));
-			console.log('1 per= ' + JSON.stringify(action.person, null, 4));
+			// console.log('1 cur= ' + JSON.stringify(curNode, null, 4));
+			// console.log('1 per= ' + JSON.stringify(action.person, null, 4));
 			curNode.addSecondaryPerson(action.person);
+			// console.log('marrige cur = ' + JSON.stringify(curNode, null, 4));
 			return Object.assign({}, state, {
 				nodes: nodes
 			});
@@ -88,6 +89,8 @@ const treeF = (state, action) => {
 			edges = [...state.edges, edge];
 			nodes.push(node);
 			nodes[state.activeNodeId].addEdge(edges.length - 1, edge);
+			// console.log('child cur = ' + JSON.stringify(node, null, 4));
+			// console.log('child edges = ' + JSON.stringify(edges, null, 4));
 			return Object.assign({}, state, {
 				nodes: nodes,
 				edges: edges
@@ -101,6 +104,8 @@ const treeF = (state, action) => {
 		edges = [...state.edges];
 		curNode = nodes[state.activeNodeId];
 		curNode.setSecondaryId(action.id, edges);
+		// console.log('select cur = ' + JSON.stringify(curNode, null, 4));
+		// console.log('select edges = ' + JSON.stringify(edges, null, 4));
 		return Object.assign({}, state, {
 			nodes: nodes,
 			edges: edges
@@ -111,8 +116,6 @@ const treeF = (state, action) => {
 };
 
 const family = (state = initialState, action) => {
-	console.log('red state = ' + JSON.stringify(state, null, 4))
-	console.log('red action = ' + JSON.stringify(action, null, 4))
 	let tree = state.tree;
 	if (!init) {
 		for (let i = 0; i < tree.edges.length; i++) {
