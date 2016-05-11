@@ -12,7 +12,7 @@
 		</property>
 	</bean>
 
-	<bean id="personController" class="ru.cfif.cs.familytree.controllers.PersonControllerImpl">
+	<bean id="personController" class="ru.cfif.cs.familytree.controllers.impl.PersonControllerImpl">
 		<property name="personManager" ref="personManager"/>
 	</bean>
 </beans>

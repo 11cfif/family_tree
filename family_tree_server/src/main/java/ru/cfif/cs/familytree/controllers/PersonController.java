@@ -10,8 +10,10 @@ import ru.cfif.cs.familytree.controllers.dto.PersonDTO;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface PersonController {
+
 	@GET
-	List<PersonDTO> loadAll();
+	@Path("/{familyId}")
+	List<PersonDTO> loadAllByFamilyIndex(long familyId);
 
 	@GET
 	@Path("/{id}")
@@ -21,7 +23,6 @@ public interface PersonController {
 	PersonDTO save(PersonDTO person);
 
 	@PUT
-	@Path("/{id}")
 	PersonDTO update(PersonDTO person);
 
 	@DELETE

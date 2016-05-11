@@ -9,17 +9,23 @@ public class PersonDTO {
 	private final String name;
 	private final String surname;
 	private final String birthday;
+	private final String deathday;
 
 
 	@JsonCreator
-	public PersonDTO(@JsonProperty("id") long id, @JsonProperty("name") String name, @JsonProperty("surname") String surname,  @JsonProperty("birthday") String birthday) {
+	public PersonDTO(@JsonProperty("id") long id,
+		@JsonProperty("name") String name, @JsonProperty("surname") String surname,
+		@JsonProperty("birthday") String birthday,  @JsonProperty("deathday") String deathday)
+	{
 		this.name = name;
 		this.surname = surname;
 		this.birthday = birthday;
 		this.id = id;
+		this.deathday = deathday;
 	}
 
 	public PersonDTO(Person person) {
+		this.deathday = person.getDeathday();
 		this.name = person.getName();
 		this.surname = person.getSurname();
 		this.birthday = person.getBirthday();
@@ -44,5 +50,10 @@ public class PersonDTO {
 	@JsonGetter
 	public String getBirthday() {
 		return birthday;
+	}
+
+	@JsonGetter
+	public String getDeathday() {
+		return deathday;
 	}
 }

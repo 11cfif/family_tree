@@ -11,19 +11,26 @@ public class Person {
 	private final String name;
 	private final String surname;
 	private final String birthday;
+	private final String deathday;
 
-	public Person(String name, String surname, String birthday) {
+	public Person(String name, String surname, String birthday, String deathday) {
 		this.name = name;
 		this.surname = surname;
 		this.birthday = birthday;
+		this.deathday = deathday;
 		this.id = counter.getAndIncrement();
 	}
 
-	public Person(long id, String name, String surname, String birthday) {
+	public Person(long id, String name, String surname, String birthday, String deathday) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.birthday = birthday;
+		this.deathday = deathday;
+	}
+
+	public long getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -38,7 +45,7 @@ public class Person {
 		return birthday;
 	}
 
-	public long getId() {
-		return id;
+	public String getDeathday() {
+		return deathday;
 	}
 }

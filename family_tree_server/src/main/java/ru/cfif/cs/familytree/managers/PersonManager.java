@@ -7,11 +7,9 @@ import ru.cfif.cs.familytree.model.Person;
 
 public interface PersonManager {
 
-	List<Person> loadAll();
+	List<Person> loadAllByFamilyIndex(long familyId);
 
 	Optional<Person> load(long id);
-
-	List<Person> load(Iterable<Long> ids);
 
 	Person create(Person person);
 
