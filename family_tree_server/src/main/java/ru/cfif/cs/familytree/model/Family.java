@@ -5,83 +5,89 @@ import java.util.*;
 public class Family {
 
 	private final FamilyInfo familyInfo;
-	private final List<Node> nodes;
-	private final List<Edge> edges;
+	private final List<FamilyTreeNode> nodes;
+	private final List<ChildRelation> relations;
 
-	public Family(FamilyInfo familyInfo, List<Node> nodes, List<Edge> edges) {
+	public Family(FamilyInfo familyInfo, List<FamilyTreeNode> nodes, List<ChildRelation> relations) {
 		this.familyInfo = familyInfo;
 		this.nodes = nodes;
-		this.edges = edges;
+		this.relations = relations;
 	}
 
 	public Family(FamilyInfo familyInfo) {
 		this.familyInfo = familyInfo;
 		this.nodes = new ArrayList<>();
-		this.edges = new ArrayList<>();
+		this.relations = new ArrayList<>();
+	}
+
+	public Family(FamilyInfo familyInfo, Family family) {
+		this.familyInfo = familyInfo;
+		this.nodes = new ArrayList<>(family.getNodes());
+		this.relations = new ArrayList<>(family.getRelations());
 	}
 
 	public FamilyInfo getFamilyInfo() {
 		return familyInfo;
 	}
 
-	public List<Node> getNodes() {
+	public List<FamilyTreeNode> getNodes() {
 		return nodes;
 	}
 
-	public List<Edge> getEdges() {
-		return edges;
+	public List<ChildRelation> getRelations() {
+		return relations;
 	}
 
-	public static class Node {
+	public static class FamilyTreeNode {
 		private final long id;
-		private final Person main;
-		private final List<Person> secondary;
-		private final List<Long> edges;
+		private final Person descendant;
+		private final List<Person> spouses;
+		private final List<Long> childRelationIndexes;
 
-		public Node(long id, Person main, List<Person> secondary, List<Long> edges) {
+		public FamilyTreeNode(long id, Person descendant, List<Person> spouses, List<Long> childRelationIndexes) {
 			this.id = id;
-			this.main = main;
-			this.secondary = secondary;
-			this.edges = edges;
+			this.descendant = descendant;
+			this.spouses = spouses;
+			this.childRelationIndexes = childRelationIndexes;
 		}
 
 		public long getId() {
 			return id;
 		}
 
-		public Person getMain() {
-			return main;
+		public Person getDescendant() {
+			return descendant;
 		}
 
-		public List<Person> getSecondary() {
-			return secondary;
+		public List<Person> getSpouses() {
+			return spouses;
 		}
 
-		public List<Long> getEdges() {
-			return edges;
+		public List<Long> getChildRelationIndexes() {
+			return childRelationIndexes;
 		}
 	}
 
 
-	public static class Edge {
+	public static class ChildRelation {
 		private final long id;
-		private final long from;
-		private final long to;
+		private final long parentNode;
+		private final long childNode;
 		private final long parentId;
 
-		public Edge(long id, long from, long to, ParentChildRelation relation) {
+		public ChildRelation(long id, long parentNode, long childNode, ParentChildRelation relation) {
 			this.id = id;
-			this.from = from;
-			this.to = to;
+			this.parentNode = parentNode;
+			this.childNode = childNode;
 			this.parentId = relation.getSecondaryParentId();
 		}
 
-		public long getFrom() {
-			return from;
+		public long getParentNode() {
+			return parentNode;
 		}
 
-		public long getTo() {
-			return to;
+		public long getChildNode() {
+			return childNode;
 		}
 
 		public long getParentId() {

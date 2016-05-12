@@ -1,20 +1,30 @@
 package ru.cfif.cs.familytree.managers.impl;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Required;
 import ru.cfif.cs.familytree.controllers.dto.FamilyInfoDTO;
 import ru.cfif.cs.familytree.managers.FamilyManager;
+import ru.cfif.cs.familytree.managers.PersonManager;
 import ru.cfif.cs.familytree.model.*;
 
 public class InternalFamilyManager implements FamilyManager {
 
+	private static final AtomicLong COUNTER = new AtomicLong();
+
+	private final Map<Long, Family> familyMap = new HashMap<>();
+	private final Map<Long, Family> familyMap = new HashMap<>();
 	private final Map<Long, Family> familyMap = new HashMap<>();
 
+	private PersonManager personManager;
 
 	@Override
 	public Family createFamily(FamilyInfo familyInfo) {
-		Family family = new Family(familyInfo);
-		familyMap.put(familyInfo.getId(), family);
+		personManager.create(familyInfo.getHead());
+		FamilyInfo familyInfoWithId = new FamilyInfo(COUNTER.getAndIncrement(), familyInfo);
+		Family family = new Family(familyInfoWithId);
+		familyMap.put(familyInfoWithId.getId(), family);
 		return family;
 	}
 
@@ -24,8 +34,10 @@ public class InternalFamilyManager implements FamilyManager {
 	}
 
 	@Override
-	public Family updateFamily(FamilyInfo familyInfo) {
-		return null;
+	public FamilyInfo updateFamily(FamilyInfo familyInfo) {
+		Family family = new Family(familyInfo, familyMap.get(familyInfo.getId()));
+		familyMap.put(familyInfo.getId(), family);
+		return family;
 	}
 
 	@Override
@@ -34,8 +46,8 @@ public class InternalFamilyManager implements FamilyManager {
 	}
 
 	@Override
-	public void addSpouse(long familyId, long spouseId, Person spouse, String description, String start,
-		String finish)
+	public void addSpouse(long familyId, long spouseId, Person spouse,
+		String description, String dateStartRelation, String DateFinishRelation)
 	{
 
 	}
@@ -59,6 +71,12 @@ public class InternalFamilyManager implements FamilyManager {
 	public List<FamilyInfoDTO> loadAllFamiliesInfo() {
 		return null;
 	}
+
+	@Required
+	public void setPersonManager(final PersonManager personManager) {
+		this.personManager = personManager;
+	}
+
 
 
 	private class ParentChildRelation {

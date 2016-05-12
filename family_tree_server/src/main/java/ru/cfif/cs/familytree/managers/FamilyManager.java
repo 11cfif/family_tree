@@ -12,7 +12,7 @@ public interface FamilyManager {
 
 	Optional<Family> load(long familyId);
 
-	Family updateFamily(FamilyInfo familyInfo);
+	FamilyInfo updateFamily(FamilyInfo familyInfo);
 
 	void removeFamily(long familyId);
 

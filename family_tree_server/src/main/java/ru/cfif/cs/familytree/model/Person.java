@@ -1,11 +1,10 @@
 package ru.cfif.cs.familytree.model;
 
 
-import java.util.concurrent.atomic.AtomicLong;
-
 public class Person {
 
-	private static final AtomicLong counter = new AtomicLong();
+
+	public static final long FAKE_ID = -1;
 
 	private final long id;
 	private final long familyId;
@@ -15,21 +14,21 @@ public class Person {
 	private final String deathday;
 
 	public Person(long familyId, String name, String surname, String birthday, String deathday) {
+		this.id = FAKE_ID;
 		this.familyId = familyId;
 		this.name = name;
 		this.surname = surname;
 		this.birthday = birthday;
 		this.deathday = deathday;
-		this.id = counter.getAndIncrement();
 	}
 
-	public Person(long id, long familyId, String name, String surname, String birthday, String deathday) {
+	public Person(long id, Person person) {
 		this.id = id;
-		this.familyId = familyId;
-		this.name = name;
-		this.surname = surname;
-		this.birthday = birthday;
-		this.deathday = deathday;
+		this.familyId = person.getFamilyId();
+		this.name = person.getName();
+		this.surname = person.getSurname();
+		this.birthday = person.getBirthday();
+		this.deathday = person.getDeathday();
 	}
 
 	public long getFamilyId() {

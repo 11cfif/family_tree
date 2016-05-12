@@ -13,9 +13,12 @@ public class PersonDTO {
 
 
 	@JsonCreator
-	public PersonDTO(@JsonProperty("id") long id,
-		@JsonProperty("name") String name, @JsonProperty("surname") String surname,
-		@JsonProperty("birthday") String birthday,  @JsonProperty("deathday") String deathday)
+	public PersonDTO(
+		@JsonProperty("id") long id,
+		@JsonProperty("name") String name,
+		@JsonProperty("surname") String surname,
+		@JsonProperty("birthday") String birthday,
+		@JsonProperty("deathday") String deathday)
 	{
 		this.name = name;
 		this.surname = surname;

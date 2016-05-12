@@ -12,8 +12,11 @@ public class FamilyInfoDTO {
 
 
 	@JsonCreator
-	public FamilyInfoDTO(@JsonProperty("id") long id, @JsonProperty("name") String name,
-		@JsonProperty("description") String description, @JsonProperty("head") PersonDTO head)
+	public FamilyInfoDTO(
+		@JsonProperty("id") long id,
+		@JsonProperty("name") String name,
+		@JsonProperty("description") String description,
+		@JsonProperty("head") PersonDTO head)
 	{
 		this.id = id;
 		this.name = name;

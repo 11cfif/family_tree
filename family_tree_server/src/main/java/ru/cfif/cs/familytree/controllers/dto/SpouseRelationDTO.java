@@ -10,9 +10,13 @@ public class SpouseRelationDTO {
 	private final PersonDTO spouse;
 
 	@JsonCreator
-	public SpouseRelationDTO(@JsonProperty("spouseId") long spouseId, @JsonProperty("secondaryId") long secondaryId,
-		@JsonProperty("description") String description, @JsonProperty("startDate") String startDate,
-		@JsonProperty("finishDate") String finishDate, @JsonProperty("child") PersonDTO spouse)
+	public SpouseRelationDTO(
+		@JsonProperty("spouseId") long spouseId,
+		@JsonProperty("secondaryId") long secondaryId,
+		@JsonProperty("description") String description,
+		@JsonProperty("startDate") String startDate,
+		@JsonProperty("finishDate") String finishDate,
+		@JsonProperty("child") PersonDTO spouse)
 	{
 		this.spouseId = spouseId;
 		this.description = description;

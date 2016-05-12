@@ -10,19 +10,20 @@ public class FamilyDTO {
 	private final EdgeDTO[] edges;
 
 	@JsonCreator
-	public FamilyDTO(@JsonProperty("familyInfo") FamilyInfoDTO familyInfoDTO,
-		@JsonProperty("nodes") NodeDTO[] nodes, @JsonProperty("edges") EdgeDTO[] edges)
+	public FamilyDTO(
+		@JsonProperty("familyInfo") FamilyInfoDTO familyInfoDTO,
+		@JsonProperty("nodes") NodeDTO[] nodes,
+		@JsonProperty("edges") EdgeDTO[] edges)
 	{
 		this.familyInfoDTO = familyInfoDTO;
 		this.nodes = nodes;
 		this.edges = edges;
 	}
 
-	public FamilyDTO(Family family)
-	{
+	public FamilyDTO(Family family) {
 		this.familyInfoDTO = new FamilyInfoDTO(family.getFamilyInfo());
 		this.nodes = family.getNodes().stream().map(NodeDTO::new).toArray(NodeDTO[]::new);
-		this.edges = family.getEdges().stream().map(EdgeDTO::new).toArray(EdgeDTO[]::new);
+		this.edges = family.getRelations().stream().map(EdgeDTO::new).toArray(EdgeDTO[]::new);
 	}
 
 	@JsonGetter
@@ -47,8 +48,11 @@ public class FamilyDTO {
 		private final Long[] edges;
 
 		@JsonCreator
-		public NodeDTO(@JsonProperty("id") long id, @JsonProperty("main") PersonDTO main,
-			@JsonProperty("secondary") PersonDTO[] secondary, @JsonProperty("edges") Long[] edges)
+		public NodeDTO(
+			@JsonProperty("id") long id,
+			@JsonProperty("main") PersonDTO main,
+			@JsonProperty("secondary") PersonDTO[] secondary,
+			@JsonProperty("edges") Long[] edges)
 		{
 			this.id = id;
 			this.main = main;
@@ -56,14 +60,14 @@ public class FamilyDTO {
 			this.edges = edges;
 		}
 
-		NodeDTO(Family.Node node) {
+		NodeDTO(Family.FamilyTreeNode node) {
 			this.id = node.getId();
-			this.main = new PersonDTO(node.getMain());
-			this.secondary = node.getSecondary()
+			this.main = new PersonDTO(node.getDescendant());
+			this.secondary = node.getSpouses()
 				.stream()
 				.map(PersonDTO::new)
 				.toArray(PersonDTO[]::new);
-			this.edges = node.getEdges().stream().toArray(Long[]::new);
+			this.edges = node.getChildRelationIndexes().stream().toArray(Long[]::new);
 		}
 
 		@JsonGetter
@@ -94,7 +98,10 @@ public class FamilyDTO {
 		private final long parentId;
 
 		@JsonCreator
-		public EdgeDTO(@JsonProperty("id") long id, @JsonProperty("from") long from, @JsonProperty("to") long to,
+		public EdgeDTO(
+			@JsonProperty("id") long id,
+			@JsonProperty("from") long from,
+			@JsonProperty("to") long to,
 			@JsonProperty("parentId") long parentId)
 		{
 			this.id = id;
@@ -103,10 +110,10 @@ public class FamilyDTO {
 			this.parentId = parentId;
 		}
 
-		EdgeDTO(Family.Edge edge) {
+		EdgeDTO(Family.ChildRelation edge) {
 			this.id = edge.getId();
-			this.from = edge.getFrom();
-			this.to = edge.getTo();
+			this.from = edge.getParentNode();
+			this.to = edge.getChildNode();
 			this.parentId = edge.getParentId();
 		}
 

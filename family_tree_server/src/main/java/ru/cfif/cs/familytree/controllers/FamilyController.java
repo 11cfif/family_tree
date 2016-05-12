@@ -39,7 +39,7 @@ public interface FamilyController {
 
 	@PUT
 	@Path("/{familyId}")
-	FamilyDTO updateFamily(@PathParam("familyId") long familyId, FamilyInfoDTO family);
+	FamilyInfoDTO updateFamily(@PathParam("familyId") long familyId, FamilyInfoDTO family);
 
 	@DELETE
 	@Path("/{familyId}")

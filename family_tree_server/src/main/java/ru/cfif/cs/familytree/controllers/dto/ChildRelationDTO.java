@@ -10,8 +10,11 @@ public class ChildRelationDTO {
 	private final PersonDTO child;
 
 	@JsonCreator
-	public ChildRelationDTO(@JsonProperty("mainId") long mainId, @JsonProperty("secondaryId") long secondaryId,
-		@JsonProperty("description") String description, @JsonProperty("child") PersonDTO child)
+	public ChildRelationDTO(
+		@JsonProperty("mainId") long mainId,
+		@JsonProperty("secondaryId") long secondaryId,
+		@JsonProperty("description") String description,
+		@JsonProperty("child") PersonDTO child)
 	{
 		this.mainId = mainId;
 		this.secondaryId = secondaryId;

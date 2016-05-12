@@ -60,8 +60,8 @@ public class FamilyControllerImpl implements FamilyController {
 	}
 
 	@Override
-	public FamilyDTO updateFamily(long familyId, FamilyInfoDTO family) {
-		return new FamilyDTO(familyManager.updateFamily(family.createFamilyInfo()));
+	public FamilyInfoDTO updateFamily(long familyId, FamilyInfoDTO family) {
+		return new FamilyInfoDTO(familyManager.updateFamily(family.createFamilyInfo()));
 	}
 
 	@Override

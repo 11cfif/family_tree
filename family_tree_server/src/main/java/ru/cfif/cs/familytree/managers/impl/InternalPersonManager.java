@@ -1,6 +1,7 @@
 package ru.cfif.cs.familytree.managers.impl;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import ru.cfif.cs.familytree.managers.PersonManager;
@@ -9,6 +10,7 @@ import ru.cfif.cs.familytree.model.Person;
 public class InternalPersonManager implements PersonManager {
 
 	private final Map<Long, Person> personMap = new HashMap<>();
+	private static final AtomicLong COUNTER = new AtomicLong();
 
 	@Override
 	public List<Person> loadAllByFamilyIndex(long familyId) {
@@ -25,9 +27,9 @@ public class InternalPersonManager implements PersonManager {
 
 	@Override
 	public Person create(Person person) {
-		System.out.println("CREATE!!!! " + person);
-		personMap.put(person.getId(), person);
-		return person;
+		Person personWithId = new Person(COUNTER.getAndIncrement(), person);
+		personMap.put(personWithId.getId(), personWithId);
+		return personWithId;
 	}
 
 	@Override

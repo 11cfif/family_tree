@@ -7,6 +7,7 @@
 	</bean>
 
 	<bean id="familyManager" class="ru.cfif.cs.familytree.managers.impl.InternalFamilyManager">
+		<property name="personManager" ref="personManager"/>
 	</bean>
 
 </beans>
