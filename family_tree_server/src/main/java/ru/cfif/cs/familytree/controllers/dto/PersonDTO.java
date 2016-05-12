@@ -56,4 +56,8 @@ public class PersonDTO {
 	public String getDeathday() {
 		return deathday;
 	}
+
+	public Person createPerson(long familyId) {
+		return new Person(familyId, name, surname, birthday, deathday);
+	}
 }

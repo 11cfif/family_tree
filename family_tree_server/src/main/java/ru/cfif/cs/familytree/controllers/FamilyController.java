@@ -4,8 +4,7 @@ import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import ru.cfif.cs.familytree.controllers.dto.FamilyDTO;
-import ru.cfif.cs.familytree.controllers.dto.FamilyInfoDTO;
+import ru.cfif.cs.familytree.controllers.dto.*;
 
 @Path("/family")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -13,24 +12,24 @@ import ru.cfif.cs.familytree.controllers.dto.FamilyInfoDTO;
 public interface FamilyController {
 
 	@GET
-	@Path("/{id}")
-	FamilyDTO load(@PathParam("id") long id);
+	@Path("/{familyId}")
+	FamilyDTO load(@PathParam("familyId") long id);
 
 	@POST
-	@Path("/add/child")
-	void addChild(@QueryParam("parentId") long parentId, @QueryParam("childId") long childId);
+	@Path("/{familyId}/child")
+	void addChild(@PathParam("familyId") long familyId, ChildRelationDTO child);
 
 	@POST
-	@Path("/add/spouse")
-	void addSpouse(@QueryParam("parentId") long mainId, @QueryParam("childId") long secondaryId);
+	@Path("/{familyId}/spouse")
+	void addSpouse(@PathParam("familyId") long familyId, SpouseRelationDTO spouse);
 
 	@DELETE
-	@Path("/add/child")
-	void removeChild(@QueryParam("parentId") long parentId, @QueryParam("childId") long childId);
+	@Path("/{familyId}/child")
+	void removeChild(@PathParam("familyId") long familyId, @QueryParam("childId") long childId);
 
 	@DELETE
-	@Path("/add/spouse")
-	void removeSpouse(@QueryParam("parentId") long mainId, @QueryParam("childId") long secondaryId);
+	@Path("/{familyId}/spouse")
+	void removeSpouse(@PathParam("familyId") long familyId, @QueryParam("spouseId") long spouseId);
 
 	@GET
 	List<FamilyInfoDTO> loadAllFamiliesInfo();
@@ -39,10 +38,10 @@ public interface FamilyController {
 	FamilyDTO createFamily(FamilyInfoDTO family);
 
 	@PUT
-	@Path("/{id}")
-	FamilyDTO updateFamilyInfo(FamilyDTO family);
+	@Path("/{familyId}")
+	FamilyDTO updateFamily(@PathParam("familyId") long familyId, FamilyInfoDTO family);
 
 	@DELETE
-	@Path("/{id}")
-	void delete(@PathParam("id") long id);
+	@Path("/{familyId}")
+	void delete(@PathParam("familyId") long familyId);
 }

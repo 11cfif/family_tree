@@ -12,7 +12,7 @@ public class FamilyInfo {
 	private final String description;
 	private final Person head;
 
-	public FamilyInfo(int id, String name, String description, Person head) {
+	public FamilyInfo(long id, String name, String description, Person head) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -40,5 +40,32 @@ public class FamilyInfo {
 
 	public Person getHead() {
 		return head;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		FamilyInfo other = (FamilyInfo)o;
+		if (id != other.id)
+			return false;
+		if (name != null ? !name.equals(other.name) : other.name != null)
+			return false;
+		if (description != null ? !description.equals(other.description) : other.description != null)
+			return false;
+		return head != null ? head.equals(other.head) : other.head == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = (int)(id ^ (id >>> 32));
+		result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = 31 * result + (description != null ? description.hashCode() : 0);
+		result = 31 * result + (head != null ? head.hashCode() : 0);
+		return result;
 	}
 }

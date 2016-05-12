@@ -1,38 +1,42 @@
 package ru.cfif.cs.familytree.managers.impl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import ru.cfif.cs.familytree.managers.PersonManager;
 import ru.cfif.cs.familytree.model.Person;
 
 public class InternalPersonManager implements PersonManager {
 
-	private final Map<Long, Person> map = new HashMap<>();
+	private final Map<Long, Person> personMap = new HashMap<>();
 
 	@Override
 	public List<Person> loadAllByFamilyIndex(long familyId) {
-		return new ArrayList<>(map.values());
+		return personMap.values()
+			.stream()
+			.filter(person -> person.getFamilyId() == familyId)
+			.collect(Collectors.toList());
 	}
 
 	@Override
 	public Optional<Person> load(long id) {
-		return Optional.of(map.get(id));
+		return Optional.of(personMap.get(id));
 	}
 
 	@Override
 	public Person create(Person person) {
 		System.out.println("CREATE!!!! " + person);
-		map.put(person.getId(), person);
+		personMap.put(person.getId(), person);
 		return person;
 	}
 
 	@Override
 	public Person update(Person person) {
-		return map.put(person.getId(), person);
+		return personMap.put(person.getId(), person);
 	}
 
 	@Override
 	public void delete(long id) {
-		map.remove(id);
+		personMap.remove(id);
 	}
 }

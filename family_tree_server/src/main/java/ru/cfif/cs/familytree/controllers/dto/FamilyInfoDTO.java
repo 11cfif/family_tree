@@ -47,4 +47,8 @@ public class FamilyInfoDTO {
 	public PersonDTO getHead() {
 		return head;
 	}
+
+	public FamilyInfo createFamilyInfo() {
+		return new FamilyInfo(id, name, description, head.createPerson(id));
+	}
 }

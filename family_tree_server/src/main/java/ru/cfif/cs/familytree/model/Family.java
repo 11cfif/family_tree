@@ -5,58 +5,91 @@ import java.util.*;
 public class Family {
 
 	private final FamilyInfo familyInfo;
-	private  Map<Person, List<Relation>> family;
+	private final List<Node> nodes;
+	private final List<Edge> edges;
 
-	public Family(FamilyInfo familyInfo, Map<Person, List<Relation>> family) {
+	public Family(FamilyInfo familyInfo, List<Node> nodes, List<Edge> edges) {
 		this.familyInfo = familyInfo;
-		this.family = family;
+		this.nodes = nodes;
+		this.edges = edges;
 	}
 
 	public Family(FamilyInfo familyInfo) {
 		this.familyInfo = familyInfo;
-//		family = new HashMap<>();
-//		family.put(head, new ArrayList<>());
+		this.nodes = new ArrayList<>();
+		this.edges = new ArrayList<>();
 	}
 
-	public void addRelation(Relation relation) {
-		List<Relation> list = family.get(relation.getMainPerson());
-		List<Relation> oppositeList = family.get(relation.getSecondaryPerson());
-		if (list == null)
-			throw new IllegalArgumentException();
-		int id = -Collections.binarySearch(list, relation) - 1;
-		list.add(id, relation);
-		Relation opposite = Relation.createOpositeRalation(relation);
-		if (oppositeList == null) {
-			oppositeList = new ArrayList<>();
-			family.put(opposite.getMainPerson(), oppositeList);
+	public FamilyInfo getFamilyInfo() {
+		return familyInfo;
+	}
+
+	public List<Node> getNodes() {
+		return nodes;
+	}
+
+	public List<Edge> getEdges() {
+		return edges;
+	}
+
+	public static class Node {
+		private final long id;
+		private final Person main;
+		private final List<Person> secondary;
+		private final List<Long> edges;
+
+		public Node(long id, Person main, List<Person> secondary, List<Long> edges) {
+			this.id = id;
+			this.main = main;
+			this.secondary = secondary;
+			this.edges = edges;
 		}
-		id = -Collections.binarySearch(oppositeList, opposite) - 1;
-		oppositeList.add(id, opposite);
+
+		public long getId() {
+			return id;
+		}
+
+		public Person getMain() {
+			return main;
+		}
+
+		public List<Person> getSecondary() {
+			return secondary;
+		}
+
+		public List<Long> getEdges() {
+			return edges;
+		}
 	}
 
-	public void removeRelation(Relation relation) {
-		List<Relation> list = family.get(relation.getMainPerson());
-		List<Relation> oppositeList = family.get(relation.getSecondaryPerson());
-		if (list == null || oppositeList == null)
-			throw new IllegalArgumentException();
-		int id = Collections.binarySearch(list, relation);
-		assert id >= 0;
-		list.remove(id);
-		removeOppositeRelation(relation, oppositeList);
-	}
 
-	public void removePerson(Person person) {
-		List<Relation> list = family.remove(person);
-		if (list == null)
-			throw new IllegalArgumentException();
-		for (Relation relation : list)
-			removeOppositeRelation(relation, family.get(relation.getSecondaryPerson()));
-	}
+	public static class Edge {
+		private final long id;
+		private final long from;
+		private final long to;
+		private final long parentId;
 
-	private void removeOppositeRelation(Relation relation, List<Relation> oppositeList) {
-		int id;
-		id = Collections.binarySearch(oppositeList, Relation.createOpositeRalation(relation)) ;
-		assert id >= 0;
-		oppositeList.remove(id);
+		public Edge(long id, long from, long to, ParentChildRelation relation) {
+			this.id = id;
+			this.from = from;
+			this.to = to;
+			this.parentId = relation.getSecondaryParentId();
+		}
+
+		public long getFrom() {
+			return from;
+		}
+
+		public long getTo() {
+			return to;
+		}
+
+		public long getParentId() {
+			return parentId;
+		}
+
+		public long getId() {
+			return id;
+		}
 	}
 }

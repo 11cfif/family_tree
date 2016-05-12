@@ -15,4 +15,7 @@
 	<bean id="personController" class="ru.cfif.cs.familytree.controllers.impl.PersonControllerImpl">
 		<property name="personManager" ref="personManager"/>
 	</bean>
+	<bean id="familyController" class="ru.cfif.cs.familytree.controllers.impl.FamilyControllerImpl">
+		<property name="familyManager" ref="familyManager"/>
+	</bean>
 </beans>
