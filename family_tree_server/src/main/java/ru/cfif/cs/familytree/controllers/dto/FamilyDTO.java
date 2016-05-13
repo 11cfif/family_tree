@@ -1,7 +1,7 @@
 package ru.cfif.cs.familytree.controllers.dto;
 
 import com.fasterxml.jackson.annotation.*;
-import ru.cfif.cs.familytree.model.Family;
+import ru.cfif.cs.familytree.model.family.*;
 
 public class FamilyDTO {
 
@@ -41,33 +41,22 @@ public class FamilyDTO {
 		return edges;
 	}
 
-	class NodeDTO {
+	private class NodeDTO {
 		private final long id;
-		private final PersonDTO main;
-		private final PersonDTO[] secondary;
-		private final Long[] edges;
+		private final PersonDTO descendant;
+		private final PersonDTO[] spouses;
+		private final Long[] childRelations;
+		private final String[] spouseDescriptions;
 
-		@JsonCreator
-		public NodeDTO(
-			@JsonProperty("id") long id,
-			@JsonProperty("main") PersonDTO main,
-			@JsonProperty("secondary") PersonDTO[] secondary,
-			@JsonProperty("edges") Long[] edges)
-		{
-			this.id = id;
-			this.main = main;
-			this.secondary = secondary;
-			this.edges = edges;
-		}
-
-		NodeDTO(Family.FamilyTreeNode node) {
+		NodeDTO(FamilyTreeNode node) {
 			this.id = node.getId();
-			this.main = new PersonDTO(node.getDescendant());
-			this.secondary = node.getSpouses()
+			this.descendant = new PersonDTO(node.getDescendant());
+			this.spouses = node.getSpouses()
 				.stream()
 				.map(PersonDTO::new)
 				.toArray(PersonDTO[]::new);
-			this.edges = node.getChildRelationIndexes().stream().toArray(Long[]::new);
+			this.childRelations = node.getChildRelationIndexes().stream().toArray(Long[]::new);
+			this.spouseDescriptions = node.getSpouseDescriptions().stream().toArray(String[]::new);
 		}
 
 		@JsonGetter
@@ -76,45 +65,44 @@ public class FamilyDTO {
 		}
 
 		@JsonGetter
-		public PersonDTO getMain() {
-			return main;
+		public PersonDTO getDescendant() {
+			return descendant;
 		}
 
 		@JsonGetter
-		public PersonDTO[] getSecondary() {
-			return secondary;
+		public PersonDTO[] getSpouses() {
+			return spouses;
 		}
 
 		@JsonGetter
-		public Long[] getEdges() {
-			return edges;
+		public Long[] getChildRelation() {
+			return childRelations;
+		}
+
+		@JsonGetter
+		public String[] getSpouseDescriptions() {
+			return spouseDescriptions;
 		}
 	}
 
-	class EdgeDTO {
+	private class EdgeDTO {
 		private final long id;
 		private final long from;
 		private final long to;
 		private final long parentId;
+		private final String description;
 
-		@JsonCreator
-		public EdgeDTO(
-			@JsonProperty("id") long id,
-			@JsonProperty("from") long from,
-			@JsonProperty("to") long to,
-			@JsonProperty("parentId") long parentId)
-		{
-			this.id = id;
-			this.from = from;
-			this.to = to;
-			this.parentId = parentId;
+		EdgeDTO(ChildRelation relation) {
+			this.id = relation.getId();
+			this.from = relation.getParentNode();
+			this.to = relation.getChildNode();
+			this.parentId = relation.getParentId();
+			this.description = relation.getDescription();
 		}
 
-		EdgeDTO(Family.ChildRelation edge) {
-			this.id = edge.getId();
-			this.from = edge.getParentNode();
-			this.to = edge.getChildNode();
-			this.parentId = edge.getParentId();
+		@JsonGetter
+		public long getId() {
+			return id;
 		}
 
 		@JsonGetter
@@ -130,6 +118,11 @@ public class FamilyDTO {
 		@JsonGetter
 		public long getParentId() {
 			return parentId;
+		}
+
+		@JsonGetter
+		public String getDescription() {
+			return description;
 		}
 	}
 }

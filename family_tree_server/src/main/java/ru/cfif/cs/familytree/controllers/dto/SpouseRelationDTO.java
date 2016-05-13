@@ -25,27 +25,22 @@ public class SpouseRelationDTO {
 		this.spouse = spouse;
 	}
 
-	@JsonGetter
 	public long getSpouseId() {
 		return spouseId;
 	}
 
-	@JsonGetter
 	public String getDescription() {
 		return description;
 	}
 
-	@JsonGetter
 	public String getStartDate() {
 		return startDate;
 	}
 
-	@JsonGetter
 	public String getFinishDate() {
 		return finishDate;
 	}
 
-	@JsonGetter
 	public PersonDTO getSpouse() {
 		return spouse;
 	}

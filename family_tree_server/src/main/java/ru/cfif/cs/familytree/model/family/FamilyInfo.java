@@ -1,8 +1,10 @@
-package ru.cfif.cs.familytree.model;
+package ru.cfif.cs.familytree.model.family;
+
+import ru.cfif.cs.familytree.model.Person;
 
 public class FamilyInfo {
 
-	public static final long FAKE_ID = -1;
+	private static final long FAKE_ID = -1;
 
 	private final long id;
 	private final String name;
@@ -38,4 +40,5 @@ public class FamilyInfo {
 	public Person getHead() {
 		return head;
 	}
+
 }

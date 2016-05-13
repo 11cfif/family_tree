@@ -3,8 +3,9 @@ package ru.cfif.cs.familytree.managers;
 import java.util.List;
 import java.util.Optional;
 
-import ru.cfif.cs.familytree.controllers.dto.FamilyInfoDTO;
-import ru.cfif.cs.familytree.model.*;
+import ru.cfif.cs.familytree.model.Person;
+import ru.cfif.cs.familytree.model.family.Family;
+import ru.cfif.cs.familytree.model.family.FamilyInfo;
 
 public interface FamilyManager {
 
@@ -16,7 +17,8 @@ public interface FamilyManager {
 
 	void removeFamily(long familyId);
 
-	void addSpouse(long familyId, long spouseId, Person spouse, String description, String start, String finish);
+	void addSpouse(long familyId, long mainId, Person spouse, String dateStartRelation, String dateFinishRelation,
+		String description);
 
 	void removeSpouse(long familyId, long spouseID);
 
@@ -24,6 +26,6 @@ public interface FamilyManager {
 
 	void removeChild(long familyId, long childId);
 
-	List<FamilyInfoDTO> loadAllFamiliesInfo();
+	List<FamilyInfo> loadAllFamiliesInfo();
 
 }

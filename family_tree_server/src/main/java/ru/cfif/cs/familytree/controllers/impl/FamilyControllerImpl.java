@@ -2,14 +2,15 @@ package ru.cfif.cs.familytree.controllers.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.ws.rs.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Required;
 import ru.cfif.cs.familytree.controllers.FamilyController;
 import ru.cfif.cs.familytree.controllers.dto.*;
 import ru.cfif.cs.familytree.managers.FamilyManager;
-import ru.cfif.cs.familytree.model.Family;
-import ru.cfif.cs.familytree.model.Person;
+import ru.cfif.cs.familytree.model.*;
+import ru.cfif.cs.familytree.model.family.Family;
 
 public class FamilyControllerImpl implements FamilyController {
 
@@ -34,8 +35,8 @@ public class FamilyControllerImpl implements FamilyController {
 	@Override
 	public void addSpouse(long familyId, SpouseRelationDTO spouse) {
 		Person personSpouse = spouse.getSpouse().createPerson(familyId);
-		familyManager.addSpouse(familyId, spouse.getSpouseId(), personSpouse, spouse.getDescription(),
-			spouse.getStartDate(), spouse.getFinishDate());
+		familyManager.addSpouse(familyId, spouse.getSpouseId(), personSpouse, spouse.getStartDate(), spouse.getFinishDate(), spouse.getDescription()
+		);
 	}
 
 	@Override
@@ -51,7 +52,9 @@ public class FamilyControllerImpl implements FamilyController {
 
 	@Override
 	public List<FamilyInfoDTO> loadAllFamiliesInfo() {
-		return familyManager.loadAllFamiliesInfo();
+		return familyManager.loadAllFamiliesInfo().stream()
+			.map(FamilyInfoDTO::new)
+			.collect(Collectors.toList());
 	}
 
 	@Override

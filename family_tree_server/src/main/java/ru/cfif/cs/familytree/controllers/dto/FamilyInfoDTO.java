@@ -1,7 +1,7 @@
 package ru.cfif.cs.familytree.controllers.dto;
 
 import com.fasterxml.jackson.annotation.*;
-import ru.cfif.cs.familytree.model.FamilyInfo;
+import ru.cfif.cs.familytree.model.family.FamilyInfo;
 
 public class FamilyInfoDTO {
 
@@ -52,6 +52,6 @@ public class FamilyInfoDTO {
 	}
 
 	public FamilyInfo createFamilyInfo() {
-		return new FamilyInfo(id, name, description, head.createPerson(id));
+		return new FamilyInfo(name, description, head.createPerson(id));
 	}
 }

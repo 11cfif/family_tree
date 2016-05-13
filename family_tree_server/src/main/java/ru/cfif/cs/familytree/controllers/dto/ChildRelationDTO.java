@@ -22,22 +22,18 @@ public class ChildRelationDTO {
 		this.child = child;
 	}
 
-	@JsonGetter
 	public long getMainId() {
 		return mainId;
 	}
 
-	@JsonGetter
 	public long getSecondaryId() {
 		return secondaryId;
 	}
 
-	@JsonGetter
 	public String getDescription() {
 		return description;
 	}
 
-	@JsonGetter
 	public PersonDTO getChild() {
 		return child;
 	}
