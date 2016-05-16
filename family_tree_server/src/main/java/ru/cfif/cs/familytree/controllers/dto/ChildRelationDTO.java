@@ -37,4 +37,14 @@ public class ChildRelationDTO {
 	public PersonDTO getChild() {
 		return child;
 	}
+
+	@Override
+	public String toString() {
+		return "ChildRelationDTO{" +
+			"mainId=" + mainId +
+			", secondaryId=" + secondaryId +
+			", description='" + description + '\'' +
+			", child=" + child +
+			'}';
+	}
 }

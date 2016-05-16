@@ -13,8 +13,8 @@ public class Person {
 	private final String birthday;
 	private final String deathday;
 
-	public Person(long familyId, String name, String surname, String birthday, String deathday) {
-		this.id = FAKE_ID;
+	public Person(long id, long familyId, String name, String surname, String birthday, String deathday) {
+		this.id = id;
 		this.familyId = familyId;
 		this.name = name;
 		this.surname = surname;

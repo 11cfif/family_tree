@@ -18,13 +18,8 @@ public class Family {
 	public Family(FamilyInfo familyInfo) {
 		this.familyInfo = familyInfo;
 		this.nodes = new ArrayList<>();
+		nodes.add(new FamilyTreeNode.Builder(0, familyInfo.getHead()).build());
 		this.relations = new ArrayList<>();
-	}
-
-	public Family(FamilyInfo familyInfo, Family family) {
-		this.familyInfo = familyInfo;
-		this.nodes = new ArrayList<>(family.getNodes());
-		this.relations = new ArrayList<>(family.getRelations());
 	}
 
 	public FamilyInfo getFamilyInfo() {

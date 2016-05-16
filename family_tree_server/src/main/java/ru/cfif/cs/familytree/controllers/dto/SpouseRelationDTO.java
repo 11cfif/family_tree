@@ -44,4 +44,15 @@ public class SpouseRelationDTO {
 	public PersonDTO getSpouse() {
 		return spouse;
 	}
+
+	@Override
+	public String toString() {
+		return "SpouseRelationDTO{" +
+			"spouseId=" + spouseId +
+			", startDate='" + startDate + '\'' +
+			", finishDate='" + finishDate + '\'' +
+			", description='" + description + '\'' +
+			", spouse=" + spouse +
+			'}';
+	}
 }

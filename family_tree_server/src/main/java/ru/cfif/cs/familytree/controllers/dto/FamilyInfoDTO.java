@@ -54,4 +54,14 @@ public class FamilyInfoDTO {
 	public FamilyInfo createFamilyInfo() {
 		return new FamilyInfo(name, description, head.createPerson(id));
 	}
+
+	@Override
+	public String toString() {
+		return "FamilyInfoDTO{" +
+			"id=" + id +
+			", name='" + name + '\'' +
+			", description='" + description + '\'' +
+			", head=" + head +
+			'}';
+	}
 }

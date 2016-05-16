@@ -59,7 +59,10 @@ public class FamilyControllerImpl implements FamilyController {
 
 	@Override
 	public FamilyDTO createFamily(FamilyInfoDTO family) {
-		return new FamilyDTO(familyManager.createFamily(family.createFamilyInfo()));
+		System.out.println("Inner: " + family);
+		FamilyDTO res = new FamilyDTO(familyManager.createFamily(family.createFamilyInfo()));
+		System.out.println("Outer: " + res);
+		return res;
 	}
 
 	@Override

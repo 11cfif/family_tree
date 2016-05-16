@@ -10,3 +10,20 @@ export const CREATE_FAMILY = 'CREATE_FAMILY';
 export const CREATE_PERSON = 'CREATE_PERSON';
 export const SELECT_PERSON = 'SELECT_PERSON';
 
+
+
+export const customStyles = {
+	content : {
+		top                   : '50%',
+		left                  : '50%',
+		right                 : 'auto',
+		bottom                : 'auto',
+		marginRight           : '-50%',
+		transform             : 'translate(-50%, -50%)'
+	}
+};
+
+export const PERSON_MODAL = 'PERSON_MODAL';
+export const NODE_MODAL = 'NODE_MODAL';
+export const FAMILY_MODAL = 'FAMILY_MODAL';
+export const NONE_MODAL = 'NONE_MODAL';

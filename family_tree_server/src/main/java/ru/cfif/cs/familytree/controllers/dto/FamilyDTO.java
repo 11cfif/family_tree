@@ -1,34 +1,36 @@
 package ru.cfif.cs.familytree.controllers.dto;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.*;
 import ru.cfif.cs.familytree.model.family.*;
 
 public class FamilyDTO {
 
-	private final FamilyInfoDTO familyInfoDTO;
+	private final FamilyInfoDTO familyInfo;
 	private final NodeDTO[] nodes;
 	private final EdgeDTO[] edges;
 
 	@JsonCreator
 	public FamilyDTO(
-		@JsonProperty("familyInfo") FamilyInfoDTO familyInfoDTO,
+		@JsonProperty("familyInfo") FamilyInfoDTO familyInfo,
 		@JsonProperty("nodes") NodeDTO[] nodes,
 		@JsonProperty("edges") EdgeDTO[] edges)
 	{
-		this.familyInfoDTO = familyInfoDTO;
+		this.familyInfo = familyInfo;
 		this.nodes = nodes;
 		this.edges = edges;
 	}
 
 	public FamilyDTO(Family family) {
-		this.familyInfoDTO = new FamilyInfoDTO(family.getFamilyInfo());
+		this.familyInfo = new FamilyInfoDTO(family.getFamilyInfo());
 		this.nodes = family.getNodes().stream().map(NodeDTO::new).toArray(NodeDTO[]::new);
 		this.edges = family.getRelations().stream().map(EdgeDTO::new).toArray(EdgeDTO[]::new);
 	}
 
 	@JsonGetter
-	public FamilyInfoDTO getFamilyInfoDTO() {
-		return familyInfoDTO;
+	public FamilyInfoDTO getFamilyInfo() {
+		return familyInfo;
 	}
 
 	@JsonGetter
@@ -39,6 +41,15 @@ public class FamilyDTO {
 	@JsonGetter
 	public EdgeDTO[] getEdges() {
 		return edges;
+	}
+
+	@Override
+	public String toString() {
+		return "FamilyDTO{" +
+			"familyInfo=" + familyInfo +
+			", nodes=" + Arrays.toString(nodes) +
+			", edges=" + Arrays.toString(edges) +
+			'}';
 	}
 
 	private class NodeDTO {
@@ -83,6 +94,17 @@ public class FamilyDTO {
 		public String[] getSpouseDescriptions() {
 			return spouseDescriptions;
 		}
+
+		@Override
+		public String toString() {
+			return "NodeDTO{" +
+				"id=" + id +
+				", descendant=" + descendant +
+				", spouses=" + Arrays.toString(spouses) +
+				", childRelations=" + Arrays.toString(childRelations) +
+				", spouseDescriptions=" + Arrays.toString(spouseDescriptions) +
+				'}';
+		}
 	}
 
 	private class EdgeDTO {
@@ -123,6 +145,17 @@ public class FamilyDTO {
 		@JsonGetter
 		public String getDescription() {
 			return description;
+		}
+
+		@Override
+		public String toString() {
+			return "EdgeDTO{" +
+				"id=" + id +
+				", from=" + from +
+				", to=" + to +
+				", parentId=" + parentId +
+				", description='" + description + '\'' +
+				'}';
 		}
 	}
 }

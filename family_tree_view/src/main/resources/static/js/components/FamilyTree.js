@@ -52,7 +52,6 @@ class FamilyTree extends Component {
 }
 
 FamilyTree.propTypes = {
-	isEmpty: PropTypes.bool.isRequired,
 	activeNodeId: PropTypes.number.isRequired,
 	nodes: PropTypes.arrayOf(PropTypes.instanceOf(Node).isRequired).isRequired,
 	edges: PropTypes.arrayOf(PropTypes.instanceOf(Edge).isRequired).isRequired,

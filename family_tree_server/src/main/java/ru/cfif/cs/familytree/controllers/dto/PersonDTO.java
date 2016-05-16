@@ -11,7 +11,6 @@ public class PersonDTO {
 	private final String birthday;
 	private final String deathday;
 
-
 	@JsonCreator
 	public PersonDTO(
 		@JsonProperty("id") long id,
@@ -61,6 +60,17 @@ public class PersonDTO {
 	}
 
 	public Person createPerson(long familyId) {
-		return new Person(familyId, name, surname, birthday, deathday);
+		return new Person(id, familyId, name, surname, birthday, deathday);
+	}
+
+	@Override
+	public String toString() {
+		return "PersonDTO{" +
+			"id=" + id +
+			", name='" + name + '\'' +
+			", surname='" + surname + '\'' +
+			", birthday='" + birthday + '\'' +
+			", deathday='" + deathday + '\'' +
+			'}';
 	}
 }

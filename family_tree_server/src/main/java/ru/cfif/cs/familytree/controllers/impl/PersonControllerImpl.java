@@ -27,8 +27,9 @@ public class PersonControllerImpl implements PersonController {
 	}
 
 	@Override
-	public PersonDTO update(PersonDTO person) {
-		return new PersonDTO(personManager.update(new Person(person.getId(), person.getName(), person.getSurname(), person.getBirthday(), person.getDeathday())));
+	public PersonDTO update(long familyId, PersonDTO person) {
+		return new PersonDTO(personManager.update(new Person(person.getId(), familyId,
+			person.getName(), person.getSurname(), person.getBirthday(), person.getDeathday())));
 	}
 
 	@Required

@@ -4,8 +4,6 @@ import {
 	CREATE_FAMILY, CREATE_PERSON, SELECT_PERSON
 } from '../constants/Modal'
 
-import Person from '../objects/Person'
-
 export function createFamilyModal() {
 	return {
 		type: CREATE_FAMILY_MODAL
@@ -38,19 +36,19 @@ export function closePersonModal() {
 	}
 }
 
-export function createFamily(familyName, description) {
+export function createFamily(familyInfo) {
 	return {
 		type: CREATE_FAMILY,
-		familyName,
-		description
+		familyInfo
 	}
 }
 
-export function createPerson(name, surname, birthday, deathday, relationType) {
+export function createPerson(person, relationType, description) {
 	return {
 		type: CREATE_PERSON,
-		person: new Person(name, surname, birthday, deathday),
-		relationType
+		person: person,
+		relationType,
+		description
 	}
 }
 

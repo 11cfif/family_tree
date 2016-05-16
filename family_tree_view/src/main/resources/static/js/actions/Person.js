@@ -33,7 +33,7 @@ export function invalidatePerson(error) {
 function receivePerson(json) {
 	return {
 		type: RESPONSE_PERSON,
-		family: json
+		person: json
 	}
 }
 

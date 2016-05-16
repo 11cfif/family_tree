@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
 import {createFamilyModal, closeFamilyModal, createFamily} from '../actions/Modal'
-import MenuButton from '../components/MenuItem'
+import MenuItem from '../components/MenuItem'
 import Modal from 'react-modal';
+import FamilyInfo from '../objects/FamilyInfo';
 import {
 	FIRST_BUTTON, SECOND_BUTTON, THIRD_BUTTON
 } from '../constants/LeftMenu'
@@ -36,7 +37,7 @@ export function closeModal() {
 
 export function createFam(name, description) {
 	return (dispatch) => {
-		dispatch(createFamily(name, description))
+		dispatch(createFamily(new FamilyInfo(name, description, null)))
 	}
 }
 
@@ -47,37 +48,43 @@ class LeftMenu extends Component {
 		const {modalIsOpen, createModal, closeModal, createFam} = this.props;
 		return (
 			<div>
-				<nav >
-					<ul className='LMenu'>
-						<MenuButton text={FIRST_BUTTON} onClick={() => createModal()}/>
-						<MenuButton text={SECOND_BUTTON} onClick={() => console.log('second button')}/>
-						<MenuButton text={THIRD_BUTTON} onClick={() => console.log('second button')}/>
-					</ul>
-				</nav>
+				<ul className='nav'>
+					<MenuItem text={FIRST_BUTTON} onClick={() => createModal()}/>
+					<MenuItem text={SECOND_BUTTON} onClick={() => console.log('second button')}/>
+					<MenuItem text={THIRD_BUTTON} onClick={() => console.log('second button')}/>
+				</ul>
 				<Modal
 					isOpen={modalIsOpen}
 					onAfterOpen={afterOpenModal}
 					onRequestClose={close}
 					style={customStyles}
 				>
-
-					<h2 ref='subtitle'>Hello</h2>
-					<button onClick={closeModal}>close</button>
-					<div>I am a modal</div>
-
-					<form onSubmit={e => {
-					 e.preventDefault();
-					createFam(name.value, description.value);
-					closeModal()
-				}}>
-						<ul>
-							<li><input placeholder='Введите название семьи'
-							           ref={node1 => {name = node1}}/></li>
-							<li><input placeholder='Введите описание семьи'
-							           ref={node2 => {description = node2}}/></li>
-							<button type='submit'>Создать</button>
-						</ul>
-					</form>
+					<div className='modal'>
+						<h2 ref='subtitle'>Введите описание семьи:</h2>
+						<div>Пожалуйста, введите название семьи и её краткое описание.</div>
+						<form onSubmit={e => {
+							e.preventDefault();
+							createFam(name.value, description.value);
+							closeModal()
+						}}>
+							<ul>
+								<li className='inputLi'>
+									<label>Название:</label>
+									<input placeholder='Семья Ивановых'
+									       ref={node1 => {name = node1}}/>
+								</li>
+								<li className='inputLi'>
+									<label>Описание:</label>
+									<input placeholder='Семья по отцовской линии'
+									       ref={node2 => {description = node2}}/>
+								</li>
+								<li className='buttonLi'>
+									<button className='submitBut' type='submit'>Создать</button>
+									<button className='closeBut' onClick={closeModal}>Отмена</button>
+								</li>
+							</ul>
+						</form>
+					</div>
 				</Modal>
 			</div>
 		);

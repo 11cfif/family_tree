@@ -13,6 +13,8 @@ public interface PersonManager {
 
 	Person create(Person person);
 
+	Person create(long familyId, Person person);
+
 	Person update(Person person);
 
 	void delete(long id);

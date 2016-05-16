@@ -1,25 +1,105 @@
-.LMenu {
-  width: 30%;
-  background-color: #46c8db;
-  padding: 0;
-  border: 2px solid #0036c7;
+body {
+  font-family:Arial,Verdana,sans-serif;
+  font-size:0.75em;
+  color:#333;
+  width:960px;
+  margin:0 auto;
+  padding:10px;
 }
 
-.LBut {
+
+.nav {
+  float:left;
+  width:100%;
+  list-style: none;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.nav li {
+  float:left;
+  margin-right: 10px;
+  position: relative;
+  display: block;
+}
+
+.nav li a {
+  display: block;
   padding: 5px;
-  background-color: #46c8db;
-  border-bottom: 1px solid #0036c7;
+  color: #fff;
+  background: #333;
+  text-decoration: none;
+
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.75);
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.nav li a:hover {
+  color: #fff;
+  background: #6b0c36;
+  background: rgba(107, 12, 54, 0.75);
+  text-decoration: underline;
+}
+
+.modal {
 
 }
 
+.modal ul {
+  list-style: none;
+  margin-top: 0.2em;
+}
 
-.LMenu .LBut:last-child {
-  border-bottom: none;
+.modal li {
+  padding: 0;
+}
+.modal .inputLi {
+  position: inherit;
+}
+
+.modal .buttonLi {
+  position: inherit;
+}
+
+.modal .inputLi label {
+  display: inline-block;
+  /*position: absolute;*/
+  /*left: 5%;*/
+  /*margin-left: -14%;*/
+  /*margin-top: 1%;*/
+  width: 120px;
+  text-align: left
+}
+
+
+
+.modal .inputLi input {
+  display: inline-block;
+
+  /*position: absolute;*/
+  /*right: 5%;*/
+  padding: 2px;
+  border: 1px solid;
+  border-color: #999 #ccc #ccc;
+  border-radius: 2px
+}
+
+.modal .buttonLi .submitBut {
+  display: inline-block;
+  /*position: absolute;*/
+  /*left: 10%;*/
+}
+
+.modal .buttonLi .closeBut {
+  position: absolute;
+  right: 10%;
 }
 
 .tree {
-  width: 600px;
-  height: 600px;
+  width: 1200px;
+  height: 800px;
   border: 1px solid lightgray;
 }
 

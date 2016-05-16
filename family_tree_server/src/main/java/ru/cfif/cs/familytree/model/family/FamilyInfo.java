@@ -18,11 +18,11 @@ public class FamilyInfo {
 		this.head = head;
 	}
 
-	public FamilyInfo(long id, FamilyInfo familyInfo) {
+	public FamilyInfo(long id, String name, String description, Person head) {
 		this.id = id;
-		this.name = familyInfo.getName();
-		this.description = familyInfo.getDescription();
-		this.head = familyInfo.getHead();
+		this.name = name;
+		this.description = description;
+		this.head = head;
 	}
 
 	public long getId() {

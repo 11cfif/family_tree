@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react'
 
 const MenuItem = ({text, onClick}) => (
-	<li className='LBut' onClick = {() => onClick(text)}>
-		{text}
+	<li onClick = {() => onClick(text)}>
+		<a href='#'>{text}</a>
 	</li>
 );
 

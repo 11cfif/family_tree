@@ -25,8 +25,10 @@ public class InternalFamilyManager implements FamilyManager {
 
 	@Override
 	public Family createFamily(FamilyInfo familyInfo) {
-		personManager.create(familyInfo.getHead());
-		FamilyInfo familyInfoWithId = new FamilyInfo(COUNTER.getAndIncrement(), familyInfo);
+		long familyId = COUNTER.getAndIncrement();
+		Person head = personManager.create(familyId, familyInfo.getHead());
+		FamilyInfo familyInfoWithId = new FamilyInfo(familyId,
+			familyInfo.getName(), familyInfo.getDescription(), head);
 		familyInfoMap.put(familyInfoWithId.getId(), familyInfoWithId);
 		childRelationMap.put(familyInfo.getId(), new ArrayList<>());
 		spouseRelationMap.put(familyInfo.getId(), new ArrayList<>());

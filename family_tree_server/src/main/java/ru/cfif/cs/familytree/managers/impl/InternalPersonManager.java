@@ -33,6 +33,15 @@ public class InternalPersonManager implements PersonManager {
 	}
 
 	@Override
+	public Person create(long familyId, Person person) {
+		Person personWithId = new Person(COUNTER.getAndIncrement(), familyId,
+			person.getName(), person.getSurname(), person.getBirthday(), person.getDeathday());
+		personMap.put(personWithId.getId(), personWithId);
+		return personWithId;
+	}
+
+
+	@Override
 	public Person update(Person person) {
 		return personMap.put(person.getId(), person);
 	}

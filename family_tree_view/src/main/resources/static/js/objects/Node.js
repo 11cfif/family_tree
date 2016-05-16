@@ -1,35 +1,39 @@
-var count = -1;
+import {createPerson} from './Person'
+
+const FAKE = -1;
 
 class Node {
-	constructor(main, secondary, edgeIds) {
-		this.id = ++count;
-		this.main = main;
-		this.secondary = secondary;
+	constructor(descendant, spouses, spouseDescriptions, edgeIds, id) {
+		this.id = id ? FAKE : id;
+		this.descendant = descendant;
+		this.spouses = spouses;
 		this.shape = 'box';
-		this.secondaryId = secondary.length == 0 ? -1 : 0;
+		this.spouseId = spouses.length == 0 ? -1 : 0;
 		this.edgeIds = edgeIds;
-		this.label = createLabel(this.main, this.secondary[this.secondaryId]);
+		this.label = createLabel(this.descendant, this.spouseId < 0 ? null : this.spouses[this.spouseId]);
+		this.spouseDescriptions = []
 	}
 	
-	addSecondaryPerson(person) {
-		this.secondary.push(person);
-		if (this.secondary.length == 1) {
-			this.secondaryId = 0;
-			this.label = createLabel(this.main, this.secondary[this.secondaryId])
+	addSpouse(spouse, description) {
+		this.spouses.push(spouse);
+		this.spouseDescriptions.push(description);
+		if (this.spouses.length == 1) {
+			this.spouseId = 0;
+			this.label = createLabel(this.descendant, this.spouses[this.spouseId])
 		}
 	}
 	
 	addEdge(edgeId, edge) {
 		this.edgeIds.push(edgeId);
-		edge.dashes = edge.parentId != this.secondaryId;
+		edge.dashes = edge.parentId != this.spouseId;
 	}
 	
-	setSecondaryId(id, edges) {
-		this.secondaryId = id;
+	setSpouseId(id, edges) {
+		this.spouseId = id;
 		for (let i = 0; i < this.edgeIds.length; i++) {
 			edges[this.edgeIds[i]].dashes = edges[this.edgeIds[i]].parentId != id;
 		}
-		this.label = createLabel(this.main, this.secondary[id])
+		this.label = createLabel(this.descendant, this.spouses[id])
 	}
 }
 
@@ -41,3 +45,12 @@ let createLabel = (p1, p2) => {
 		return res;
 	return res + '\n' + p2.surname + ' ' + p2.name +' (' + p2.birthday + ' - ' + p2.deathday + ')'
 };
+
+export function createNode(node) {
+	console.log('create Node ' + JSON.stringify(node, null, 2));
+	let spouses  = [];
+	for (var i = 0; i < node.spouses.length; i++) {
+		spouses[i] = createPerson(node.spouses[i]);
+	}
+	return new Node(createPerson(node.descendant), spouses, node.spouseDescriptions, node.childRelation, node.id);
+}

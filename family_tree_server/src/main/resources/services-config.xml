@@ -8,6 +8,7 @@
 		<property name="serviceBeans">
 			<list>
 				<ref bean="personController"/>
+				<ref bean="familyController"/>
 			</list>
 		</property>
 	</bean>
