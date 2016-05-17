@@ -1,12 +1,13 @@
 import {
-	CREATE_FAMILY_MODAL, CREATE_PERSON_CREATOR_MODAL, CREATE_PERSON_SELECTOR_MODAL, 
-	CLOSE_FAMILY_MODAL, CLOSE_PERSON_MODAL, 
-	CREATE_FAMILY, CREATE_PERSON, SELECT_PERSON
+	CREATE_FAMILY_INFO_MODAL, CREATE_PERSON_CREATOR_MODAL, CREATE_PERSON_SELECTOR_MODAL, 
+	CLOSE_FAMILY_MODAL, CLOSE_PERSON_MODAL, CLOSE_MODAL, PERSON_MODAL,
+	CREATE_FAMILY_HEAD_MODAL, CREATE_PERSON, SELECT_PERSON, FAMILY_INFO_MODAL
 } from '../constants/Modal'
 
 export function createFamilyModal() {
 	return {
-		type: CREATE_FAMILY_MODAL
+		type: CREATE_FAMILY_INFO_MODAL,
+		modalType: FAMILY_INFO_MODAL
 	}
 }
 
@@ -36,10 +37,19 @@ export function closePersonModal() {
 	}
 }
 
-export function createFamily(familyInfo) {
+export function createFamilyHeadModal(familyInfo) {
 	return {
-		type: CREATE_FAMILY,
+		type: CREATE_FAMILY_HEAD_MODAL,
+		modalType: PERSON_MODAL,
 		familyInfo
+	}
+}
+
+
+
+export function closeModal() {
+	return {
+		type: CLOSE_MODAL
 	}
 }
 

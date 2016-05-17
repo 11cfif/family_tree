@@ -2,7 +2,7 @@
 // 	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON
 // } from '../constants/Adding'
 import {
-	CREATE_FAMILY, CREATE_PERSON, SELECT_PERSON,
+	CREATE_FAMILY_HEAD_MODAL, CREATE_PERSON, SELECT_PERSON,
 	CREATE_PERSON_CREATOR_MODAL, CREATE_PERSON_SELECTOR_MODAL, 
 	CLOSE_PERSON_MODAL
 } from '../constants/Modal'
@@ -142,7 +142,7 @@ const family = (state = initialState, action) => {
 			personCreatorIsOpen: false,
 			personSelectorIsOpen: false
 		});
-	case CREATE_FAMILY:
+	case CREATE_FAMILY_HEAD_MODAL:
 		return Object.assign({}, state, {
 			isCreated: true,
 			familyInfo: action.familyInfo
