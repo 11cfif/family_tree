@@ -3,14 +3,14 @@ import {createPerson} from './Person'
 const FAKE = -1;
 
 class Node {
-	constructor(id, spouseId, descendant, spouses, spouseDescriptions, edgeIds) {
+	constructor(id, spouseId, descendant, spouses, spouseDescriptions, childRelations) {
 
 		this.id = id;
 		this.descendant = descendant;
 		this.spouses = spouses;
 		this.shape = 'box';
 		this.spouseId = spouses.length == 0 ? FAKE : (spouseId === FAKE ? 0 : spouseId);
-		this.edgeIds = edgeIds;
+		this.childRelations = childRelations;
 		this.label = createLabel(this.descendant, this.spouseId < 0 ? null : this.spouses[this.spouseId]);
 		this.spouseDescriptions = []
 	}
@@ -28,8 +28,12 @@ class Node {
 	}
 	
 	addEdge(edgeId, edge) {
-		this.edgeIds.push(edgeId);
+		this.childRelations.push(edgeId);
 		edge.dashes = edge.parentId != this.spouseId;
+	}
+
+	getSpousesFullName() {
+		return this.descendant.getFullName() + ' и ' + this.getSpouse().getFullName();
 	}
 }
 
@@ -49,7 +53,7 @@ export function createNode(node, person) {
 	}
 	if (person) {
 		if (person.id == node.descendant.id) {
-			return new Node(node.id, node.spouseId, person, spouses, node.spouseDescriptions, node.edgeIds);
+			return new Node(node.id, node.spouseId, person, spouses, node.spouseDescriptions, node.childRelations);
 		} else {
 			for (i = 0; i < node.spouses.length; i++) {
 				if (node.spouses[i].id == person.id) {
@@ -63,9 +67,9 @@ export function createNode(node, person) {
 				return person;
 			else
 				return per;
-		}), node.spouseDescriptions, node.edgeIds);
+		}), node.spouseDescriptions, node.childRelations);
 	} else {
-		return new Node( node.id, node.spouseId, createPerson(node.descendant), spouses, node.spouseDescriptions, node.edgeIds);
+		return new Node(node.id, node.spouseId, createPerson(node.descendant), spouses, node.spouseDescriptions, node.childRelations);
 	}
 }
 
@@ -75,5 +79,5 @@ export function addSpouse(node, spouse) {
 		spouses[i] = createPerson(node.spouses[i]);
 	}
 	spouses[i] = createPerson(spouse);
-	return new Node(node.id, node.spouseId, createPerson(node.descendant), spouses, node.spouseDescriptions, node.edgeIds);
+	return new Node(node.id, node.spouseId, createPerson(node.descendant), spouses, node.spouseDescriptions, node.childRelations);
 }

@@ -4,30 +4,30 @@ import com.fasterxml.jackson.annotation.*;
 
 public class ChildRelationDTO {
 
-	private final long mainId;
-	private final long secondaryId;
+	private final long descendantId;
+	private final long spouseId;
 	private final String description;
 	private final PersonDTO child;
 
 	@JsonCreator
 	public ChildRelationDTO(
-		@JsonProperty("mainId") long mainId,
-		@JsonProperty("secondaryId") long secondaryId,
+		@JsonProperty("descendantId") long descendantId,
+		@JsonProperty("spouseId") long spouseId,
 		@JsonProperty("description") String description,
 		@JsonProperty("child") PersonDTO child)
 	{
-		this.mainId = mainId;
-		this.secondaryId = secondaryId;
+		this.descendantId = descendantId;
+		this.spouseId = spouseId;
 		this.description = description;
 		this.child = child;
 	}
 
-	public long getMainId() {
-		return mainId;
+	public long getDescendantId() {
+		return descendantId;
 	}
 
-	public long getSecondaryId() {
-		return secondaryId;
+	public long getSpouseId() {
+		return spouseId;
 	}
 
 	public String getDescription() {
@@ -41,8 +41,8 @@ public class ChildRelationDTO {
 	@Override
 	public String toString() {
 		return "ChildRelationDTO{" +
-			"mainId=" + mainId +
-			", secondaryId=" + secondaryId +
+			"descendantId=" + descendantId +
+			", spouseId=" + spouseId +
 			", description='" + description + '\'' +
 			", child=" + child +
 			'}';

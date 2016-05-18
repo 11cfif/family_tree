@@ -52,7 +52,7 @@ public class FamilyDTO {
 			'}';
 	}
 
-	private class NodeDTO {
+	class NodeDTO {
 		private final long id;
 		private final PersonDTO descendant;
 		private final PersonDTO[] spouses;

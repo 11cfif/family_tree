@@ -1,11 +1,11 @@
 import {
 	CREATE_FAMILY_INFO_MODAL, CREATE_FAMILY_HEAD_MODAL,
-	CREATE_NODE_MODAL, CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL,
+	CREATE_NODE_MODAL, CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL, CREATE_CHILD_MODAL
 	CLOSE_MODAL, NULL_MODAL
 } from '../constants/Modal'
 
 import {
-	SPOUSE, HEAD
+	SPOUSE, CHILD, HEAD
 } from '../constants/Person'
 
 const initState = {
@@ -45,6 +45,17 @@ const updateModal = (state = initState, action) => {
 				title: 'Добавьте супруга для ' + action.descendant.getFullName(),
 				familyInfo: null,
 				person: action.descendant
+			}}
+		);
+	case CREATE_CHILD_MODAL:
+		return Object.assign({},
+			state,
+			{modalType: action.modalType},
+			{modalData: {
+				relationType: CHILD,
+				title: 'Добавьте рёбнка для пары ' + action.node.getSpousesFullName(),
+				familyInfo: null,
+				node: action.node
 			}}
 		);
 	case CREATE_EDIT_PERSON_MODAL:

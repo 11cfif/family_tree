@@ -32,7 +32,7 @@ class NodeModal extends Component {
 								</li>
 							}
 							<li>
-								<button onClick={addChildClick}>Добавить ребёнка</button>
+								<button onClick={() => {addChildClick(data.node)}}>Добавить ребёнка</button>
 								<button onClick={() => {addSpouseClick(data.node.descendant)}}>Добавить супруга(у)</button>
 								<button onClick={changeClick}>Изменить выбранного супруга(у)</button>
 								<button onClick={closeClick}>Отмена</button>

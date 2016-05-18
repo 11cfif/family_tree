@@ -29,8 +29,8 @@ public class FamilyControllerImpl implements FamilyController {
 	@Override
 	public PersonDTO addChild(long familyId, ChildRelationDTO child) {
 		Person personChild = child.getChild().createPerson(familyId);
-		return new PersonDTO(familyManager.addChild(familyId, child.getMainId(),
-			child.getSecondaryId(), personChild, child.getDescription()));
+		return new PersonDTO(familyManager.addChild(familyId, child.getDescendantId(),
+			child.getSpouseId(), personChild, child.getDescription()));
 	}
 
 	@Override

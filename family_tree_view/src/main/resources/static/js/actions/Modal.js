@@ -1,7 +1,7 @@
 import {
 	CREATE_FAMILY_INFO_MODAL,
 	CREATE_NODE_MODAL, CLOSE_MODAL, NODE_MODAL, PERSON_MODAL,
-	CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL,
+	CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL, CREATE_CHILD_MODAL, 
 	CREATE_FAMILY_HEAD_MODAL, FAMILY_INFO_MODAL
 } from '../constants/Modal'
 
@@ -43,6 +43,15 @@ export function createSpouseModal(descendant) {
 		descendant
 	}
 }
+
+export function createChildModal(node) {
+	return {
+		type: CREATE_CHILD_MODAL,
+		modalType: PERSON_MODAL,
+		node
+	}
+}
+
 
 export function closeModal() {
 	return {

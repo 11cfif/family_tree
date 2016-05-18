@@ -7,11 +7,14 @@ import {
 } from '../constants/Family'
 
 import {
-	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON, POST_SPOUSE, RESPONSE_SPOUSE, INVALID_SPOUSE
+	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON,
+	POST_SPOUSE, RESPONSE_SPOUSE, INVALID_SPOUSE,
+	POST_CHILD, RESPONSE_CHILD, INVALID_CHILD
 } from '../constants/Person'
 
 import {createFamilyInfo} from '../objects/FamilyInfo'
-import {createNode, addSpouse} from '../objects/Node'
+import Node, {createNode, addSpouse} from '../objects/Node'
+import Edge  from '../objects/Edge'
 
 let initialTree = {
 	activeNodeId: -1,
@@ -24,7 +27,7 @@ let initialState = {
 	tree: initialTree
 };
 
-const node = (state, action, activeNode) => {
+const node = (state, action, activeNode, nodesLength) => {
 	switch (action.type) {
 	case RESPONSE_PERSON:
 		if (activeNode != state.id)
@@ -34,6 +37,10 @@ const node = (state, action, activeNode) => {
 		if (activeNode != state.id)
 			return state;
 		return addSpouse(state, action.spouse)
+	case RESPONSE_CHILD:
+		if (activeNode != state.id)
+			return state;
+		return
 	}
 };
 
@@ -54,6 +61,17 @@ const treeF = (state, action) => {
 	case RESPONSE_SPOUSE:
 		return Object.assign({}, state, {
 			nodes: state.nodes.map(n => node(n, action, state.activeNodeId))
+		});
+	case RESPONSE_CHILD:
+		let activeNode = state.nodes[state.activeNodeId];
+		let nodes = state.nodes.map(n => node(n, action, state.activeNodeId, state.nodes.length));
+		nodes.push(new Node(state.nodes.length, activeNode.getSpouse().id, state.child, [], []));
+		return Object.assign({}, state, {
+			nodes: nodes,
+			edges: [...
+				edges,
+				new Edge
+			]
 		});
 	default:
 		return state;
@@ -91,12 +109,19 @@ const family = (state = initialState, action) => {
 		return Object.assign({}, state, {
 			tree: treeF(tree, action)
 		});
+	case RESPONSE_CHILD:
+		console.log('reducer child action = ' + JSON.stringify(action, null, 2));
+		return Object.assign({}, state, {
+			tree: treeF(tree, action)
+		});
 	case POST_FAMILY:
 	case INVALID_FAMILY:
 	case POST_PERSON:
 	case INVALID_PERSON:
 	case POST_SPOUSE:
 	case INVALID_SPOUSE:
+	case POST_CHILD:
+	case INVALID_CHILD:
 		return state;
 	case CREATE_PERSON:
 	case SELECT_PERSON:
