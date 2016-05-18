@@ -13,7 +13,8 @@ import {
 } from '../constants/Person'
 
 import {createFamilyInfo} from '../objects/FamilyInfo'
-import Node, {createNode, addSpouse} from '../objects/Node'
+import Node, {createNode, addSpouse, addEdge} from '../objects/Node'
+import {createPerson} from '../objects/Person'
 import Edge  from '../objects/Edge'
 
 let initialTree = {
@@ -27,7 +28,7 @@ let initialState = {
 	tree: initialTree
 };
 
-const node = (state, action, activeNode, nodesLength) => {
+const node = (state, action, activeNode, edgesLength) => {
 	switch (action.type) {
 	case RESPONSE_PERSON:
 		if (activeNode != state.id)
@@ -36,11 +37,11 @@ const node = (state, action, activeNode, nodesLength) => {
 	case RESPONSE_SPOUSE:
 		if (activeNode != state.id)
 			return state;
-		return addSpouse(state, action.spouse)
+		return addSpouse(state, action.spouse);
 	case RESPONSE_CHILD:
 		if (activeNode != state.id)
 			return state;
-		return
+		return addEdge(state, edgesLength)
 	}
 };
 
@@ -52,7 +53,8 @@ const treeF = (state, action) => {
 		});
 	case RESPONSE_FAMILY:
 		return Object.assign({}, state, {
-			nodes: action.nodes
+			nodes: action.nodes,
+			edges: action.edges
 		});
 	case RESPONSE_PERSON:
 		return Object.assign({}, state, {
@@ -64,13 +66,13 @@ const treeF = (state, action) => {
 		});
 	case RESPONSE_CHILD:
 		let activeNode = state.nodes[state.activeNodeId];
-		let nodes = state.nodes.map(n => node(n, action, state.activeNodeId, state.nodes.length));
-		nodes.push(new Node(state.nodes.length, activeNode.getSpouse().id, state.child, [], []));
+		let nodes = state.nodes.map(n => node(n, action, state.activeNodeId, state.edges.length));
+		nodes.push(new Node(state.nodes.length, activeNode.getSpouse().id, createPerson(action.child), [], [], []));
 		return Object.assign({}, state, {
 			nodes: nodes,
 			edges: [...
-				edges,
-				new Edge
+				state.edges,
+				new Edge(state.edges.length, state.activeNodeId, state.nodes.length, activeNode.getSpouse().id, '')
 			]
 		});
 	default:
@@ -86,14 +88,12 @@ const family = (state = initialState, action) => {
 			tree: treeF(tree, action)
 		});
 	case RESPONSE_FAMILY:
-		console.log('reducer family action = ' + JSON.stringify(action, null, 2));
 		return Object.assign({}, state, {
 			isCreated: true,
 			familyInfo: action.familyInfo,
 			tree: treeF(tree, action)
 		});
 	case RESPONSE_PERSON:
-		console.log('reducer person action = ' + JSON.stringify(action, null, 2));
 		if (state.familyInfo.head.id == action.person.id) {
 			let familyInfo = createFamilyInfo(state.familyInfo, action.person);
 			return Object.assign({}, state, {
@@ -105,23 +105,23 @@ const family = (state = initialState, action) => {
 			tree: treeF(tree, action)
 		});
 	case RESPONSE_SPOUSE:
-		console.log('reducer spouse action = ' + JSON.stringify(action, null, 2));
 		return Object.assign({}, state, {
 			tree: treeF(tree, action)
 		});
 	case RESPONSE_CHILD:
-		console.log('reducer child action = ' + JSON.stringify(action, null, 2));
 		return Object.assign({}, state, {
 			tree: treeF(tree, action)
 		});
 	case POST_FAMILY:
-	case INVALID_FAMILY:
 	case POST_PERSON:
-	case INVALID_PERSON:
 	case POST_SPOUSE:
-	case INVALID_SPOUSE:
 	case POST_CHILD:
+		return state;
+	case INVALID_FAMILY:
+	case INVALID_PERSON:
+	case INVALID_SPOUSE:
 	case INVALID_CHILD:
+		console.log('invalid! stacktrace:' + action.error.stack);
 		return state;
 	case CREATE_PERSON:
 	case SELECT_PERSON:

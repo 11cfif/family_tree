@@ -52,7 +52,7 @@ public class FamilyDTO {
 			'}';
 	}
 
-	class NodeDTO {
+	private class NodeDTO {
 		private final long id;
 		private final PersonDTO descendant;
 		private final PersonDTO[] spouses;
@@ -86,7 +86,7 @@ public class FamilyDTO {
 		}
 
 		@JsonGetter
-		public Long[] getChildRelation() {
+		public Long[] getChildRelations() {
 			return childRelations;
 		}
 

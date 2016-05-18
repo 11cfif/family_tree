@@ -117,7 +117,7 @@ export function invalidateChild(error) {
 function receiveChild(json) {
 	return {
 		type: RESPONSE_CHILD,
-		child: new Node()
+		child: json
 	}
 }
 

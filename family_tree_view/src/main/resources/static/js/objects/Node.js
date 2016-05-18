@@ -69,15 +69,27 @@ export function createNode(node, person) {
 				return per;
 		}), node.spouseDescriptions, node.childRelations);
 	} else {
-		return new Node(node.id, node.spouseId, createPerson(node.descendant), spouses, node.spouseDescriptions, node.childRelations);
+		return new Node(node.id, node.spouseId, createPerson(node.descendant), 
+			spouses, node.spouseDescriptions, node.childRelations);
 	}
 }
 
 export function addSpouse(node, spouse) {
+	let spouses = cloneSpouses(node.spouses);
+	spouses.push(createPerson(spouse));
+	return new Node(node.id, node.spouseId, createPerson(node.descendant), 
+		spouses, node.spouseDescriptions, node.childRelations);
+}
+
+export function addEdge(node, edgeId) {
+	return new Node(node.id, node.spouseId, createPerson(node.descendant), 
+		cloneSpouses(node.spouses), node.spouseDescriptions, [...node.childRelations, edgeId]);
+}
+
+function cloneSpouses(oldSpouses) {
 	let spouses = [];
-	for (var i = 0; i < node.spouses.length; i++) {
-		spouses[i] = createPerson(node.spouses[i]);
+	for (var i = 0; i < oldSpouses.length; i++) {
+		spouses[i] = createPerson(oldSpouses[i]);
 	}
-	spouses[i] = createPerson(spouse);
-	return new Node(node.id, node.spouseId, createPerson(node.descendant), spouses, node.spouseDescriptions, node.childRelations);
+	return spouses;
 }
