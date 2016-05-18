@@ -24,9 +24,7 @@ class PersonEditModal extends Component {
 						<div>Пожалуйста, введите/отредактируйте необходимую информацию о человеке.</div>
 						<form onSubmit={e => {
 							e.preventDefault();
-							console.log('PersonEditModal data = ' + JSON.stringify(data, null, 2));
 							var person = new Person(name.value, surname.value, birthday.value, deathday.value, data.person.id);
-							console.log('PersonEditModal person = ' + JSON.stringify(person, null, 2));
 							if (data.familyInfo != null && data.familyInfo != {}) {
 								okClick(data.familyInfo, person);
 							} else {

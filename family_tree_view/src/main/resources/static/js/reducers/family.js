@@ -7,11 +7,11 @@ import {
 } from '../constants/Family'
 
 import {
-	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON
+	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON, POST_SPOUSE, RESPONSE_SPOUSE, INVALID_SPOUSE
 } from '../constants/Person'
 
 import {createFamilyInfo} from '../objects/FamilyInfo'
-import {createNode} from '../objects/Node'
+import {createNode, addSpouse} from '../objects/Node'
 
 let initialTree = {
 	activeNodeId: -1,
@@ -29,7 +29,11 @@ const node = (state, action, activeNode) => {
 	case RESPONSE_PERSON:
 		if (activeNode != state.id)
 			return state;
-		return createNode(state, action.person)
+		return createNode(state, action.person);
+	case RESPONSE_SPOUSE:
+		if (activeNode != state.id)
+			return state;
+		return addSpouse(state, action.spouse)
 	}
 };
 
@@ -44,6 +48,10 @@ const treeF = (state, action) => {
 			nodes: action.nodes
 		});
 	case RESPONSE_PERSON:
+		return Object.assign({}, state, {
+			nodes: state.nodes.map(n => node(n, action, state.activeNodeId))
+		});
+	case RESPONSE_SPOUSE:
 		return Object.assign({}, state, {
 			nodes: state.nodes.map(n => node(n, action, state.activeNodeId))
 		});
@@ -78,10 +86,17 @@ const family = (state = initialState, action) => {
 		return Object.assign({}, state, {
 			tree: treeF(tree, action)
 		});
+	case RESPONSE_SPOUSE:
+		console.log('reducer spouse action = ' + JSON.stringify(action, null, 2));
+		return Object.assign({}, state, {
+			tree: treeF(tree, action)
+		});
 	case POST_FAMILY:
 	case INVALID_FAMILY:
 	case POST_PERSON:
 	case INVALID_PERSON:
+	case POST_SPOUSE:
+	case INVALID_SPOUSE:
 		return state;
 	case CREATE_PERSON:
 	case SELECT_PERSON:

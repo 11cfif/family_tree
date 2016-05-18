@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import {createFamilyHeadModal, createEditPersonModal, closeModal} from '../actions/Modal'
+import {createFamilyHeadModal, createEditPersonModal, createSpouseModal, closeModal} from '../actions/Modal'
 import {fetchFamily} from '../actions/Family'
-import {fetchUpdatePerson} from '../actions/Person'
+import {fetchUpdatePerson, fetchSpouse} from '../actions/Person'
 import {PERSON_MODAL, NODE_MODAL, FAMILY_INFO_MODAL, NULL_MODAL } from '../constants/Modal'
+import {HEAD, SPOUSE, CHILD} from '../constants/Person'
 import PersonModal from '../components/modals/PersonEditModal'
 import FamilyModal from '../components/modals/FamilyModal'
 import NodeModal from '../components/modals/NodeModal'
@@ -42,15 +43,22 @@ export function createChildMod(person) {
 	}
 }
 
-export function createSpouseMod(person) {
+export function createSpouseMod(descendant) {
 	return (dispatch) => {
-		dispatch(createFamilyHeadModal(new FamilyInfo(person)))
+		dispatch(createSpouseModal(descendant))
 	}
 }
 
 export function updatePerson(person) {
 	return (dispatch) => {
 		dispatch(fetchUpdatePerson(person))
+	}
+}
+
+
+export function createSpouse(familyInfo, descendantId, head) {
+	return (dispatch) => {
+		dispatch(fetchSpouse(familyInfo, descendantId, head))
 	}
 }
 
@@ -64,19 +72,28 @@ export function closeMod() {
 class Modals extends Component {
 
 	render() {
-		const {type, data, closeMod} = this.props;
+		const {type, data, familyId, closeMod} = this.props;
 
 		switch (type) {
 		case PERSON_MODAL:
-			console.log('===   ' + (data.person === null));
-			console.log('==  ' + (data.person == null));
-
 			let okClick;
 			let buttonText;
-			if (data.person === null) {
-				okClick = this.props.createFam;
-				buttonText = 'Создать семью';
-				data.person = {};
+			if (data.relationType != null) {
+				switch (data.relationType) {
+				case HEAD:
+					okClick = this.props.createFam;
+					buttonText = 'Создать семью';
+					data.person = {};
+					break;
+				case SPOUSE:
+					okClick = (spouse) => this.props.createSpouse(familyId, data.person.id, spouse);
+					buttonText = 'Создать cупруга(у)';
+					data.person = {};
+					break;
+				case CHILD:
+					// data.person = {};
+					// break;
+				}
 			} else {
 				buttonText = 'Внести изменения';
 				okClick = this.props.updatePerson;
@@ -102,14 +119,16 @@ class Modals extends Component {
 //noinspection JSUnresolvedVariable
 Modals.propTypes = {
 	data: PropTypes.object.isRequired,
-	type: PropTypes.string.isRequired
+	type: PropTypes.string.isRequired,
+	familyId: PropTypes.number.isRequired
 };
 
 
 const mapStateToProps = (state) => {
 	return {
 		data: state.modal.modalData,
-		type: state.modal.modalType
+		type: state.modal.modalType,
+		familyId: state.family.familyInfo == null ? -1 : state.family.familyInfo.id
 	}
 };
 
@@ -117,7 +136,7 @@ Modals = connect(
 	mapStateToProps,
 	{
 		createHeadPersonMod, createFam, //FamilyModal
-		createEditPersonMod, createChangeSpouseMod, createChildMod, createSpouseMod, updatePerson, //NodeModal
+		createEditPersonMod, createChangeSpouseMod, createChildMod, createSpouseMod, updatePerson, createSpouse,//NodeModal
 		closeMod}
 )(Modals);
 

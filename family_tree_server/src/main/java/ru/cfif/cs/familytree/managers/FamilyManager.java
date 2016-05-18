@@ -17,12 +17,12 @@ public interface FamilyManager {
 
 	void removeFamily(long familyId);
 
-	void addSpouse(long familyId, long mainId, Person spouse, String dateStartRelation, String dateFinishRelation,
+	Person addSpouse(long familyId, long mainId, Person spouse, String dateStartRelation, String dateFinishRelation,
 		String description);
 
 	void removeSpouse(long familyId, long spouseID);
 
-	void addChild(long familyId, long mainParentId, long secondaryParentId, Person child, String description);
+	Person addChild(long familyId, long mainParentId, long secondaryParentId, Person child, String description);
 
 	void removeChild(long familyId, long childId);
 

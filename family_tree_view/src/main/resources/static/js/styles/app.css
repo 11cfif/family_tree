@@ -140,24 +140,25 @@ body {
 
 .nodeModal .leftPer {
   display: inline-block;
-  /*position: absolute;*/
-  /*left: 5%;*/
-  /*margin-left: -14%;*/
-  /*margin-top: 1%;*/
-  width: 120px;
-  text-align: left
+  text-align: center
+}
+
+.nodeModal .leftPer p {
+  display: block;
+  text-align: center
 }
 
 .nodeModal .rightPer {
+  margin-left: 45%;
   display: inline-block;
-
-  /*position: absolute;*/
-  /*right: 5%;*/
-  padding: 2px;
-  border: 1px solid;
-  border-color: #999 #ccc #ccc;
-  border-radius: 2px
+  text-align: center
 }
+
+.nodeModal .rightPer p {
+  display: block;
+  text-align: center
+}
+
 
 .nodeModal .centerPer {
   display: block;

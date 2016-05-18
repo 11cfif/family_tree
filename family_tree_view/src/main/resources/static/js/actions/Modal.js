@@ -1,7 +1,7 @@
 import {
 	CREATE_FAMILY_INFO_MODAL,
 	CREATE_NODE_MODAL, CLOSE_MODAL, NODE_MODAL, PERSON_MODAL,
-	CREATE_EDIT_PERSON_MODAL,
+	CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL,
 	CREATE_FAMILY_HEAD_MODAL, FAMILY_INFO_MODAL
 } from '../constants/Modal'
 
@@ -29,11 +29,18 @@ export function createFamilyHeadModal(familyInfo) {
 }
 
 export function createEditPersonModal(person) {
-	console.log('actions createEditPersonModal person=' + JSON.stringify(person, null, 2));
 	return {
 		type: CREATE_EDIT_PERSON_MODAL,
 		modalType: PERSON_MODAL,
 		person
+	}
+}
+
+export function createSpouseModal(descendant) {
+	return {
+		type: CREATE_SPOUSE_MODAL,
+		modalType: PERSON_MODAL,
+		descendant
 	}
 }
 

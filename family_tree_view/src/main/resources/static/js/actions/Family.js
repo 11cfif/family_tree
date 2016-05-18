@@ -35,7 +35,6 @@ export function invalidateFamily(error) {
 }
 
 function receiveFamily(json) {
-	console.log('actions receiveFamily json = ' + JSON.stringify(json, null, 2));
 	return {
 		type: RESPONSE_FAMILY,
 		familyInfo: createFamilyInfo(json.familyInfo),

@@ -52,7 +52,7 @@ public class InternalFamilyManager implements FamilyManager {
 	}
 
 	@Override
-	public void addSpouse(long familyId, long mainId, Person spouse,
+	public Person addSpouse(long familyId, long mainId, Person spouse,
 		String dateStartRelation, String dateFinishRelation, String description)
 	{
 		Person person = personManager.create(spouse);
@@ -62,6 +62,7 @@ public class InternalFamilyManager implements FamilyManager {
 			spouseRelationMap.put(familyId, relations);
 		}
 		relations.add(new SpouseRelation(mainId, person.getId(), dateStartRelation, dateFinishRelation, description));
+		return person;
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class InternalFamilyManager implements FamilyManager {
 	}
 
 	@Override
-	public void addChild(long familyId, long mainParentId, long secondaryParentId, Person child, String description) {
+	public Person addChild(long familyId, long mainParentId, long secondaryParentId, Person child, String description) {
 		Person person = personManager.create(child);
 		List<ParentChildRelation> relations = childRelationMap.get(familyId);
 		if (relations == null) {
@@ -87,6 +88,7 @@ public class InternalFamilyManager implements FamilyManager {
 			childRelationMap.put(familyId, relations);
 		}
 		relations.add(new ParentChildRelation(mainParentId, secondaryParentId, person.getId(), description));
+		return person;
 	}
 
 	@Override

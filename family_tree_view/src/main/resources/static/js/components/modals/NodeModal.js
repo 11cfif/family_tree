@@ -23,7 +23,7 @@ class NodeModal extends Component {
 									<PersonComp title='Член семьи' cssClass='leftPer' person={data.node.descendant}
 									            personClick={personClick}/>
 									<PersonComp title='Супруг(а)' cssClass='rightPer' person={data.node.getSpouse()}
-									            personClick={() => personClick(data.node.getSpouse())}/>
+									            personClick={personClick}/>
 								</li>
 								:
 								<li>
@@ -33,7 +33,7 @@ class NodeModal extends Component {
 							}
 							<li>
 								<button onClick={addChildClick}>Добавить ребёнка</button>
-								<button onClick={addSpouseClick}>Добавить супруга(у)</button>
+								<button onClick={() => {addSpouseClick(data.node.descendant)}}>Добавить супруга(у)</button>
 								<button onClick={changeClick}>Изменить выбранного супруга(у)</button>
 								<button onClick={closeClick}>Отмена</button>
 							</li>

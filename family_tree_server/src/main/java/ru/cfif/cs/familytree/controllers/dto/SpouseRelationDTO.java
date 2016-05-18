@@ -3,7 +3,7 @@ package ru.cfif.cs.familytree.controllers.dto;
 import com.fasterxml.jackson.annotation.*;
 
 public class SpouseRelationDTO {
-	private final long spouseId;
+	private final long descendantId;
 	private final String startDate;
 	private final String finishDate;
 	private final String description;
@@ -11,22 +11,21 @@ public class SpouseRelationDTO {
 
 	@JsonCreator
 	public SpouseRelationDTO(
-		@JsonProperty("spouseId") long spouseId,
-		@JsonProperty("secondaryId") long secondaryId,
+		@JsonProperty("descendantId") long descendantId,
 		@JsonProperty("description") String description,
 		@JsonProperty("startDate") String startDate,
 		@JsonProperty("finishDate") String finishDate,
-		@JsonProperty("child") PersonDTO spouse)
+		@JsonProperty("spouse") PersonDTO spouse)
 	{
-		this.spouseId = spouseId;
+		this.descendantId = descendantId;
 		this.description = description;
 		this.startDate = startDate;
 		this.finishDate = finishDate;
 		this.spouse = spouse;
 	}
 
-	public long getSpouseId() {
-		return spouseId;
+	public long getDescendantId() {
+		return descendantId;
 	}
 
 	public String getDescription() {
@@ -48,7 +47,7 @@ public class SpouseRelationDTO {
 	@Override
 	public String toString() {
 		return "SpouseRelationDTO{" +
-			"spouseId=" + spouseId +
+			"descendantId=" + descendantId +
 			", startDate='" + startDate + '\'' +
 			", finishDate='" + finishDate + '\'' +
 			", description='" + description + '\'' +

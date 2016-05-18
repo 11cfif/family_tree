@@ -17,11 +17,11 @@ public interface FamilyController {
 
 	@POST
 	@Path("/{familyId}/child")
-	void addChild(@PathParam("familyId") long familyId, ChildRelationDTO child);
+	PersonDTO addChild(@PathParam("familyId") long familyId, ChildRelationDTO child);
 
 	@POST
 	@Path("/{familyId}/spouse")
-	void addSpouse(@PathParam("familyId") long familyId, SpouseRelationDTO spouse);
+	PersonDTO addSpouse(@PathParam("familyId") long familyId, SpouseRelationDTO spouse);
 
 	@DELETE
 	@Path("/{familyId}/child")

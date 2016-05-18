@@ -3,12 +3,13 @@ import {createPerson} from './Person'
 const FAKE = -1;
 
 class Node {
-	constructor(descendant, spouses, spouseDescriptions, edgeIds, id) {
-		this.id = id ? FAKE : id;
+	constructor(id, spouseId, descendant, spouses, spouseDescriptions, edgeIds) {
+
+		this.id = id;
 		this.descendant = descendant;
 		this.spouses = spouses;
 		this.shape = 'box';
-		this.spouseId = spouses.length == 0 ? -1 : 0;
+		this.spouseId = spouses.length == 0 ? FAKE : (spouseId === FAKE ? 0 : spouseId);
 		this.edgeIds = edgeIds;
 		this.label = createLabel(this.descendant, this.spouseId < 0 ? null : this.spouses[this.spouseId]);
 		this.spouseDescriptions = []
@@ -48,7 +49,7 @@ export function createNode(node, person) {
 	}
 	if (person) {
 		if (person.id == node.descendant.id) {
-			return new Node(person, spouses, node.spouseDescriptions, node.edgeIds, node.id);
+			return new Node(node.id, node.spouseId, person, spouses, node.spouseDescriptions, node.edgeIds);
 		} else {
 			for (i = 0; i < node.spouses.length; i++) {
 				if (node.spouses[i].id == person.id) {
@@ -57,13 +58,22 @@ export function createNode(node, person) {
 				}
 			}
 		}
-		return new Node(createPerson(node.descendant), spouses.map(per => {
+		return new Node(node.id, node.spouseId, createPerson(node.descendant), spouses.map(per => {
 			if (per.id == person.id)
 				return person;
 			else
 				return per;
-		}), node.spouseDescriptions, node.edgeIds, node.id);
+		}), node.spouseDescriptions, node.edgeIds);
 	} else {
-		return new Node(createPerson(node.descendant), spouses, node.spouseDescriptions, node.edgeIds, node.id);
+		return new Node( node.id, node.spouseId, createPerson(node.descendant), spouses, node.spouseDescriptions, node.edgeIds);
 	}
+}
+
+export function addSpouse(node, spouse) {
+	let spouses = [];
+	for (var i = 0; i < node.spouses.length; i++) {
+		spouses[i] = createPerson(node.spouses[i]);
+	}
+	spouses[i] = createPerson(spouse);
+	return new Node(node.id, node.spouseId, createPerson(node.descendant), spouses, node.spouseDescriptions, node.edgeIds);
 }
