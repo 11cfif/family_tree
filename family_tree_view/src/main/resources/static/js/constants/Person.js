@@ -1,3 +1,3 @@
-export default SPOUSE_TYPE = 'SPOUSE_TYPE';
-export default CHILD_TYPE = 'CHILD_TYPE';
-export default HEAD_TYPE = 'HEAD_TYPE';
+export const POST_PERSON = 'POST_PERSON';
+export const RESPONSE_PERSON = 'RESPONSE_PERSON';
+export const INVALID_PERSON = 'INVALID_PERSON';

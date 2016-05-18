@@ -18,6 +18,7 @@ public class PersonControllerImpl implements PersonController {
 
 	@Override
 	public PersonDTO load(long id) {
+		System.out.println("LOAD PERSON!");
 		final Optional<Person> maybePerson = personManager.load(id);
 		if (maybePerson.isPresent()) {
 			return new PersonDTO(maybePerson.get());
@@ -27,8 +28,9 @@ public class PersonControllerImpl implements PersonController {
 	}
 
 	@Override
-	public PersonDTO update(long familyId, PersonDTO person) {
-		return new PersonDTO(personManager.update(new Person(person.getId(), familyId,
+	public PersonDTO update(PersonDTO person) {
+		System.out.println("UPDATE PERSON!");
+		return new PersonDTO(personManager.update(new Person(person.getId(), -1,
 			person.getName(), person.getSurname(), person.getBirthday(), person.getDeathday())));
 	}
 

@@ -1,11 +1,20 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import {createFamilyHeadModal, closeModal} from '../actions/Modal'
+import {createFamilyHeadModal, createEditPersonModal, closeModal} from '../actions/Modal'
 import {fetchFamily} from '../actions/Family'
-import {PERSON_MODAL, NODE_MODAL, FAMILY_INFO_MODAL, NULL_MODAL /*SPOUSE_TYPE, CHILD_TYPE*/} from '../constants/Modal'
-import PersonModal from '../components/modals/PersonModal'
+import {fetchUpdatePerson} from '../actions/Person'
+import {PERSON_MODAL, NODE_MODAL, FAMILY_INFO_MODAL, NULL_MODAL } from '../constants/Modal'
+import PersonModal from '../components/modals/PersonEditModal'
 import FamilyModal from '../components/modals/FamilyModal'
+import NodeModal from '../components/modals/NodeModal'
 import FamilyInfo from '../objects/FamilyInfo'
+
+// FamilyModal
+export function createHeadPersonMod(name, description) {
+	return (dispatch) => {
+		dispatch(createFamilyHeadModal(new FamilyInfo(name, description, null)))
+	}
+}
 
 export function createFam(familyInfo, head) {
 	return (dispatch) => {
@@ -13,12 +22,39 @@ export function createFam(familyInfo, head) {
 	}
 }
 
-export function createFamInfo(name, description) {
+//NodeModal
+
+export function createEditPersonMod(person) {
 	return (dispatch) => {
-		dispatch(createFamilyHeadModal(new FamilyInfo(name, description, null)))
+		dispatch(createEditPersonModal(person))
 	}
 }
 
+export function createChangeSpouseMod(person) {
+	return (dispatch) => {
+		dispatch(createFamilyHeadModal(new FamilyInfo(person)))
+	}
+}
+
+export function createChildMod(person) {
+	return (dispatch) => {
+		dispatch(createFamilyHeadModal(new FamilyInfo(person)))
+	}
+}
+
+export function createSpouseMod(person) {
+	return (dispatch) => {
+		dispatch(createFamilyHeadModal(new FamilyInfo(person)))
+	}
+}
+
+export function updatePerson(person) {
+	return (dispatch) => {
+		dispatch(fetchUpdatePerson(person))
+	}
+}
+
+//All modal
 export function closeMod() {
 	return (dispatch) => {
 		dispatch(closeModal())
@@ -32,16 +68,30 @@ class Modals extends Component {
 
 		switch (type) {
 		case PERSON_MODAL:
-			let okClick = this.props.createFam;
-			console.log('okClick ' +  this.props.createFam);
-			// const {personClick} = modalData.person.name.length === 0 ?
-			// 	(modalData.relationType === SPOUSE_TYPE ? this.prop.createSpouse :
-			// 		(modalData.relationType === CHILD_TYPE ? this.props.createChild : this.prop.okClick)) :
-			// 	this.prop.updatePerson;
-			return <PersonModal data={data} buttonText = 'Создать семью' okClick = {okClick} closeClick = {closeMod}/>;
+			console.log('===   ' + (data.person === null));
+			console.log('==  ' + (data.person == null));
+
+			let okClick;
+			let buttonText;
+			if (data.person === null) {
+				okClick = this.props.createFam;
+				buttonText = 'Создать семью';
+				data.person = {};
+			} else {
+				buttonText = 'Внести изменения';
+				okClick = this.props.updatePerson;
+			}
+			return <PersonModal data = {data} buttonText = {buttonText} okClick = {okClick} closeClick = {closeMod}/>;
 		case FAMILY_INFO_MODAL:
-			return <FamilyModal data={data} okClick = {this.props.createFamInfo} closeClick = {closeMod}/>;
+			return <FamilyModal data = {data} okClick = {this.props.createHeadPersonMod} closeClick = {closeMod}/>;
 		case NODE_MODAL:
+			return <NodeModal
+				data = {data}
+				personClick = {this.props.createEditPersonMod}
+				addChildClick = {this.props.createChildMod}
+				addSpouseClick = {this.props.createSpouseMod}
+				changeClick = {this.props.createChangeSpouseMod}
+				closeClick = {closeMod} />;
 		case NULL_MODAL:
 		default:
 			return (<div></div>);
@@ -57,7 +107,6 @@ Modals.propTypes = {
 
 
 const mapStateToProps = (state) => {
-	console.log('MODALS! ' + JSON.stringify(state, null, 2));
 	return {
 		data: state.modal.modalData,
 		type: state.modal.modalType
@@ -66,7 +115,10 @@ const mapStateToProps = (state) => {
 
 Modals = connect(
 	mapStateToProps,
-	{createFamInfo, createFam, closeMod}
+	{
+		createHeadPersonMod, createFam, //FamilyModal
+		createEditPersonMod, createChangeSpouseMod, createChildMod, createSpouseMod, updatePerson, //NodeModal
+		closeMod}
 )(Modals);
 
 

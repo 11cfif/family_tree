@@ -13,8 +13,6 @@ class FamilyInfo {
 
 export default FamilyInfo
 
-export function createFamilyInfo(info) {
-	console.log('create FamilyInfo ' + JSON.stringify(info, null, 2));
-
-	return new FamilyInfo(info.name, info.description, createPerson(info.head), info.id);
+export function createFamilyInfo(info, person) {
+	return new FamilyInfo(info.name, info.description, person ? person : createPerson(info.head), info.id);
 }

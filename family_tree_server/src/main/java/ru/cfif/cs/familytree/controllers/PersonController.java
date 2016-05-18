@@ -17,6 +17,6 @@ public interface PersonController {
 
 	@PUT
 	@Path("/{id}")
-	PersonDTO update(long familyId, PersonDTO person);
+	PersonDTO update(PersonDTO person);
 
 }

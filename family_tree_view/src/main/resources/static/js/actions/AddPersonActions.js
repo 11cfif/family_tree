@@ -1,6 +1,6 @@
 import {
 	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON
-} from '../constants/Adding'
+} from '../constants/Person'
 import {
 	URL
 } from '../constants/App'

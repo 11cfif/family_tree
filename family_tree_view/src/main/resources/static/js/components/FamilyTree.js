@@ -45,7 +45,7 @@ class FamilyTree extends Component {
 		var network = new vis.Network(container, tree, options);
 		network.on('click', (params) => {
 			if (params.nodes.length > 0) {
-				nodeClick(params.nodes[0])
+				nodeClick(nodes.filter(item => item.id === params.nodes[0])[0])
 			}
 		});
 	}

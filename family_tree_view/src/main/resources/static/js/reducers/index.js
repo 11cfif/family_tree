@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
 import family from './family'
-import updateModal from './newModal'
+import updateModal from './modals'
 
 
 const FamilyTreeApp = combineReducers({

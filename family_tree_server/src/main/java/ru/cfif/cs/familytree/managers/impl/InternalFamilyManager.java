@@ -13,7 +13,7 @@ import ru.cfif.cs.familytree.model.family.*;
 
 public class InternalFamilyManager implements FamilyManager {
 
-	private static final AtomicLong COUNTER = new AtomicLong();
+	private static final AtomicLong COUNTER = new AtomicLong(1);
 
 	private final Map<Long, List<ParentChildRelation>> childRelationMap = new HashMap<>();
 	private final Map<Long, List<SpouseRelation>> spouseRelationMap = new HashMap<>();

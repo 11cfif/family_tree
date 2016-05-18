@@ -14,26 +14,21 @@ class Node {
 		this.spouseDescriptions = []
 	}
 	
-	addSpouse(spouse, description) {
-		this.spouses.push(spouse);
-		this.spouseDescriptions.push(description);
-		if (this.spouses.length == 1) {
-			this.spouseId = 0;
-			this.label = createLabel(this.descendant, this.spouses[this.spouseId])
+	updatePerson(person) {
+		if (person.id === this.descendant.id) {
+			this.descendant = person;
+		} else {
+			this.spouses[this.spouseId]  = person;
 		}
+	}
+	
+	getSpouse() {
+		return this.spouseId < 0 ? null : this.spouses[this.spouseId];
 	}
 	
 	addEdge(edgeId, edge) {
 		this.edgeIds.push(edgeId);
 		edge.dashes = edge.parentId != this.spouseId;
-	}
-	
-	setSpouseId(id, edges) {
-		this.spouseId = id;
-		for (let i = 0; i < this.edgeIds.length; i++) {
-			edges[this.edgeIds[i]].dashes = edges[this.edgeIds[i]].parentId != id;
-		}
-		this.label = createLabel(this.descendant, this.spouses[id])
 	}
 }
 
@@ -46,11 +41,29 @@ let createLabel = (p1, p2) => {
 	return res + '\n' + p2.surname + ' ' + p2.name +' (' + p2.birthday + ' - ' + p2.deathday + ')'
 };
 
-export function createNode(node) {
-	console.log('create Node ' + JSON.stringify(node, null, 2));
+export function createNode(node, person) {
 	let spouses  = [];
 	for (var i = 0; i < node.spouses.length; i++) {
 		spouses[i] = createPerson(node.spouses[i]);
 	}
-	return new Node(createPerson(node.descendant), spouses, node.spouseDescriptions, node.childRelation, node.id);
+	if (person) {
+		if (person.id == node.descendant.id) {
+			return new Node(person, spouses, node.spouseDescriptions, node.edgeIds, node.id);
+		} else {
+			for (i = 0; i < node.spouses.length; i++) {
+				if (node.spouses[i].id == person.id) {
+					node.spouses[i] = person;
+					break;
+				}
+			}
+		}
+		return new Node(createPerson(node.descendant), spouses.map(per => {
+			if (per.id == person.id)
+				return person;
+			else
+				return per;
+		}), node.spouseDescriptions, node.edgeIds, node.id);
+	} else {
+		return new Node(createPerson(node.descendant), spouses, node.spouseDescriptions, node.edgeIds, node.id);
+	}
 }

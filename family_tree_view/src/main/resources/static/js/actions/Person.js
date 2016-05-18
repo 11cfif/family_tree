@@ -1,6 +1,6 @@
 import {
 	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON
-} from '../constants/Adding'
+} from '../constants/Person'
 import {
 	URL
 } from '../constants/App'
@@ -8,7 +8,7 @@ import {
 const PERSON_URL = 'person/';
 
 let personRequest = {
-	method: 'post',
+	method: 'put',
 	headers: {
 		'Accept': 'application/json',
 		'Content-Type': 'application/json'
@@ -37,11 +37,11 @@ function receivePerson(json) {
 	}
 }
 
-export function fetchPerson(person) {
+export function fetchUpdatePerson(person) {
 	return dispatch => {
 		dispatch(postPerson(person));
 		personRequest.body = JSON.stringify(person);
-		return fetch(URL + PERSON_URL, personRequest)
+		return fetch(URL + PERSON_URL + person.id, personRequest)
 			.then(response => response.json())
 			.then(json => dispatch(receivePerson(person, json)))
 			.catch(error => dispatch(invalidatePerson(error)))

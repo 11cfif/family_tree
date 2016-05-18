@@ -3,7 +3,7 @@ import {createFamilyInfo} from '../objects/FamilyInfo'
 
 import {
 	POST_FAMILY, RESPONSE_FAMILY, INVALID_FAMILY
-} from '../constants/Adding'
+} from '../constants/Family'
 import {
 	URL
 } from '../constants/App'
@@ -35,19 +35,14 @@ export function invalidateFamily(error) {
 }
 
 function receiveFamily(json) {
-	console.log('receive ' + JSON.stringify(json, null, 4));
-	var res = {
+	console.log('actions receiveFamily json = ' + JSON.stringify(json, null, 2));
+	return {
 		type: RESPONSE_FAMILY,
 		familyInfo: createFamilyInfo(json.familyInfo),
 		nodes: [createNode(json.nodes[0])],
 		edges: []
-	};
-	console.log('res ' + JSON.stringify(res, null, 4));
-
-	return res
+	}
 }
-
-
 
 export function fetchFamily(familyInfo, head) {
 	return dispatch => {

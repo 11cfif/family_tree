@@ -10,7 +10,7 @@ import ru.cfif.cs.familytree.model.Person;
 public class InternalPersonManager implements PersonManager {
 
 	private final Map<Long, Person> personMap = new HashMap<>();
-	private static final AtomicLong COUNTER = new AtomicLong();
+	private static final AtomicLong COUNTER = new AtomicLong(1);
 
 	@Override
 	public List<Person> loadAllByFamilyIndex(long familyId) {
@@ -43,7 +43,10 @@ public class InternalPersonManager implements PersonManager {
 
 	@Override
 	public Person update(Person person) {
-		return personMap.put(person.getId(), person);
+		Person newPerson = new Person(person.getId(), personMap.get(person.getId()).getFamilyId(), person.getName(),
+			person.getSurname(), person.getBirthday(), person.getDeathday());
+		personMap.put(person.getId(), newPerson);
+		return newPerson;
 	}
 
 	@Override
