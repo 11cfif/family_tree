@@ -9,13 +9,14 @@ import {
 import {
 	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON,
 	POST_SPOUSE, RESPONSE_SPOUSE, INVALID_SPOUSE,
-	POST_CHILD, RESPONSE_CHILD, INVALID_CHILD
+	POST_CHILD, RESPONSE_CHILD, INVALID_CHILD,
+	CHANGE_SPOUSE
 } from '../constants/Person'
 
 import {createFamilyInfo} from '../objects/FamilyInfo'
-import Node, {createNode, addSpouse, addEdge} from '../objects/Node'
+import Node, {createNode, addSpouse, addEdge, changeSpouse} from '../objects/Node'
 import {createPerson} from '../objects/Person'
-import Edge  from '../objects/Edge'
+import Edge, {changeTypeEdge, cloneEdge} from '../objects/Edge'
 
 let initialTree = {
 	activeNodeId: -1,
@@ -41,7 +42,11 @@ const node = (state, action, activeNode, edgesLength) => {
 	case RESPONSE_CHILD:
 		if (activeNode != state.id)
 			return state;
-		return addEdge(state, edgesLength)
+		return addEdge(state, edgesLength);
+	case CHANGE_SPOUSE:
+		if (activeNode != state.id)
+			return state;
+		return changeSpouse(state, action.spouseId)
 	}
 };
 
@@ -65,15 +70,31 @@ const treeF = (state, action) => {
 			nodes: state.nodes.map(n => node(n, action, state.activeNodeId))
 		});
 	case RESPONSE_CHILD:
-		let activeNode = state.nodes[state.activeNodeId];
-		let nodes = state.nodes.map(n => node(n, action, state.activeNodeId, state.edges.length));
+		var activeNode = state.nodes[state.activeNodeId];
+		var nodes = state.nodes.map(n => node(n, action, state.activeNodeId, state.edges.length));
 		nodes.push(new Node(state.nodes.length, activeNode.getSpouse().id, createPerson(action.child), [], [], []));
 		return Object.assign({}, state, {
 			nodes: nodes,
 			edges: [...
 				state.edges,
-				new Edge(state.edges.length, state.activeNodeId, state.nodes.length, activeNode.getSpouse().id, '')
+				new Edge(state.edges.length, state.activeNodeId, state.nodes.length, activeNode.getSpouse().id, '', false)
 			]
+		});
+	case CHANGE_SPOUSE:
+		nodes = state.nodes.map(n => node(n, action, state.activeNodeId));
+		let edges = [];
+		activeNode = nodes[state.activeNodeId];
+		for (var i = 0; i < state.edges.length; i++) {
+			const edge = state.edges[i];
+			if (activeNode.childRelations.some(item => item == edge.id)) {
+				edges.push(changeTypeEdge(edge, edge.parentId != activeNode.spouses[activeNode.spouseId].id))
+			} else {
+				edges.push(cloneEdge(edge))
+			}
+		}
+		return Object.assign({}, state, {
+			nodes: nodes,
+			edges: edges
 		});
 	default:
 		return state;
@@ -109,6 +130,10 @@ const family = (state = initialState, action) => {
 			tree: treeF(tree, action)
 		});
 	case RESPONSE_CHILD:
+		return Object.assign({}, state, {
+			tree: treeF(tree, action)
+		});
+	case CHANGE_SPOUSE:
 		return Object.assign({}, state, {
 			tree: treeF(tree, action)
 		});

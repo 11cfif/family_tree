@@ -10,6 +10,9 @@ export const POST_CHILD = 'POST_CHILD';
 export const RESPONSE_CHILD = 'RESPONSE_CHILD';
 export const INVALID_CHILD = 'INVALID_CHILD';
 
+export const SELECT_SPOUSE = 'SELECT_SPOUSE';
+export const CHANGE_SPOUSE = 'CHANGE_SPOUSE';
+
 export const SPOUSE = 'SPOUSE';
 export const CHILD = 'CHILD';
 export const HEAD = 'HEAD';

@@ -1,11 +1,11 @@
 import {
 	CREATE_FAMILY_INFO_MODAL, CREATE_FAMILY_HEAD_MODAL,
-	CREATE_NODE_MODAL, CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL, CREATE_CHILD_MODAL,
+	CREATE_NODE_MODAL, CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL, CREATE_CHILD_MODAL, CREATE_SELECT_SPOUSE_MODAL,
 	CLOSE_MODAL, NULL_MODAL
 } from '../constants/Modal'
 
 import {
-	SPOUSE, CHILD, HEAD
+	SPOUSE, CHILD, HEAD, SELECT_SPOUSE, CHANGE_SPOUSE
 } from '../constants/Person'
 
 const initState = {
@@ -58,6 +58,24 @@ const updateModal = (state = initState, action) => {
 				node: action.node
 			}}
 		);
+	case CREATE_SELECT_SPOUSE_MODAL:
+		return Object.assign({},
+			state,
+			{modalType: action.modalType},
+			{modalData: {
+				spouses: action.node.spouses,
+				selectedId: action.node.spouseId,
+				descendant: action.node.descendant
+			}}
+		);
+	case SELECT_SPOUSE:
+		return Object.assign({},
+			state,
+			{modalData:  Object.assign({},
+				state.modalData,
+				{selectedId: action.selectedId}
+			)}
+		);
 	case CREATE_EDIT_PERSON_MODAL:
 		return Object.assign({},
 			state,
@@ -69,6 +87,7 @@ const updateModal = (state = initState, action) => {
 				person: action.person
 			}}
 		);
+	case CHANGE_SPOUSE:
 	case CLOSE_MODAL:
 		return initState;
 	default:

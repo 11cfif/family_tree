@@ -86,6 +86,11 @@ export function addEdge(node, edgeId) {
 		cloneSpouses(node.spouses), node.spouseDescriptions, [...node.childRelations, edgeId]);
 }
 
+export function changeSpouse(node, spouseId) {
+	return new Node(node.id, spouseId, createPerson(node.descendant),
+		cloneSpouses(node.spouses), node.spouseDescriptions, node.childRelations);
+}
+
 function cloneSpouses(oldSpouses) {
 	let spouses = [];
 	for (var i = 0; i < oldSpouses.length; i++) {

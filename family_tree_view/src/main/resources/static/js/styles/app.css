@@ -108,11 +108,18 @@ body {
 .person {
   /*height: 300px;*/
   margin-bottom: 10px;
+  margin-left: 5px;
   width: 150px;
   border: 2px double black;
   text-align: center;
 
 
+}
+
+
+.selPerson .person {
+  border: 2px double black;
+  background: lightgrey;
 }
 
 .person ul {
@@ -149,7 +156,7 @@ body {
 }
 
 .nodeModal .rightPer {
-  margin-left: 45%;
+  margin-left: 42%;
   display: inline-block;
   text-align: center
 }

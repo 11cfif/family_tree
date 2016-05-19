@@ -20,21 +20,30 @@ class NodeModal extends Component {
 						<ul>
 							{isSpouses ?
 								<li>
-									<PersonComp title='Член семьи' cssClass='leftPer' person={data.node.descendant}
-									            personClick={personClick}/>
-									<PersonComp title='Супруг(а)' cssClass='rightPer' person={data.node.getSpouse()}
-									            personClick={personClick}/>
+									<PersonComp
+										title='Член семьи'
+										cssClass='leftPer'
+										person={data.node.descendant}
+										personClick={personClick}/>
+									<PersonComp
+										title='Супруг(а)'
+										cssClass='rightPer'
+										person={data.node.getSpouse()}
+										personClick={personClick}/>
 								</li>
 								:
 								<li>
-									<PersonComp title='' cssClass='centerPer' person={data.node.descendant}
-									            personClick={personClick}/>
+									<PersonComp
+										title=''
+										cssClass='centerPer'
+										person={data.node.descendant}
+										personClick={personClick}/>
 								</li>
 							}
 							<li>
-								<button onClick={() => {addChildClick(data.node)}}>Добавить ребёнка</button>
-								<button onClick={() => {addSpouseClick(data.node.descendant)}}>Добавить супруга(у)</button>
-								<button onClick={changeClick}>Изменить выбранного супруга(у)</button>
+								<button onClick={() => addChildClick(data.node)}>Добавить ребёнка</button>
+								<button onClick={() => addSpouseClick(data.node.descendant)}>Добавить супруга(у)</button>
+								<button onClick={() => changeClick(data.node)}>Изменить выбранного супруга(у)</button>
 								<button onClick={closeClick}>Отмена</button>
 							</li>
 						</ul>

@@ -1,7 +1,8 @@
 import {
 	POST_PERSON, RESPONSE_PERSON, INVALID_PERSON, PERSON_URL_PATH,
 	POST_SPOUSE, RESPONSE_SPOUSE, INVALID_SPOUSE,
-	POST_CHILD, RESPONSE_CHILD, INVALID_CHILD
+	POST_CHILD, RESPONSE_CHILD, INVALID_CHILD,
+	 SELECT_SPOUSE, CHANGE_SPOUSE
 } from '../constants/Person'
 
 import {
@@ -136,4 +137,19 @@ export function fetchChild(familyId, descendantId, spouseId, child) {
 			.catch(error => dispatch(invalidateChild(error)))
 	}
 }
+
+export function selectSpouse(selectedId) {
+	return {
+		type: SELECT_SPOUSE,
+		selectedId
+	}
+}
+
+export function changeSpouse(spouseId) {
+	return {
+		type: CHANGE_SPOUSE,
+		spouseId
+	}
+}
+
 

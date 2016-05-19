@@ -1,14 +1,34 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import {createFamilyHeadModal, createEditPersonModal, createSpouseModal, createChildModal, closeModal} from '../actions/Modal'
+import {createFamilyHeadModal, createEditPersonModal, createSpouseModal, createChildModal, createSelectSpouseModal, closeModal} from '../actions/Modal'
 import {fetchFamily} from '../actions/Family'
-import {fetchUpdatePerson, fetchSpouse, fetchChild} from '../actions/Person'
-import {PERSON_MODAL, NODE_MODAL, FAMILY_INFO_MODAL, NULL_MODAL } from '../constants/Modal'
+import {fetchUpdatePerson, fetchSpouse, fetchChild, selectSpouse, changeSpouse} from '../actions/Person'
+import {PERSON_MODAL, NODE_MODAL, FAMILY_INFO_MODAL, SELECT_SPOUSES_MODAL ,NULL_MODAL } from '../constants/Modal'
 import {HEAD, SPOUSE, CHILD} from '../constants/Person'
 import PersonModal from '../components/modals/PersonEditModal'
 import FamilyModal from '../components/modals/FamilyModal'
 import NodeModal from '../components/modals/NodeModal'
+import SpousesSelectModal from '../components/modals/SpousesSelectModal'
 import FamilyInfo from '../objects/FamilyInfo'
+
+// SpousesSelectModal
+export function createSelectSpouseMod(node) {
+	return (dispatch) => {
+		dispatch(createSelectSpouseModal(node))
+	}
+}
+
+export function selectPerson(selectedId) {
+	return (dispatch) => {
+		dispatch(selectSpouse(selectedId))
+	}
+}
+
+export function changePerson(selectedId) {
+	return (dispatch) => {
+		dispatch(changeSpouse(selectedId))
+	}
+}
 
 // FamilyModal
 export function createHeadPersonMod(name, description) {
@@ -24,16 +44,9 @@ export function createFam(familyInfo, head) {
 }
 
 //NodeModal
-
 export function createEditPersonMod(person) {
 	return (dispatch) => {
 		dispatch(createEditPersonModal(person))
-	}
-}
-
-export function createChangeSpouseMod(person) {
-	return (dispatch) => {
-		dispatch(createFamilyHeadModal(new FamilyInfo(person)))
 	}
 }
 
@@ -54,7 +67,6 @@ export function updatePerson(person) {
 		dispatch(fetchUpdatePerson(person))
 	}
 }
-
 
 export function createSpouse(familyId, descendantId, spouse) {
 	return (dispatch) => {
@@ -114,8 +126,15 @@ class Modals extends Component {
 				personClick = {this.props.createEditPersonMod}
 				addChildClick = {this.props.createChildMod}
 				addSpouseClick = {this.props.createSpouseMod}
-				changeClick = {this.props.createChangeSpouseMod}
+				changeClick = {this.props.createSelectSpouseMod}
 				closeClick = {closeMod} />;
+		case SELECT_SPOUSES_MODAL:
+			return <SpousesSelectModal
+				data = {data}
+			    personClick = {this.props.selectPerson}
+			    editClick = {this.props.createEditPersonMod}
+			    changeClick = {this.props.changePerson}
+			    closeClick = {closeMod} />;
 		case NULL_MODAL:
 		default:
 			return (<div></div>);
@@ -143,8 +162,10 @@ Modals = connect(
 	mapStateToProps,
 	{
 		createHeadPersonMod, createFam, //FamilyModal
-		createEditPersonMod, createChangeSpouseMod, createChildMod, createSpouseMod, updatePerson, createSpouse, createChild, //NodeModal
-		closeMod}
+		createEditPersonMod, createSelectSpouseMod, createChildMod, createSpouseMod, updatePerson, createSpouse, createChild, //NodeModal
+		selectPerson, changePerson, //SpousesSelectModal
+		closeMod
+	}
 )(Modals);
 
 
