@@ -17,7 +17,14 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.ProvidePlugin({
+      $:          'jquery',
+      ReactDOM:   'react-dom',
+      Bootstrap:  'bootstrap',
+      bootstrap:  'bootstrap',
+      jQuery: 'jquery'
+    })
   ],
   module: {
     preLoaders: [
