@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import {customStyles} from '../../constants/Modal'
 import PersonsLine, {PERSONS_IN_LINE} from '../PersonsLine'
 
-class SpousesSelectModal extends Component {
+class SelectSpousesModal extends Component {
 
 	render() {
 		const {data, personClick, editClick, changeClick, closeClick} = this.props;
@@ -50,7 +50,7 @@ class SpousesSelectModal extends Component {
 	}
 }
 
-SpousesSelectModal.propTypes = {
+SelectSpousesModal.propTypes = {
 	data: PropTypes.object.isRequired,
 	personClick: PropTypes.func.isRequired,
 	editClick: PropTypes.func.isRequired,
@@ -58,4 +58,4 @@ SpousesSelectModal.propTypes = {
 	closeClick: PropTypes.func.isRequired
 };
 
-export default SpousesSelectModal
+export default SelectSpousesModal

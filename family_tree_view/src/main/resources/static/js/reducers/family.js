@@ -3,7 +3,9 @@ import {
 } from '../constants/Modal'
 
 import {
-	POST_FAMILY, RESPONSE_FAMILY, INVALID_FAMILY
+	RESPONSE_LOAD_FAMILY, INVALID_LOAD_FAMILY,
+	POST_FAMILY, RESPONSE_FAMILY, INVALID_FAMILY,
+	LOADING_FAMILIES
 } from '../constants/Family'
 
 import {
@@ -15,7 +17,7 @@ import {
 
 import {createFamilyInfo} from '../objects/FamilyInfo'
 import Node, {createNode, addSpouse, addEdge, changeSpouse} from '../objects/Node'
-import {createPerson} from '../objects/Person'
+import {clonePerson} from '../objects/Person'
 import Edge, {changeTypeEdge, cloneEdge} from '../objects/Edge'
 
 let initialTree = {
@@ -24,7 +26,6 @@ let initialTree = {
 	edges: null
 };
 let initialState = {
-	isCreated: false,
 	familyInfo: null,
 	tree: initialTree
 };
@@ -52,6 +53,13 @@ const node = (state, action, activeNode, edgesLength) => {
 
 const treeF = (state, action) => {
 	switch (action.type) {
+	case RESPONSE_LOAD_FAMILY: {
+		return Object.assign({},
+			state,
+			{nodes: action.nodes},
+			{edges: action.edges}
+		);
+	}
 	case CREATE_NODE_MODAL:
 		return Object.assign({}, state, {
 			activeNodeId: action.node.id
@@ -72,7 +80,7 @@ const treeF = (state, action) => {
 	case RESPONSE_CHILD:
 		var activeNode = state.nodes[state.activeNodeId];
 		var nodes = state.nodes.map(n => node(n, action, state.activeNodeId, state.edges.length));
-		nodes.push(new Node(state.nodes.length, activeNode.getSpouse().id, createPerson(action.child), [], [], []));
+		nodes.push(new Node(state.nodes.length, activeNode.getSpouse().id, clonePerson(action.child), [], [], []));
 		return Object.assign({}, state, {
 			nodes: nodes,
 			edges: [...
@@ -104,13 +112,14 @@ const treeF = (state, action) => {
 const family = (state = initialState, action) => {
 	let tree = state.tree;
 	switch (action.type) {
+	case LOADING_FAMILIES: 
+		return initialState;
 	case CREATE_NODE_MODAL:
 		return Object.assign({}, state, {
 			tree: treeF(tree, action)
 		});
 	case RESPONSE_FAMILY:
 		return Object.assign({}, state, {
-			isCreated: true,
 			familyInfo: action.familyInfo,
 			tree: treeF(tree, action)
 		});
@@ -137,12 +146,20 @@ const family = (state = initialState, action) => {
 		return Object.assign({}, state, {
 			tree: treeF(tree, action)
 		});
+	case RESPONSE_LOAD_FAMILY: {
+		return Object.assign({},
+			state,
+			{familyInfo: action.familyInfo},
+			{tree: treeF(tree, action)}
+		);
+	}
 	case POST_FAMILY:
 	case POST_PERSON:
 	case POST_SPOUSE:
 	case POST_CHILD:
 		return state;
 	case INVALID_FAMILY:
+	case INVALID_LOAD_FAMILY:
 	case INVALID_PERSON:
 	case INVALID_SPOUSE:
 	case INVALID_CHILD:

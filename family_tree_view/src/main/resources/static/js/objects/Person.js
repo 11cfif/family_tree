@@ -16,7 +16,6 @@ class Person {
 
 export default Person;
 
-export function createPerson(person) {
-	var newPerson = new Person(person.name, person.surname, person.birthday, person.deathday, person.id);
-	return newPerson;
+export function clonePerson(person) {
+	return new Person(person.name, person.surname, person.birthday, person.deathday, person.id);
 }

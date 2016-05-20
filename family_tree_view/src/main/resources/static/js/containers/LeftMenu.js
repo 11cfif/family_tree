@@ -1,45 +1,37 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import {createFamilyModal, closeFamilyModal, createFamilyHeadModal} from '../actions/Modal'
+import {setFamilyListScreen, setFamilyScreen} from '../actions/Screen'
+import {createEditFamilyModal} from '../actions/Modal'
+import {fetchLoadFamilies} from '../actions/Family'
 import MenuItem from '../components/MenuItem'
-// import Modal from 'react-modal';
-import FamilyInfo from '../objects/FamilyInfo';
 import {
 	FIRST_BUTTON, SECOND_BUTTON, THIRD_BUTTON
 } from '../constants/LeftMenu'
 
 
-// let name;
-// let description;
-
-
 export function createModal() {
 	return (dispatch) => {
-		dispatch(createFamilyModal())
+		dispatch(setFamilyScreen());
+		dispatch(createEditFamilyModal());
 	}
 }
 
-export function closeModal() {
+export function loadFamilies() {
 	return (dispatch) => {
-		dispatch(closeFamilyModal())
-	}
-}
-
-export function createFam(name, description) {
-	return (dispatch) => {
-		dispatch(createFamilyHeadModal(new FamilyInfo(name, description, null)))
+		dispatch(setFamilyListScreen());
+		dispatch(fetchLoadFamilies());
 	}
 }
 
 class LeftMenu extends Component {
 
 	render() {
-		const {createModal } = this.props;
+		const {createModal, loadFamilies} = this.props;
 		return (
 			<div>
 				<ul className='nav'>
-					<MenuItem text={FIRST_BUTTON} onClick={() => createModal()}/>
-					<MenuItem text={SECOND_BUTTON} onClick={() => console.log('second button')}/>
+					<MenuItem text={FIRST_BUTTON} onClick={createModal}/>
+					<MenuItem text={SECOND_BUTTON} onClick={loadFamilies}/>
 					<MenuItem text={THIRD_BUTTON} onClick={() => console.log('second button')}/>
 				</ul>
 
@@ -50,56 +42,20 @@ class LeftMenu extends Component {
 
 //noinspection JSUnresolvedVariable
 LeftMenu.propTypes = {
-	// modalIsOpen: PropTypes.bool.isRequired,
 	createModal: PropTypes.func.isRequired,
-	closeModal: PropTypes.func.isRequired,
-	createFam: PropTypes.func.isRequired
+	loadFamilies: PropTypes.func.isRequired
 };
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = () => {
 	return {
-		modalIsOpen: state.modalIsOpen
 	}
 };
 
 LeftMenu = connect(
 	mapStateToProps,
-	{createModal, closeModal, createFam}
+	{createModal, loadFamilies}
 )(LeftMenu);
 
 
 export default LeftMenu
-// <Modal
-// 	isOpen={modalIsOpen}
-// 	onAfterOpen={afterOpenModal}
-// 	onRequestClose={close}
-// 	style={customStyles}
-// >
-// 	<div className='modal'>
-// 		<h2 ref='subtitle'>Введите описание семьи:</h2>
-// 		<div>Пожалуйста, введите название семьи и её краткое описание.</div>
-// 		<form onSubmit={e => {
-// 			e.preventDefault();
-// 			createFam(name.value, description.value);
-// 			closeModal()
-// 		}}>
-// 			<ul>
-// 				<li className='inputLi'>
-// 					<label>Название:</label>
-// 					<input placeholder='Семья Ивановых'
-// 					       ref={node1 => {name = node1}}/>
-// 				</li>
-// 				<li className='inputLi'>
-// 					<label>Описание:</label>
-// 					<input placeholder='Семья по отцовской линии'
-// 					       ref={node2 => {description = node2}}/>
-// 				</li>
-// 				<li className='buttonLi'>
-// 					<button className='submitBut' type='submit'>Создать</button>
-// 					<button className='closeBut' onClick={closeModal}>Отмена</button>
-// 				</li>
-// 			</ul>
-// 		</form>
-// 	</div>
-// </Modal>

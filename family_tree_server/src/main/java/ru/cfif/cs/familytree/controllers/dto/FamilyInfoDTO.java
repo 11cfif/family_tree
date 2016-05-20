@@ -52,7 +52,8 @@ public class FamilyInfoDTO {
 	}
 
 	public FamilyInfo createFamilyInfo() {
-		return new FamilyInfo(name, description, head.createPerson(id));
+		//todo
+		return new FamilyInfo(id, name, description, head.createPerson(id));
 	}
 
 	@Override

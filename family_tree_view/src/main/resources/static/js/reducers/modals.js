@@ -1,5 +1,5 @@
 import {
-	CREATE_FAMILY_INFO_MODAL, CREATE_FAMILY_HEAD_MODAL,
+	CREATE_EDIT_FAMILY_INFO_MODAL, CREATE_FAMILY_HEAD_MODAL, CREATE_FAMILY_INFO_MODAL, 
 	CREATE_NODE_MODAL, CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL, CREATE_CHILD_MODAL, CREATE_SELECT_SPOUSE_MODAL,
 	CLOSE_MODAL, NULL_MODAL
 } from '../constants/Modal'
@@ -16,7 +16,21 @@ const initState = {
 const updateModal = (state = initState, action) => {
 	switch (action.type) {
 	case CREATE_FAMILY_INFO_MODAL:
-		return Object.assign({}, state, {modalType: action.modalType}, {modalData: {}});
+		return Object.assign({}, 
+			state, 
+			{modalType: action.modalType}, 
+			{modalData: {
+				familyInfo: action.familyInfo
+			}}
+		);
+	case CREATE_EDIT_FAMILY_INFO_MODAL:
+		return Object.assign({}, 
+			state, 
+			{modalType: action.modalType}, 
+			{modalData: {
+				familyInfo: action.familyInfo
+			}}
+		);
 	case CREATE_FAMILY_HEAD_MODAL:
 		return Object.assign({}, 
 			state, 
@@ -25,7 +39,8 @@ const updateModal = (state = initState, action) => {
 				relationType: HEAD,
 				title: 'Глава семьи',
 				familyInfo: action.familyInfo,
-				person: null
+				person: {},
+				edit: false
 			}}
 		);
 	case CREATE_NODE_MODAL:
@@ -44,7 +59,8 @@ const updateModal = (state = initState, action) => {
 				relationType: SPOUSE,
 				title: 'Добавьте супруга для ' + action.descendant.getFullName(),
 				familyInfo: null,
-				person: action.descendant
+				person: action.descendant,
+				edit: false
 			}}
 		);
 	case CREATE_CHILD_MODAL:
@@ -55,7 +71,9 @@ const updateModal = (state = initState, action) => {
 				relationType: CHILD,
 				title: 'Добавьте рёбнка для пары ' + action.node.getSpousesFullName(),
 				familyInfo: null,
-				node: action.node
+				person:{},
+				node: action.node,
+				edit: false
 			}}
 		);
 	case CREATE_SELECT_SPOUSE_MODAL:
@@ -84,7 +102,8 @@ const updateModal = (state = initState, action) => {
 				relationType: null,
 				title: 'Редактирование',
 				familyInfo: null,
-				person: action.person
+				person: action.person,
+				edit: true
 			}}
 		);
 	case CHANGE_SPOUSE:

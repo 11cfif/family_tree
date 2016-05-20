@@ -175,3 +175,14 @@ body {
  margin-right: 5px;
 }
 
+.familyInfo {
+  border: 2px double black;
+  width: 300px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.familyInfo ul {
+  list-style: none;
+  padding: 0;
+}

@@ -1,45 +1,47 @@
 import React, {Component, PropTypes} from 'react'
 import Modal from 'react-modal';
 import {customStyles} from '../../constants/Modal'
-
-let name;
-let description;
+import FamilyInfoComp from '../FamilyInfo'
 
 class FamilyModal extends Component {
 
 	render() {
-		const {okClick, closeClick} = this.props;
+		const {data, familyClick, deleteClick, loadClick, closeClick} = this.props;
 		return (
-			<Modal 
+			<Modal
 				isOpen={true}
 				onRequestClose={closeClick}
 				style={customStyles}
 			>
 				<div className='modal'>
-					<div className='famModal'>
-						<h2 ref='subtitle'>Некоторые сведения о вашей семье:</h2>
-						<div>Пожалуйста, введите название семьи и её краткое описание.</div>
-						<form onSubmit={e => {
-							e.preventDefault();
-							okClick(name.value, description.value);
-						}}>
-							<ul>
-								<li className='inputLi'>
-									<label>Название:</label>
-									<input placeholder='Семья Ивановых'
-									       ref={node1 => {name = node1}}/>
-								</li>
-								<li className='inputLi'>
-									<label>Описание:</label>
-									<input placeholder='Семья по отцовской линии'
-									       ref={node2 => {description = node2}}/>
-								</li>
-								<li className='buttonLi'>
-									<button className='submitBut' type='submit'>Создать</button>
-									<button className='closeBut' onClick={closeClick}>Отмена</button>
-								</li>
-							</ul>
-						</form>
+					<div className='familyModal'>
+						<h2 ref='subtitle'>Выбранна семья</h2>
+						<ul>
+							<li>
+								<FamilyInfoComp
+									title=''
+									cssClass=''
+									familyInfo={data.familyInfo}
+									familyClick={familyClick}/>
+							</li>
+							<li>
+								<button
+									onClick={() => {
+										loadClick(data.familyInfo.id);
+										closeClick();
+									}}>
+									Загрузить семью
+								</button>
+								<button 
+									onClick={() => {
+										deleteClick(data.familyInfo.id);
+										closeClick();
+									}}>
+									Удалить семью
+								</button>
+								<button onClick={closeClick}>Отмена</button>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</Modal>
@@ -49,7 +51,9 @@ class FamilyModal extends Component {
 
 FamilyModal.propTypes = {
 	data: PropTypes.object.isRequired,
-	okClick: PropTypes.func.isRequired,
+	familyClick: PropTypes.func.isRequired,
+	loadClick: PropTypes.func.isRequired,
+	deleteClick: PropTypes.func.isRequired,
 	closeClick: PropTypes.func.isRequired
 };
 

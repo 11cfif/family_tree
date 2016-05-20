@@ -1,4 +1,4 @@
-import {createPerson} from './Person'
+import {clonePerson} from './Person'
 
 const FAKE = -1;
 
@@ -49,7 +49,7 @@ let createLabel = (p1, p2) => {
 export function createNode(node, person) {
 	let spouses  = [];
 	for (var i = 0; i < node.spouses.length; i++) {
-		spouses[i] = createPerson(node.spouses[i]);
+		spouses[i] = clonePerson(node.spouses[i]);
 	}
 	if (person) {
 		if (person.id == node.descendant.id) {
@@ -62,39 +62,39 @@ export function createNode(node, person) {
 				}
 			}
 		}
-		return new Node(node.id, node.spouseId, createPerson(node.descendant), spouses.map(per => {
+		return new Node(node.id, node.spouseId, clonePerson(node.descendant), spouses.map(per => {
 			if (per.id == person.id)
 				return person;
 			else
 				return per;
 		}), node.spouseDescriptions, node.childRelations);
 	} else {
-		return new Node(node.id, node.spouseId, createPerson(node.descendant), 
+		return new Node(node.id, FAKE, clonePerson(node.descendant), 
 			spouses, node.spouseDescriptions, node.childRelations);
 	}
 }
 
 export function addSpouse(node, spouse) {
 	let spouses = cloneSpouses(node.spouses);
-	spouses.push(createPerson(spouse));
-	return new Node(node.id, node.spouseId, createPerson(node.descendant), 
+	spouses.push(clonePerson(spouse));
+	return new Node(node.id, node.spouseId, clonePerson(node.descendant), 
 		spouses, node.spouseDescriptions, node.childRelations);
 }
 
 export function addEdge(node, edgeId) {
-	return new Node(node.id, node.spouseId, createPerson(node.descendant), 
+	return new Node(node.id, node.spouseId, clonePerson(node.descendant), 
 		cloneSpouses(node.spouses), node.spouseDescriptions, [...node.childRelations, edgeId]);
 }
 
 export function changeSpouse(node, spouseId) {
-	return new Node(node.id, spouseId, createPerson(node.descendant),
+	return new Node(node.id, spouseId, clonePerson(node.descendant),
 		cloneSpouses(node.spouses), node.spouseDescriptions, node.childRelations);
 }
 
 function cloneSpouses(oldSpouses) {
 	let spouses = [];
 	for (var i = 0; i < oldSpouses.length; i++) {
-		spouses[i] = createPerson(oldSpouses[i]);
+		spouses[i] = clonePerson(oldSpouses[i]);
 	}
 	return spouses;
 }

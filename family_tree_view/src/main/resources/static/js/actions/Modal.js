@@ -1,14 +1,24 @@
 import {
-	CREATE_FAMILY_INFO_MODAL, CREATE_FAMILY_HEAD_MODAL, FAMILY_INFO_MODAL,
+	CREATE_EDIT_FAMILY_INFO_MODAL, CREATE_FAMILY_HEAD_MODAL, EDIT_FAMILY_INFO_MODAL,
 	CREATE_SELECT_SPOUSE_MODAL, SELECT_SPOUSES_MODAL, 
 	CREATE_NODE_MODAL, CLOSE_MODAL, NODE_MODAL, PERSON_MODAL,
-	CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL, CREATE_CHILD_MODAL
+	CREATE_EDIT_PERSON_MODAL, CREATE_SPOUSE_MODAL, CREATE_CHILD_MODAL,
+	CREATE_FAMILY_INFO_MODAL, FAMILY_INFO_MODAL
 } from '../constants/Modal'
 
-export function createFamilyModal() {
+export function createEditFamilyModal(familyInfo) {
+	return {
+		type: CREATE_EDIT_FAMILY_INFO_MODAL,
+		modalType: EDIT_FAMILY_INFO_MODAL,
+		familyInfo
+	}
+}
+
+export function createFamilyModal(familyInfo) {
 	return {
 		type: CREATE_FAMILY_INFO_MODAL,
-		modalType: FAMILY_INFO_MODAL
+		modalType: FAMILY_INFO_MODAL,
+		familyInfo
 	}
 }
 
@@ -58,7 +68,6 @@ export function createChildModal(node) {
 		node
 	}
 }
-
 
 export function closeModal() {
 	return {

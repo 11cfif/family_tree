@@ -1,4 +1,4 @@
-import {createPerson} from './Person'
+import {clonePerson} from './Person'
 
 const FAKE_ID = -1;
 
@@ -13,6 +13,10 @@ class FamilyInfo {
 
 export default FamilyInfo
 
+export function cloneFamilyInfo(info) {
+	return new FamilyInfo(info.name, info.description, clonePerson(info.head), info.id);
+}
+
 export function createFamilyInfo(info, person) {
-	return new FamilyInfo(info.name, info.description, person ? person : createPerson(info.head), info.id);
+	return new FamilyInfo(info.name, info.description, person ? person : clonePerson(info.head), info.id);
 }

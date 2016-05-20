@@ -30,8 +30,8 @@ public class InternalFamilyManager implements FamilyManager {
 		FamilyInfo familyInfoWithId = new FamilyInfo(familyId,
 			familyInfo.getName(), familyInfo.getDescription(), head);
 		familyInfoMap.put(familyInfoWithId.getId(), familyInfoWithId);
-		childRelationMap.put(familyInfo.getId(), new ArrayList<>());
-		spouseRelationMap.put(familyInfo.getId(), new ArrayList<>());
+		childRelationMap.put(familyInfoWithId.getId(), new ArrayList<>());
+		spouseRelationMap.put(familyInfoWithId.getId(), new ArrayList<>());
 		return new Family(familyInfoWithId);
 	}
 
@@ -123,30 +123,33 @@ public class InternalFamilyManager implements FamilyManager {
 		List<ParentChildRelation> childRelations = childRelationMap.get(familyId);
 		List<SpouseRelation> spouseRelation = spouseRelationMap.get(familyId);
 
-		//init nodeBuilders
+		//init nodeBuildersByDescendantId
 		AtomicInteger i = new AtomicInteger(1);
-		Map<Long, FamilyTreeNode.Builder> nodeBuilders = new HashMap<>();
-		nodeBuilders.put(info.getHead().getId(), new FamilyTreeNode.Builder(0, info.getHead()));
+		Map<Long, FamilyTreeNode.Builder> nodeBuildersByDescendantId = new HashMap<>();
+		nodeBuildersByDescendantId.put(info.getHead().getId(), new FamilyTreeNode.Builder(0, info.getHead()));
 		childRelations.stream()
 			.map(rel -> new FamilyTreeNode.Builder(i.getAndIncrement(), persons.get(rel.childId)))
-			.forEach(builder -> nodeBuilders.put(builder.getDescendant().getId(), builder));
-		spouseRelation.forEach(rel -> nodeBuilders.get(rel.mainId).addSpouse(persons.get(rel.secondaryId), rel.description));
-
+			.forEach(builder -> nodeBuildersByDescendantId.put(builder.getDescendant().getId(), builder));
+		spouseRelation.forEach(rel -> nodeBuildersByDescendantId.get(rel.mainId).addSpouse(persons.get(rel.secondaryId), rel.description));
+		List<FamilyTreeNode.Builder> nodeBuilders = new ArrayList<>(nodeBuildersByDescendantId.values());
+		Collections.sort(nodeBuilders, (o1, o2) -> Long.compare(o1.getId(), o2.getId()));
 		//init relationBuilders
-		AtomicInteger j = new AtomicInteger(1);
+		AtomicInteger j = new AtomicInteger(0);
 		List<ChildRelation> relations = childRelations.stream()
 			.map(rel -> new ChildRelation(
 				j.getAndIncrement(),
-				nodeBuilders.get(rel.mainParentId).getId(),
-				nodeBuilders.get(rel.childId).getId(),
+				nodeBuildersByDescendantId.get(rel.mainParentId).getId(),
+				nodeBuildersByDescendantId.get(rel.childId).getId(),
 				rel.secondaryParentId,
 				rel.description))
 			.collect(Collectors.toList());
-		//init nodeBuilders ChildRelationIndexes
-		relations.forEach(rel -> nodeBuilders.get(rel.getParentNode()).addChildRelationIndex(rel.getId()));
+		//init nodeBuildersByDescendantId ChildRelationIndexes
+		relations.forEach(rel -> nodeBuilders
+			.get((int)rel.getParentNode())
+			.addChildRelationIndex(rel.getId()));
 
 		//init nodes
-		List<FamilyTreeNode> nodes = nodeBuilders.values().stream()
+		List<FamilyTreeNode> nodes = nodeBuildersByDescendantId.values().stream()
 			.sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId()))
 			.map(FamilyTreeNode.Builder::build)
 			.collect(Collectors.toList());

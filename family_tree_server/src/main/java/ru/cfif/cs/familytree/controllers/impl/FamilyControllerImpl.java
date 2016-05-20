@@ -67,13 +67,18 @@ public class FamilyControllerImpl implements FamilyController {
 	}
 
 	@Override
-	public FamilyInfoDTO updateFamily(long familyId, FamilyInfoDTO family) {
-		return new FamilyInfoDTO(familyManager.updateFamily(family.createFamilyInfo()));
+	public FamilyInfoDTO updateFamily(FamilyInfoDTO family) {
+		System.out.println("updateFamily Inner: " + family);
+
+		FamilyInfoDTO res = new FamilyInfoDTO(familyManager.updateFamily(family.createFamilyInfo()));
+		System.out.println("updateFamily Outer: " + res);
+		return res;
 	}
 
 	@Override
-	public void delete(long familyId) {
+	public long delete(long familyId) {
 		familyManager.removeFamily(familyId);
+		return familyId;
 	}
 
 	@Required
