@@ -76,9 +76,6 @@ export function fetchSpouse(familyId, descendantId, spouse) {
 		dispatch(postSpouse(spouse));
 		const body = JSON.stringify({
 			descendantId,
-			description:'',
-			startDate:'',
-			finishDate:'',
 			spouse
 		});
 		return fetch(URL + FAMILY_URL_PATH + familyId + '/spouse/', createRequest('post', body))
@@ -150,7 +147,6 @@ export function fetchChild(familyId, descendantId, spouseId, child) {
 		const body = JSON.stringify({
 			descendantId,
 			spouseId,
-			description:'',
 			child
 		});
 		return fetch(URL + FAMILY_URL_PATH + familyId + '/child/', createRequest('post', body))

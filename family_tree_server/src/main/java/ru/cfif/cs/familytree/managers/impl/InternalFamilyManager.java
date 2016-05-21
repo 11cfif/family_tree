@@ -52,16 +52,14 @@ public class InternalFamilyManager implements FamilyManager {
 	}
 
 	@Override
-	public Person addSpouse(long familyId, long mainId, Person spouse,
-		String dateStartRelation, String dateFinishRelation, String description)
-	{
+	public Person addSpouse(long familyId, long descendantId, Person spouse) {
 		Person person = personManager.create(spouse);
 		List<SpouseRelation> relations = spouseRelationMap.get(familyId);
 		if (relations == null) {
 			relations = new ArrayList<>();
 			spouseRelationMap.put(familyId, relations);
 		}
-		relations.add(new SpouseRelation(mainId, person.getId(), dateStartRelation, dateFinishRelation, description));
+		relations.add(new SpouseRelation(descendantId, person.getId()));
 		return person;
 	}
 
@@ -72,7 +70,7 @@ public class InternalFamilyManager implements FamilyManager {
 		if (relations == null)
 			return;
 		for (int i = 0; i < relations.size(); i++) {
-			if (relations.get(i).secondaryId == spouseID) {
+			if (relations.get(i).spouseId == spouseID) {
 				relations.remove(i);
 				return;
 			}
@@ -80,14 +78,14 @@ public class InternalFamilyManager implements FamilyManager {
 	}
 
 	@Override
-	public Person addChild(long familyId, long mainParentId, long secondaryParentId, Person child, String description) {
+	public Person addChild(long familyId, long descendantParentId, long spouseParentId, Person child) {
 		Person person = personManager.create(child);
 		List<ParentChildRelation> relations = childRelationMap.get(familyId);
 		if (relations == null) {
 			relations = new ArrayList<>();
 			childRelationMap.put(familyId, relations);
 		}
-		relations.add(new ParentChildRelation(mainParentId, secondaryParentId, person.getId(), description));
+		relations.add(new ParentChildRelation(descendantParentId, spouseParentId, person.getId()));
 		return person;
 	}
 
@@ -130,7 +128,7 @@ public class InternalFamilyManager implements FamilyManager {
 		childRelations.stream()
 			.map(rel -> new FamilyTreeNode.Builder(i.getAndIncrement(), persons.get(rel.childId)))
 			.forEach(builder -> nodeBuildersByDescendantId.put(builder.getDescendant().getId(), builder));
-		spouseRelation.forEach(rel -> nodeBuildersByDescendantId.get(rel.mainId).addSpouse(persons.get(rel.secondaryId), rel.description));
+		spouseRelation.forEach(rel -> nodeBuildersByDescendantId.get(rel.descendantId).addSpouse(persons.get(rel.spouseId)));
 		List<FamilyTreeNode.Builder> nodeBuilders = new ArrayList<>(nodeBuildersByDescendantId.values());
 		Collections.sort(nodeBuilders, (o1, o2) -> Long.compare(o1.getId(), o2.getId()));
 		//init relationBuilders
@@ -138,10 +136,9 @@ public class InternalFamilyManager implements FamilyManager {
 		List<ChildRelation> relations = childRelations.stream()
 			.map(rel -> new ChildRelation(
 				j.getAndIncrement(),
-				nodeBuildersByDescendantId.get(rel.mainParentId).getId(),
+				nodeBuildersByDescendantId.get(rel.descendantParentId).getId(),
 				nodeBuildersByDescendantId.get(rel.childId).getId(),
-				rel.secondaryParentId,
-				rel.description))
+				rel.spouseParentId))
 			.collect(Collectors.toList());
 		//init nodeBuildersByDescendantId ChildRelationIndexes
 		relations.forEach(rel -> nodeBuilders
@@ -157,32 +154,24 @@ public class InternalFamilyManager implements FamilyManager {
 	}
 
 	private class ParentChildRelation {
-		private final long mainParentId;
-		private final long secondaryParentId;
+		private final long descendantParentId;
+		private final long spouseParentId;
 		private final long childId;
-		private final String description;
 
-		private ParentChildRelation(long mainParentId, long secondaryParentId, long childId, String description) {
-			this.mainParentId = mainParentId;
-			this.secondaryParentId = secondaryParentId;
+		private ParentChildRelation(long descendantParentId, long spouseParentId, long childId) {
+			this.descendantParentId = descendantParentId;
+			this.spouseParentId = spouseParentId;
 			this.childId = childId;
-			this.description = description;
 		}
 	}
 
 	private class SpouseRelation {
-		private final long mainId;
-		private final long secondaryId;
-		private final String dateStartRelation;
-		private final String dateFinishRelation;
-		private final String description;
+		private final long descendantId;
+		private final long spouseId;
 
-		private SpouseRelation(long mainId, long secondaryId, String dateStartRelation, String dateFinishRelation, String description) {
-			this.mainId = mainId;
-			this.secondaryId = secondaryId;
-			this.dateStartRelation = dateStartRelation;
-			this.dateFinishRelation = dateFinishRelation;
-			this.description = description;
+		private SpouseRelation(long descendantId, long spouseId) {
+			this.descendantId = descendantId;
+			this.spouseId = spouseId;
 		}
 	}
 }

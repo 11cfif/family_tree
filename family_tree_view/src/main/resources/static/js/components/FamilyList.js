@@ -13,7 +13,7 @@ class FamilyList extends Component {
 					<h2>Ни одна семья не создана</h2>
 					:
 					<div>
-						<h1>Доступные семьи:</h1>
+						<h1>Список семей:</h1>
 						<div className='familyList'>
 							{families.map(family => {
 								console.log('FamilyList map family = ' + JSON.stringify(family, null, 2));
@@ -21,7 +21,7 @@ class FamilyList extends Component {
 								return (<FamilyInfoComp
 									key = {family.id}
 									title = ''
-									cssClass = ''
+									cssClass = 'perInFam'
 									familyInfo = {family}
 									familyClick = {familyClick}/>)
 							})}

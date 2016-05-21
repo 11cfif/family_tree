@@ -75,17 +75,23 @@ const treeF = (state, action) => {
 		});
 	case RESPONSE_SPOUSE:
 		return Object.assign({}, state, {
-			nodes: state.nodes.map(n => node(n, action, state.activeNodeId))
+			nodes: state.nodes.map(n => node(n, action, state.activeNodeId)),
+			edges: state.edges.map(edge => {
+				if (state.nodes[state.activeNodeId].childRelations.some(item => item == edge.id)) {
+					return changeTypeEdge(edge, true);
+				}
+				return edge;
+			})
 		});
 	case RESPONSE_CHILD:
 		var activeNode = state.nodes[state.activeNodeId];
 		var nodes = state.nodes.map(n => node(n, action, state.activeNodeId, state.edges.length));
-		nodes.push(new Node(state.nodes.length, activeNode.getSpouse().id, clonePerson(action.child), [], [], []));
+		nodes.push(new Node(state.nodes.length, activeNode.getSpouse().id, clonePerson(action.child), [], []));
 		return Object.assign({}, state, {
 			nodes: nodes,
 			edges: [...
 				state.edges,
-				new Edge(state.edges.length, state.activeNodeId, state.nodes.length, activeNode.getSpouse().id, '', false)
+				new Edge(state.edges.length, state.activeNodeId, state.nodes.length, activeNode.getSpouse().id, false)
 			]
 		});
 	case CHANGE_SPOUSE:

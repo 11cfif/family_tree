@@ -5,6 +5,8 @@ const MenuItem = ({text, onClick}) => (
 		<a href='#'>{text}</a>
 	</li>
 );
+//		<a href='#'><span className='glyphicon glyphicon-search' aria-hidden='true'/>{text}</a>
+
 
 //noinspection JSUnresolvedVariable
 MenuItem.propTypes = {

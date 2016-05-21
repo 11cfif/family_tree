@@ -5,7 +5,7 @@ import {createEditFamilyModal} from '../actions/Modal'
 import {fetchLoadFamilies} from '../actions/Family'
 import MenuItem from '../components/MenuItem'
 import {
-	FIRST_BUTTON, SECOND_BUTTON, THIRD_BUTTON
+	FIRST_BUTTON, SECOND_BUTTON
 } from '../constants/LeftMenu'
 
 
@@ -32,7 +32,6 @@ class LeftMenu extends Component {
 				<ul className='nav'>
 					<MenuItem text={FIRST_BUTTON} onClick={createModal}/>
 					<MenuItem text={SECOND_BUTTON} onClick={loadFamilies}/>
-					<MenuItem text={THIRD_BUTTON} onClick={() => console.log('second button')}/>
 				</ul>
 
 			</div>

@@ -123,28 +123,28 @@ class Modals extends Component {
 		switch (type) {
 		case PERSON_MODAL:
 			let okClick;
-			let buttonText;
+			let buttonIcon;
 			if (data.relationType != null) {
 				switch (data.relationType) {
 				case HEAD:
 					okClick = this.props.createFam;
-					buttonText = 'Создать семью';
+					buttonIcon = 'fa fa-user fa-1x';
 					break;
 				case SPOUSE:
 					okClick = (spouse) => this.props.createSpouse(familyId, data.person.id, spouse);
-					buttonText = 'Создать cупруга(у)';
+					buttonIcon = 'fa fa-heart fa-1x';
 					break;
 				case CHILD:
 					okClick = (child) => this.props.createChild(familyId, data.node.descendant.id, data.node.getSpouse().id, child);
-					buttonText = 'Создать Ребёнка(у)';
+					buttonIcon = 'fa fa-child fa-1x';
 				}
 			} else {
-				buttonText = 'Внести изменения';
+				buttonIcon = 'fa fa-user fa-1x';
 				okClick = this.props.updatePerson;
 			}
 			return (<PersonModal
 				data={data}
-				buttonText={buttonText}
+				buttonIcon={buttonIcon}
 				okClick={okClick}
 				closeClick={closeMod}/>
 			);

@@ -8,7 +8,7 @@ class Family extends Component {
 		return (
 			<div>
 				{(familyInfo === null) ?
-					<div></div>
+					<div>Создайте новое древо или загрузите существующие.</div>
 					:
 					<div>
 						<h1>{familyInfo.name}:</h1>

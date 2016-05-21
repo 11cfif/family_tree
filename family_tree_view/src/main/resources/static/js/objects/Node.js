@@ -3,8 +3,7 @@ import {clonePerson} from './Person'
 const FAKE = -1;
 
 class Node {
-	constructor(id, spouseId, descendant, spouses, spouseDescriptions, childRelations) {
-
+	constructor(id, spouseId, descendant, spouses, childRelations) {
 		this.id = id;
 		this.descendant = descendant;
 		this.spouses = spouses;
@@ -12,7 +11,6 @@ class Node {
 		this.spouseId = spouses.length == 0 ? FAKE : (spouseId === FAKE ? 0 : spouseId);
 		this.childRelations = childRelations;
 		this.label = createLabel(this.descendant, this.spouseId < 0 ? null : this.spouses[this.spouseId]);
-		this.spouseDescriptions = []
 	}
 	
 	updatePerson(person) {
@@ -53,7 +51,7 @@ export function createNode(node, person) {
 	}
 	if (person) {
 		if (person.id == node.descendant.id) {
-			return new Node(node.id, node.spouseId, person, spouses, node.spouseDescriptions, node.childRelations);
+			return new Node(node.id, node.spouseId, person, spouses, node.childRelations);
 		} else {
 			for (i = 0; i < node.spouses.length; i++) {
 				if (node.spouses[i].id == person.id) {
@@ -67,28 +65,26 @@ export function createNode(node, person) {
 				return person;
 			else
 				return per;
-		}), node.spouseDescriptions, node.childRelations);
+		}), node.childRelations);
 	} else {
-		return new Node(node.id, FAKE, clonePerson(node.descendant), 
-			spouses, node.spouseDescriptions, node.childRelations);
+		return new Node(node.id, FAKE, clonePerson(node.descendant), spouses, node.childRelations);
 	}
 }
 
 export function addSpouse(node, spouse) {
 	let spouses = cloneSpouses(node.spouses);
 	spouses.push(clonePerson(spouse));
-	return new Node(node.id, node.spouseId, clonePerson(node.descendant), 
-		spouses, node.spouseDescriptions, node.childRelations);
+	return new Node(node.id, node.spouses.length, clonePerson(node.descendant),
+		spouses, node.childRelations);
 }
 
 export function addEdge(node, edgeId) {
 	return new Node(node.id, node.spouseId, clonePerson(node.descendant), 
-		cloneSpouses(node.spouses), node.spouseDescriptions, [...node.childRelations, edgeId]);
+		cloneSpouses(node.spouses), [...node.childRelations, edgeId]);
 }
 
 export function changeSpouse(node, spouseId) {
-	return new Node(node.id, spouseId, clonePerson(node.descendant),
-		cloneSpouses(node.spouses), node.spouseDescriptions, node.childRelations);
+	return new Node(node.id, spouseId, clonePerson(node.descendant), cloneSpouses(node.spouses), node.childRelations);
 }
 
 function cloneSpouses(oldSpouses) {

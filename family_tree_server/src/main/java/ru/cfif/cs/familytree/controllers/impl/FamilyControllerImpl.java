@@ -29,15 +29,13 @@ public class FamilyControllerImpl implements FamilyController {
 	@Override
 	public PersonDTO addChild(long familyId, ChildRelationDTO child) {
 		Person personChild = child.getChild().createPerson(familyId);
-		return new PersonDTO(familyManager.addChild(familyId, child.getDescendantId(),
-			child.getSpouseId(), personChild, child.getDescription()));
+		return new PersonDTO(familyManager.addChild(familyId, child.getDescendantId(), child.getSpouseId(), personChild));
 	}
 
 	@Override
 	public PersonDTO addSpouse(long familyId, SpouseRelationDTO spouse) {
 		Person personSpouse = spouse.getSpouse().createPerson(familyId);
-		return new PersonDTO(familyManager.addSpouse(familyId, spouse.getDescendantId(), personSpouse,
-			spouse.getStartDate(), spouse.getFinishDate(), spouse.getDescription()));
+		return new PersonDTO(familyManager.addSpouse(familyId, spouse.getDescendantId(), personSpouse));
 	}
 
 	@Override

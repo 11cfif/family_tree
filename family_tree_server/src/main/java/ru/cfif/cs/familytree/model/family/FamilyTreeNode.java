@@ -10,15 +10,12 @@ public class FamilyTreeNode {
 	private final Person descendant;
 	private final List<Person> spouses;
 	private final List<Long> childRelationIndexes;
-	private final List<String> spouseDescriptions;
 
-	private FamilyTreeNode(long id, Person descendant, List<Person> spouses, List<Long> childRelationIndexes,
-		List<String> spouseDescriptions) {
+	private FamilyTreeNode(long id, Person descendant, List<Person> spouses, List<Long> childRelationIndexes) {
 		this.id = id;
 		this.descendant = descendant;
 		this.spouses = spouses;
 		this.childRelationIndexes = childRelationIndexes;
-		this.spouseDescriptions = spouseDescriptions;
 	}
 
 	public long getId() {
@@ -37,25 +34,19 @@ public class FamilyTreeNode {
 		return childRelationIndexes;
 	}
 
-	public List<String> getSpouseDescriptions() {
-		return spouseDescriptions;
-	}
-
 	public static final class Builder {
 		private final long id;
 		private final Person descendant;
 		private final List<Person> spouses = new ArrayList<>();
 		private final List<Long> childRelationIndexes = new ArrayList<>();
-		private final List<String> spouseDescriptions = new ArrayList<>();
 
 		public Builder(long id, Person descendant) {
 			this.id = id;
 			this.descendant = descendant;
 		}
 
-		public Builder addSpouse(Person spouse, String description) {
+		public Builder addSpouse(Person spouse) {
 			spouses.add(spouse);
-			spouseDescriptions.add(description);
 			return this;
 		}
 
@@ -65,7 +56,7 @@ public class FamilyTreeNode {
 		}
 
 		public FamilyTreeNode build() {
-			return new FamilyTreeNode(id, descendant, spouses, childRelationIndexes, spouseDescriptions);
+			return new FamilyTreeNode(id, descendant, spouses, childRelationIndexes);
 		}
 
 		public long getId() {

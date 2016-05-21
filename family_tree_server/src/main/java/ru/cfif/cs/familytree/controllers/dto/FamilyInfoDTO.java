@@ -52,7 +52,6 @@ public class FamilyInfoDTO {
 	}
 
 	public FamilyInfo createFamilyInfo() {
-		//todo
 		return new FamilyInfo(id, name, description, head.createPerson(id));
 	}
 

@@ -11,7 +11,7 @@ let deathday;
 class EditPersonModal extends Component {
 
 	render() {
-		const {data, buttonText, okClick, closeClick} = this.props;
+		const {data, buttonIcon, okClick, closeClick} = this.props;
 		return (
 			<Modal 
 				isOpen={true}
@@ -63,8 +63,7 @@ class EditPersonModal extends Component {
 
 								<li className='buttonLi'>
 									<button className='submitBut' type='submit'>
-										<span className='glyphicon glyphicon-star' aria-hidden='true'/>
-										{buttonText}
+										{data.edit ? 'Редактировать' : 'Создать'}<i className={buttonIcon} aria-hidden='true'/>
 									</button>
 									<button className='closeBut' onClick={closeClick}>Отмена</button>
 								</li>
@@ -85,7 +84,7 @@ function getInput(edit, defaultValue, placeholder, refFunction) {
 
 EditPersonModal.propTypes = {
 	data: PropTypes.object.isRequired,
-	buttonText: PropTypes.string.isRequired,
+	buttonIcon: PropTypes.string.isRequired,
 	okClick: PropTypes.func.isRequired,
 	closeClick: PropTypes.func.isRequired
 };

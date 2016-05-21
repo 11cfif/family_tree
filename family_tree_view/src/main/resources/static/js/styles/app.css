@@ -43,7 +43,9 @@ body {
   text-decoration: underline;
 }
 
-
+.perInFam {
+  display: inline-block;
+}
 
 .modal {
 
@@ -156,7 +158,7 @@ body {
 }
 
 .nodeModal .rightPer {
-  margin-left: 42%;
+  margin-left: 3%;
   display: inline-block;
   text-align: center
 }
@@ -168,11 +170,32 @@ body {
 
 
 .nodeModal .centerPer {
-  display: block;
+  display: inline-block;
 }
 
+.nodeModal li {
+  text-align: center;
+}
+
+
 .nodeModal button {
- margin-right: 5px;
+  margin-right: 5px;
+}
+
+.spousesModal li {
+  text-align: center;
+}
+
+.spousesModal button {
+  margin-right: 5px;
+}
+
+.familyModal li {
+  text-align: center;
+}
+
+.familyModal button {
+  margin-right: 5px;
 }
 
 .familyInfo {

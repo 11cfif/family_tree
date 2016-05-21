@@ -57,7 +57,6 @@ public class FamilyDTO {
 		private final PersonDTO descendant;
 		private final PersonDTO[] spouses;
 		private final Long[] childRelations;
-		private final String[] spouseDescriptions;
 
 		NodeDTO(FamilyTreeNode node) {
 			this.id = node.getId();
@@ -67,7 +66,6 @@ public class FamilyDTO {
 				.map(PersonDTO::new)
 				.toArray(PersonDTO[]::new);
 			this.childRelations = node.getChildRelationIndexes().stream().toArray(Long[]::new);
-			this.spouseDescriptions = node.getSpouseDescriptions().stream().toArray(String[]::new);
 		}
 
 		@JsonGetter
@@ -91,9 +89,6 @@ public class FamilyDTO {
 		}
 
 		@JsonGetter
-		public String[] getSpouseDescriptions() {
-			return spouseDescriptions;
-		}
 
 		@Override
 		public String toString() {
@@ -102,7 +97,6 @@ public class FamilyDTO {
 				", descendant=" + descendant +
 				", spouses=" + Arrays.toString(spouses) +
 				", childRelations=" + Arrays.toString(childRelations) +
-				", spouseDescriptions=" + Arrays.toString(spouseDescriptions) +
 				'}';
 		}
 	}
@@ -112,14 +106,12 @@ public class FamilyDTO {
 		private final long from;
 		private final long to;
 		private final long parentId;
-		private final String description;
 
 		EdgeDTO(ChildRelation relation) {
 			this.id = relation.getId();
 			this.from = relation.getParentNode();
 			this.to = relation.getChildNode();
-			this.parentId = relation.getParentId();
-			this.description = relation.getDescription();
+			this.parentId = relation.getSpouseParentId();
 		}
 
 		@JsonGetter
@@ -142,11 +134,6 @@ public class FamilyDTO {
 			return parentId;
 		}
 
-		@JsonGetter
-		public String getDescription() {
-			return description;
-		}
-
 		@Override
 		public String toString() {
 			return "EdgeDTO{" +
@@ -154,7 +141,6 @@ public class FamilyDTO {
 				", from=" + from +
 				", to=" + to +
 				", parentId=" + parentId +
-				", description='" + description + '\'' +
 				'}';
 		}
 	}
