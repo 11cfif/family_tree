@@ -52,7 +52,7 @@ class EditFamilyModal extends Component {
 								</li>
 								
 								<li className='buttonLi'>
-									<button className='submitBut' type='submit'>{data.familyInfo ? 'Редактировать' : 'Создать'}<i className='fa fa-users  fa-1x' aria-hidden='true'/></button>
+									<button className='submitBut' type='submit'>{data.familyInfo ? 'Редактировать' : 'Создать'}</button>
 									<button className='closeBut' onClick={closeClick}>Отмена</button>
 								</li>
 							</ul>

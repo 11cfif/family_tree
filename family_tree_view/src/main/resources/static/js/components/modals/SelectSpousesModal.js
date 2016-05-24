@@ -38,8 +38,8 @@ class SelectSpousesModal extends Component {
 						<ul>
 							{linesComponents}
 							<li>
-								<button onClick={() => editClick(data.spouses[data.selectedId])}>Редактировать <i className='fa fa-user fa-1x' aria-hidden='true'/></button>
-								<button onClick={() => changeClick(data.selectedId)}>Выбрать <i className='fa fa-user fa-1x' aria-hidden='true'/></button>
+								<button onClick={() => editClick(data.spouses[data.selectedId])}> Редактировать <i className='fa fa-user fa-1x' aria-hidden='true'/></button>
+								<button onClick={() => changeClick(data.selectedId)}> Выбрать <i className='fa fa-user fa-1x' aria-hidden='true'/></button>
 								<button onClick={closeClick}>Отмена</button>
 							</li>
 						</ul>

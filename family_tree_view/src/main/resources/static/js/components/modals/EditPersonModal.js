@@ -63,7 +63,7 @@ class EditPersonModal extends Component {
 
 								<li className='buttonLi'>
 									<button className='submitBut' type='submit'>
-										{data.edit ? 'Редактировать' : 'Создать'}<i className={buttonIcon} aria-hidden='true'/>
+										{data.edit ? 'Редактировать' : 'Создать'} <i className={buttonIcon} aria-hidden='true'/>
 									</button>
 									<button className='closeBut' onClick={closeClick}>Отмена</button>
 								</li>

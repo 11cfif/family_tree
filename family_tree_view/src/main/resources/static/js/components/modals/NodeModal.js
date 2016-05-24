@@ -41,9 +41,18 @@ class NodeModal extends Component {
 								</li>
 							}
 							<li>
-								<button onClick={() => addChildClick(data.node)}>Добавить<i className='fa fa-child  fa-1x' aria-hidden='true'/></button>
-								<button onClick={() => addSpouseClick(data.node.descendant)}>Добавить<i className='fa fa-heart fa-1x' aria-hidden='true'/></button>
-								<button onClick={() => changeClick(data.node)}>Выбрать<i className='fa fa-heart fa-1x' aria-hidden='true'/></button>
+								<button onClick={() => addChildClick(data.node)}>Добавить <i className='fa fa-child  fa-1x' aria-hidden='true'/></button>
+								<button onClick={() => addSpouseClick(data.node.descendant)}>Добавить <i className='fa fa-heart fa-1x' aria-hidden='true'/></button>
+								{
+									data.node.spouses.length === 0 ?
+										<button disabled='disabled' onClick={() => changeClick(data.node)}>
+											Выбрать <i className='fa fa-heart fa-1x' aria-hidden='true'/>
+										</button>
+										:
+										<button onClick={() => changeClick(data.node)}>
+											Выбрать <i className='fa fa-heart fa-1x' aria-hidden='true'/>
+										</button>
+								}
 								<button onClick={closeClick}>Отмена</button>
 							</li>
 						</ul>

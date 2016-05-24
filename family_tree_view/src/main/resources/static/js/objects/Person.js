@@ -5,8 +5,8 @@ class Person {
 		this.id = id ? id : FAKE_ID;
 		this.name = name;
 		this.surname = surname;
-		this.birthday = birthday;
-		this.deathday = deathday;
+		this.birthday = birthday === null ? ' ... ' : birthday;
+		this.deathday = deathday === null ? ' ... ' : deathday;
 	}
 	
 	getFullName() {

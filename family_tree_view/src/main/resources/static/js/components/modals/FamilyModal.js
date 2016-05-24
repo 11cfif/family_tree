@@ -30,14 +30,14 @@ class FamilyModal extends Component {
 										loadClick(data.familyInfo.id);
 										closeClick();
 									}}>
-									Загрузить<i className='fa fa-users  fa-1x' aria-hidden='true'/>
+									Загрузить <i className='fa fa-users  fa-1x' aria-hidden='true'/>
 								</button>
 								<button 
 									onClick={() => {
 										deleteClick(data.familyInfo.id);
 										closeClick();
 									}}>
-									Удалить<i className='fa fa-users  fa-1x' aria-hidden='true'/>
+									Удалить <i className='fa fa-users  fa-1x' aria-hidden='true'/>
 								</button>
 								<button onClick={closeClick}>Отмена</button>
 							</li>

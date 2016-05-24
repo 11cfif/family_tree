@@ -21,8 +21,6 @@ public class InternalFamilyManager implements FamilyManager {
 
 	private PersonManager personManager;
 
-
-
 	@Override
 	public Family createFamily(FamilyInfo familyInfo) {
 		long familyId = COUNTER.getAndIncrement();

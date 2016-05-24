@@ -1,6 +1,13 @@
 package ru.cfif.cs.familytree.controllers.dto;
 
+
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ru.cfif.cs.familytree.controllers.JsonDataDeserializer;
+import ru.cfif.cs.familytree.controllers.JsonDataSerializer;
 import ru.cfif.cs.familytree.model.Person;
 
 public class PersonDTO {
@@ -8,16 +15,20 @@ public class PersonDTO {
 	private final long id;
 	private final String name;
 	private final String surname;
-	private final String birthday;
-	private final String deathday;
+	@JsonDeserialize(using = JsonDataDeserializer.class)
+	@JsonSerialize(using = JsonDataSerializer.class)
+	private final LocalDate birthday;
+	@JsonDeserialize(using = JsonDataDeserializer.class)
+	@JsonSerialize(using = JsonDataSerializer.class)
+	private final LocalDate deathday;
 
 	@JsonCreator
 	public PersonDTO(
 		@JsonProperty("id") long id,
 		@JsonProperty("name") String name,
 		@JsonProperty("surname") String surname,
-		@JsonProperty("birthday") String birthday,
-		@JsonProperty("deathday") String deathday)
+		@JsonProperty("birthday") LocalDate birthday,
+		@JsonProperty("deathday") LocalDate deathday)
 	{
 		this.name = name;
 		this.surname = surname;
@@ -50,12 +61,12 @@ public class PersonDTO {
 	}
 
 	@JsonGetter
-	public String getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
 	@JsonGetter
-	public String getDeathday() {
+	public LocalDate getDeathday() {
 		return deathday;
 	}
 
